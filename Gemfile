@@ -42,8 +42,8 @@ group :test do
 end
 
 group :development do
-  gem 'web-console', '>= 4.1.0'
   gem 'rack-mini-profiler', '~> 2.0'
+  gem 'web-console', '>= 4.1.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
