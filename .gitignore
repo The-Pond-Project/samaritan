@@ -37,3 +37,6 @@ yarn-debug.log*
 
 # Rspec 
 .rspec
+
+# Rubocop
+.rubocop.yml
