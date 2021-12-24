@@ -3,10 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { described_class }
+  subject { described_class.new }
 
   describe '#create' do
     describe 'with valid data' do
+      it { is_expected.to validate_presence_of(:email) }
+      it { is_expected.to validate_presence_of(:password) }
+
       it 'can create a user' do
         described_class.create(email: 'myemail@email.com', password: 'password')
         expect(described_class.count).to eq 1
