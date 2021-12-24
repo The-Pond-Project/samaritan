@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # service workers
   get '/service-worker.js', to: 'service_workers/workers#index'
   get '/manifest.json', to: 'service_workers/manifests#index'
