@@ -1,0 +1,12 @@
+= form_for @ripple do |f|
+  - if @ripple.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ripple.errors.count, "error")} prohibited this ripple from being saved:"
+      %ul
+        - @ripple.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.hidden_field :pebble_id, value: @pebble.id
+  .actions
+    = f.submit 'Save'

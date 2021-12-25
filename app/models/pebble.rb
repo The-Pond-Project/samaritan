@@ -55,6 +55,7 @@ class Pebble < ApplicationRecord
   end
 
   private
+
   def initialize_pebble_key
     self.pebble_key = "P-#{SecureRandom.hex(3).upcase}" unless pebble_key
   end

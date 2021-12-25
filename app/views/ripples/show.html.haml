@@ -1,0 +1,37 @@
+%p#notice= notice
+
+%p
+  %b Pebble:
+  = @ripple.pebble.key
+
+- if @ripple.postal_code
+  %p
+    %b Postal code:
+    = @ripple.postal_code
+- if @ripple.city
+  %p
+    %b City:
+    = @ripple.city
+- if @ripple.region
+  %p
+  - if @ripple.domestic?
+    %b State:
+    = @ripple.region
+  - else
+    %b Region:
+    = @ripple.region
+  
+- if @ripple.country
+  %p
+    %b Country:
+    = @ripple.country
+- if @ripple.user
+  %p
+    %b User:
+    = @ripple.user.username
+- else 
+  %p
+    %b User: Anonymous
+
+\|
+= link_to 'Back', ripples_path
