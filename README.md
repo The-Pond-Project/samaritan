@@ -6,10 +6,12 @@
 
 ## How it works
 
- Step 1: Take action! Start a ripple effect of kindness by doing a random kind act.
- Step 2: Add your ripple of kindness to the pond by scanning your KindCard and submitting ripple.
- Step 3: Leave the KindCard with the recipient of your good deed.
- Step 4: The recipient restarts the process at step 1 and continues the ripple effect.
+  Note: A KindCard is a physical paper card. The QR code on the KindCard is scanned to add ripples of kindness to the pond.
+
+ 1. Take action! Start a ripple effect of kindness by doing a random kind act.
+ 2. Add your ripple of kindness to the pond by scanning your KindCard and submitting ripple.
+ 3. Leave the KindCard with the recipient of your good deed.
+ 4. The recipient restarts the process at step 1 and continues the ripple effect.
 
 ## Contribution
 
