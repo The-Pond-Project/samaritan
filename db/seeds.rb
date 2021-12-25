@@ -24,3 +24,11 @@ Pebble.generate(amount: 3, location: location)
   Ripple.create(city:Faker::Address.city,  country: Faker::Address.country_code, user: User.first, pebble: Pebble.first )
 end
 
+# Tags 
+Tag.create(name: '#kindnesspassedon', description:'An official tag from The Pond Project team', approved: true, organization: 'The Pond Project', ripples: [Ripple.first])
+Tag.create(name: '#passiton', description:'An official tag from The Pond Project team', approved: true, organization: 'The Pond Project')
+Tag.create(name: '#rippleitout', description:'An official tag from The Pond Project team', approved: true, organization: 'The Pond Project')
+Tag.create(name: '#justbecause', description:'An official tag from The Pond Project team', approved: true, organization: 'The Pond Project')
+Tag.create(name: '#growthepond', description:'An official tag from The Pond Project team', approved: true, organization: 'The Pond Project')
+Tag.create(name: '#ohio', description:'OH! IO! A tag to represent Ohio', approved: true)
+
