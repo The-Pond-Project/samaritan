@@ -1,0 +1,17 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @tag.name
+%p
+  %b Description:
+  = @tag.description
+%p
+  %b Organization:
+  = @tag.organization
+%p
+  %b Approved:
+  = @tag.approved
+
+\|
+= link_to 'Back', tags_path
