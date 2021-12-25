@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'pebbles/index', type: :view do
   before do
-    assign(:pebbles, FactoryBot.create_list(:pebble, 2))
+    assign(:pebbles, create_list(:pebble, 2))
   end
 
   it 'renders a list of pebbles' do
