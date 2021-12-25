@@ -22,7 +22,7 @@ RSpec.describe Tag, type: :model do
         expect(described_class.count).to eq 1
       end
 
-      it 'can create a pebble without a organization' do
+      it 'can create a ripple without a organization' do
         described_class.create(name: '#Columbus', description: 'Represent Columbus')
         expect(described_class.count).to eq 1
       end

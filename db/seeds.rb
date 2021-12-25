@@ -9,19 +9,19 @@ User.create(email: 'kindnesspassedon@gmail.com', password: 'password')
 end
 
 
-# Pebbles
-Pebble.create(pebble_key: 'P-ABC123', city: 'Columbus', region: 'Ohio', country: 'US')
+# Ponds
+Pond.create(key: 'P-ABC123', city: 'Columbus', region: 'Ohio', country: 'US')
 location = {
   city: Faker::Address.city, 
   region: Faker::Address.state, 
   country:Faker::Address.country_code, 
   postal_code: Faker::Address.postcode
 }
-Pebble.generate(amount: 3, location: location)
+Pond.generate(amount: 3, location: location)
 
 # Ripples
 3.times do 
-  Ripple.create(city:Faker::Address.city,  country: Faker::Address.country_code, user: User.first, pebble: Pebble.first )
+  Ripple.create(city:Faker::Address.city,  country: Faker::Address.country_code, user: User.first, pond: Pond.first )
 end
 
 # Tags 

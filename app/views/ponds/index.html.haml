@@ -1,0 +1,27 @@
+%h1 Listing ponds
+
+%table
+  %thead
+    %tr
+      %th Uuid
+      %th Postal code
+      %th City
+      %th Region
+      %th Country
+      %th Key
+      %th
+      %th
+      %th
+
+  %tbody
+    - @ponds.each do |pond|
+      %tr
+        %td= pond.uuid
+        %td= pond.postal_code
+        %td= pond.city
+        %td= pond.region
+        %td= pond.country
+        %td= pond.key
+        %td= link_to 'Show', pond_path(pond.key)
+
+%br

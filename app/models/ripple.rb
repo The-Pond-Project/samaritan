@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Ripple < ApplicationRecord
-  include PebbleRippleConcern
+  include PondRippleConcern
 
   # Schema Information
   # Table name: Ripple
@@ -9,7 +9,7 @@ class Ripple < ApplicationRecord
   # id                  :integer      not null, primary key
   # uuid                :string       not null, unique true
   # user_id             :integer
-  # pebble_id           :integer      not null
+  # pond_id           :integer      not null
   # postal_code         :string
   # city                :string
   # region              :string
@@ -25,14 +25,14 @@ class Ripple < ApplicationRecord
   # Validations
   validate :validate_uuid
   validates :uuid, presence: true, uniqueness: true
-  validates :pebble_id, :country, :city, presence: true
+  validates :pond_id, :country, :city, presence: true
 
   # Associations
   belongs_to :user, optional: true
-  belongs_to :pebble
+  belongs_to :pond
   has_and_belongs_to_many :tags
 
   def ripples_since
-    Ripple.where(['created_at > ? and pebble_id = ?', created_at, pebble_id])
+    Ripple.where(['created_at > ? and pond_id = ?', created_at, pond_id])
   end
 end

@@ -1,7 +1,7 @@
-class CreatePebbles < ActiveRecord::Migration[6.1]
+class CreatePonds < ActiveRecord::Migration[6.1]
   def change
-    create_table :pebbles do |t|
-      t.string :pebble_key
+    create_table :ponds do |t|
+      t.string :key
       t.string :uuid
       t.string :postal_code
       t.string :city

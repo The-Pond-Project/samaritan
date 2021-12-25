@@ -10,7 +10,7 @@ RSpec.describe 'pebbles/new', type: :view do
                       city: 'MyString',
                       region: 'MyString',
                       country: 'MyString',
-                      pebble_key: 'MyString'
+                      key: 'MyString'
                     ))
   end
 

@@ -2,11 +2,11 @@
 
 class RipplesController < ApplicationController
   before_action :set_ripple, only: %i[show destroy]
-  before_action :set_pebble, only: %i[new]
+  before_action :set_pond, only: %i[new]
   before_action :set_location, only: %i[create]
 
   def index
-    @ripples = Ripple.all.includes([:pebble])
+    @ripples = Ripple.all.includes([:pond])
   end
 
   def show; end
@@ -38,8 +38,8 @@ class RipplesController < ApplicationController
     @ripple = Ripple.find_by!(uuid: params[:uuid])
   end
 
-  def set_pebble
-    @pebble = Pebble.find_by!(pebble_key: params[:pebble_key])
+  def set_pond
+    @pond = Pond.find_by!(key: params[:key])
   end
 
   def set_location
@@ -56,6 +56,6 @@ class RipplesController < ApplicationController
 
   def ripple_params
     params.require(:ripple).permit(:uuid, :postal_code, :city, :country, :region, :user_id,
-                                   :pebble_id)
+                                   :pond_id)
   end
 end

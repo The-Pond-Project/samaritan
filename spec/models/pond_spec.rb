@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Pebble, type: :model do
+RSpec.describe Pond, type: :model do
   subject { described_class.new }
 
   let(:location) do
@@ -14,14 +14,14 @@ RSpec.describe Pebble, type: :model do
     }
   end
   let(:amount) { 3 }
-  let(:pebble) { create(:pebble) }
+  let(:pond) { create(:pond) }
 
   describe '#create' do
     describe 'with valid data' do
-      it { is_expected.to validate_presence_of(:pebble_key) }
+      it { is_expected.to validate_presence_of(:key) }
       it { is_expected.to validate_presence_of(:uuid) }
 
-      it 'can create a pebble' do
+      it 'can create a pond' do
         described_class.create(city: 'Columbus', region: 'Ohio', country: 'US')
         expect(described_class.count).to eq 1
       end
@@ -33,35 +33,35 @@ RSpec.describe Pebble, type: :model do
     end
 
     describe 'with invalid' do
-      describe 'pebble_key' do
-        it 'length can NOT create a pebble' do
-          described_class.create(pebble_key: 'akey')
+      describe 'key' do
+        it 'length can NOT create a pond' do
+          described_class.create(key: 'akey')
           expect(described_class.count).to eq 0
         end
 
-        it 'start can NOT create a pebble' do
-          described_class.create(pebble_key: 'H-ABC123')
+        it 'start can NOT create a pond' do
+          described_class.create(key: 'H-ABC123')
           expect(described_class.count).to eq 0
         end
 
-        it 'type can NOT create a pebble' do
-          described_class.create(pebble_key: 123)
+        it 'type can NOT create a pond' do
+          described_class.create(key: 123)
           expect(described_class.count).to eq 0
         end
       end
 
       describe 'uuid' do
-        it 'length can NOT create a pebble' do
+        it 'length can NOT create a pond' do
           described_class.create(uuid: 'notlongenough')
           expect(described_class.count).to eq 0
         end
 
-        it 'can NOT create a pebble' do
+        it 'can NOT create a pond' do
           described_class.create(uuid: '03729ea0r77a7t4596pa661u6148c8878b91')
           expect(described_class.count).to eq 0
         end
 
-        it 'type can NOT create a pebble' do
+        it 'type can NOT create a pond' do
           described_class.create(uuid: 123)
           expect(described_class.count).to eq 0
         end
@@ -71,53 +71,53 @@ RSpec.describe Pebble, type: :model do
 
   describe '#generate' do
     describe 'with valid arguments' do
-      it 'creates pebble records' do
+      it 'creates pond records' do
         described_class.generate(amount: amount, location: location)
         expect(described_class.count).to eq amount
       end
 
-      it 'creates unique_pebble pebble records' do
-        described_class.generate(amount: amount, location: location, unique_pebble_code: 'GN')
-        expect(described_class.last.pebble_key).to include('P-GN')
+      it 'creates unique_pond pond records' do
+        described_class.generate(amount: amount, location: location, unique_pond_code: 'GN')
+        expect(described_class.last.key).to include('P-GN')
       end
     end
 
     describe 'with invalid' do
-      it 'unique_pebble_code can NOT create unique_pebble pebble records' do
+      it 'unique_pond_code can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: amount, location: location, unique_pebble_code: 'LONG')
-        end.to raise_error(Pebble::GenerationError)
+          described_class.generate(amount: amount, location: location, unique_pond_code: 'LONG')
+        end.to raise_error(Pond::GenerationError)
       end
 
-      it 'location can NOT create unique_pebble pebble records' do
+      it 'location can NOT create unique_pond pond records' do
         expect do
           described_class.generate(amount: amount, location: ['Im not a hash'],
-                                   unique_pebble_code: 'MN')
-        end.to raise_error(Pebble::GenerationError)
+                                   unique_pond_code: 'MN')
+        end.to raise_error(Pond::GenerationError)
       end
 
-      it 'amount can NOT create unique_pebble pebble records' do
+      it 'amount can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: 'L', location: location, unique_pebble_code: 'MN')
-        end.to raise_error(Pebble::GenerationError)
+          described_class.generate(amount: 'L', location: location, unique_pond_code: 'MN')
+        end.to raise_error(Pond::GenerationError)
       end
 
-      it 'amount size can NOT create unique_pebble pebble records' do
+      it 'amount size can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: 500, location: location, unique_pebble_code: 'MN')
-        end.to raise_error(Pebble::GenerationError)
+          described_class.generate(amount: 500, location: location, unique_pond_code: 'MN')
+        end.to raise_error(Pond::GenerationError)
       end
     end
   end
 
   describe '#domestic?' do
     it 'true if country is America' do
-      expect(pebble.domestic?).to eq true
+      expect(pond.domestic?).to eq true
     end
 
     it 'false if country is America' do
-      pebble.update(country: 'GB')
-      expect(pebble.domestic?).to eq false
+      pond.update(country: 'GB')
+      expect(pond.domestic?).to eq false
     end
   end
 end

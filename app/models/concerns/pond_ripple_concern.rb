@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PebbleRippleConcern
+module PondRippleConcern
   extend ActiveSupport::Concern
 
   DOMESTIC = ['United States of America', 'US']
@@ -12,7 +12,7 @@ module PebbleRippleConcern
 
   #
   # Public Instance Method
-  # Used to see if a particular pebble is based in the States
+  # Used to see if a particular object is based in the States
   #
   def domestic?
     DOMESTIC.include?(country)

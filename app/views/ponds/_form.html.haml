@@ -1,9 +1,9 @@
-= form_for @pebble do |f|
-  - if @pebble.errors.any?
+= form_for @pond do |f|
+  - if @pond.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@pebble.errors.count, "error")} prohibited this pebble from being saved:"
+      %h2= "#{pluralize(@pond.errors.count, "error")} prohibited this pond from being saved:"
       %ul
-        - @pebble.errors.full_messages.each do |message|
+        - @pond.errors.full_messages.each do |message|
           %li= message
 
   .field
@@ -22,7 +22,7 @@
     = f.label :country
     = f.text_field :country
   .field
-    = f.label :pebble_key
-    = f.text_field :pebble_key
+    = f.label :key
+    = f.text_field :key
   .actions
     = f.submit 'Save'
