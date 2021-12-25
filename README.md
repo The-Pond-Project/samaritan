@@ -1,6 +1,6 @@
 # The Pond Project
 
-  The Pond Project is simply kindness passed on. Samaritan is the name of the backend application that runs thepondproject.org .
+  The Pond Project is simply kindness passed on. Samaritan is the name of the backend application that runs [thepondproject.org](https://thepondproject.org ).
   Samaritan is maintained by Kindnesspassedon.
   
 
