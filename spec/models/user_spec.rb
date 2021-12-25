@@ -31,8 +31,8 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#username' do 
-    it 'returns the beginning of a users email' do 
+  describe '#username' do
+    it 'returns the beginning of a users email' do
       expect(user.username).to eq 'testusername'
     end
   end

@@ -3,10 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe '/pebbles', type: :request do
-
   let(:pebbles) { create_list(:pebble, 2) }
   let(:pebble) { create(:pebble) }
-
 
   describe 'GET /index' do
     it 'renders a successful response' do

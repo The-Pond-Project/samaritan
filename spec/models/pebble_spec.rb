@@ -110,12 +110,12 @@ RSpec.describe Pebble, type: :model do
     end
   end
 
-  describe '#domestic?' do 
-    it 'true if country is America' do 
+  describe '#domestic?' do
+    it 'true if country is America' do
       expect(pebble.domestic?).to eq true
     end
 
-    it 'false if country is America' do 
+    it 'false if country is America' do
       pebble.update(country: 'GB')
       expect(pebble.domestic?).to eq false
     end
