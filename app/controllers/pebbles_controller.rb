@@ -7,11 +7,13 @@ class PebblesController < ApplicationController
     @pebbles = Pebble.all
   end
 
-  def show; end
+  def show
+    @ripples = @pebble.ripples
+  end
 
   private
 
   def set_pebble
-    @pebble = Pebble.find_by(pebble_key: params[:pebble_key])
+    @pebble = Pebble.find_by!(pebble_key: params[:pebble_key])
   end
 end
