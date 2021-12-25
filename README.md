@@ -6,7 +6,7 @@
 
 ## How it works
 
-  Note: A KindCard is a physical paper card. The QR code on the KindCard is scanned to add ripples of kindness to the pond.
+  **Note:** A KindCard is a physical paper card. The QR code on the KindCard is scanned to add ripples of kindness to the pond.
 
  1. Take action! Start a ripple effect of kindness by doing a random kind act.
  2. Add your ripple of kindness to the pond by scanning your KindCard and submitting ripple.
