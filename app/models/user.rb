@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   # Schema Information
-  # Table name: Organization
+  # Table name: User
   #
   # id                  :integer      not null, primary key
   # email               :string       not null, unique true

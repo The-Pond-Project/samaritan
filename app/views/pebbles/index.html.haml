@@ -1,0 +1,27 @@
+%h1 Listing pebbles
+
+%table
+  %thead
+    %tr
+      %th Uuid
+      %th Postal code
+      %th City
+      %th Region
+      %th Country
+      %th Pebble key
+      %th
+      %th
+      %th
+
+  %tbody
+    - @pebbles.each do |pebble|
+      %tr
+        %td= pebble.uuid
+        %td= pebble.postal_code
+        %td= pebble.city
+        %td= pebble.region
+        %td= pebble.country
+        %td= pebble.pebble_key
+        %td= link_to 'Show', pebble_path(pebble.key)
+
+%br

@@ -1,0 +1,27 @@
+%p#notice= notice
+%h2
+  = @pebble.pebble_key
+
+- if @pebble.postal_code
+  %p
+    %b Postal code:
+    = @pebble.postal_code
+- if @pebble.city
+  %p
+    %b City:
+    = @pebble.city
+- if @pebble.region
+  %p
+  - if @pebble.domestic?
+    %b State:
+    = @pebble.region
+  - else
+    %b Region:
+    = @pebble.region
+  
+- if @pebble.country
+  %p
+    %b Country:
+    = @pebble.country
+\|
+= link_to 'Back', pebbles_path
