@@ -19,3 +19,8 @@ location = {
 }
 Pebble.generate(amount: 3, location: location)
 
+# Ripples
+3.times do 
+  Ripple.create(city:Faker::Address.city,  country: Faker::Address.country_code, user: User.first, pebble: Pebble.first )
+end
+

@@ -3,8 +3,8 @@
 # rubocop:disable Lint/IneffectiveAccessModifier
 class Pebble < ApplicationRecord
   class GenerationError < StandardError; end
+  include PebbleRippleConcern
 
-  DOMESTIC = ['United States of America', 'US']
   # Schema Information
   # Table name: Pebble
   #
@@ -13,6 +13,7 @@ class Pebble < ApplicationRecord
   # pebble_key          :string       not null, unique true
   # postal_code         :string
   # region              :string
+  # city                :string
   # country             :string
   # created_at          :datetime     not null
   # updated_at          :datetime     not null
@@ -29,9 +30,8 @@ class Pebble < ApplicationRecord
   alias_attribute :state, :region
   alias_attribute :key, :pebble_key
 
-  # Scopes
-  scope :domestic, -> { where({ country: DOMESTIC }) }
-  scope :international, -> { where.not({ country: DOMESTIC }) }
+  # Associations
+  has_many :ripples
 
   #
   # Public Class Method
@@ -54,27 +54,10 @@ class Pebble < ApplicationRecord
     end
   end
 
-  #
-  # Public Instance Method
-  # Used to see if a particular pebble is based in the States
-  def domestic?
-    DOMESTIC.include?(country)
-  end
-
   private
-
-  def initialize_uuid
-    self.uuid = SecureRandom.uuid unless uuid
-  end
 
   def initialize_pebble_key
     self.pebble_key = "P-#{SecureRandom.hex(3).upcase}" unless pebble_key
-  end
-
-  def convert_country_code
-    return if country && country.size > 3
-
-    self.country = ISO3166::Country.new(country).name unless country.nil?
   end
 
   # Validation methods
@@ -85,14 +68,6 @@ class Pebble < ApplicationRecord
     errors.add(:pebble_key, 'must be a string') unless pebble_key.is_a?(String)
     errors.add(:pebble_key, 'must start with P-') unless pebble_key.first(2) == 'P-'
     errors.add(:pebble_key, 'must be 8 charcters long') unless pebble_key.size == 8
-  end
-
-  def validate_uuid
-    return unless uuid
-
-    errors.add(:uuid, 'must be a string') unless uuid.is_a?(String)
-    errors.add(:uuid, 'must be 36 charcters long') unless uuid.size == 36
-    errors.add(:uuid, 'must be include -') unless uuid.include? '-'
   end
 
   # standard pebble key hex

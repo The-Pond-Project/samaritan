@@ -1,0 +1,29 @@
+%h1 Listing ripples
+
+%table
+  %thead
+    %tr
+      %th Uuid
+      %th Postal code
+      %th City
+      %th Country
+      %th Region
+      %th Pebble
+      %th
+      %th
+      %th
+
+  %tbody
+    - @ripples.each do |ripple|
+      %tr
+        %td= ripple.uuid
+        %td= ripple.postal_code
+        %td= ripple.city
+        %td= ripple.country
+        %td= ripple.region
+        %td= link_to ripple.pebble.key, pebble_path(ripple.pebble.key)
+        %td= link_to 'Show', ripple_path(ripple.uuid)
+
+%br
+
+-# = link_to 'New Ripple', new_ripple_path

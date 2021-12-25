@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   subject { described_class.new }
 
+  let(:user) { create(:user, email: 'testusername@email.com') }
+
   describe '#create' do
     describe 'with valid data' do
       it { is_expected.to validate_presence_of(:email) }
@@ -26,6 +28,12 @@ RSpec.describe User, type: :model do
         described_class.create(email: 'myemail@email.com', password: 'short')
         expect(described_class.count).to eq 0
       end
+    end
+  end
+
+  describe '#username' do
+    it 'returns the beginning of a users email' do
+      expect(user.username).to eq 'testusername'
     end
   end
 end

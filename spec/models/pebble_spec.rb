@@ -14,6 +14,7 @@ RSpec.describe Pebble, type: :model do
     }
   end
   let(:amount) { 3 }
+  let(:pebble) { create(:pebble) }
 
   describe '#create' do
     describe 'with valid data' do
@@ -100,6 +101,23 @@ RSpec.describe Pebble, type: :model do
           described_class.generate(amount: 'L', location: location, unique_pebble_code: 'MN')
         end.to raise_error(Pebble::GenerationError)
       end
+
+      it 'amount size can NOT create unique_pebble pebble records' do
+        expect do
+          described_class.generate(amount: 500, location: location, unique_pebble_code: 'MN')
+        end.to raise_error(Pebble::GenerationError)
+      end
+    end
+  end
+
+  describe '#domestic?' do
+    it 'true if country is America' do
+      expect(pebble.domestic?).to eq true
+    end
+
+    it 'false if country is America' do
+      pebble.update(country: 'GB')
+      expect(pebble.domestic?).to eq false
     end
   end
 end
