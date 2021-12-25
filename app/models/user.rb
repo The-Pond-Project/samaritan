@@ -16,7 +16,7 @@ class User < ApplicationRecord
   # Associations
   has_many :ripples
 
-  def username 
+  def username
     email.split('@').first
   end
 end
