@@ -1,24 +1,34 @@
-# README
+# The Pond Project
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+  The Pond Project is simply kindness passed on. Samaritan is the name of the backend application that runs [thepondproject.org](https://thepondproject.org ).
+  Samaritan is maintained by Kindnesspassedon.
+  
 
-Things you may want to cover:
+## How it works
 
-* Ruby version
+  **Note:** A KindCard is a physical paper card. The QR code on the KindCard is scanned to add ripples of kindness to the pond.
 
-* System dependencies
+ 1. Take action! Start a ripple effect of kindness by doing a random kind act.
+ 2. Add your ripple of kindness to the pond by scanning your KindCard and submitting ripple.
+ 3. Leave the KindCard with the recipient of your good deed.
+ 4. The recipient restarts the process at step 1 and continues the ripple effect.
 
-* Configuration
+## Contribution
 
-* Database creation
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-* Database initialization
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-* How to run the test suite
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-* Services (job queues, cache servers, search engines, etc.)
+## Contact
 
-* Deployment instructions
+  kindnesspassedon@gmail.com
 
-* ...
+## License
+The Pond Project is available as open source software under the terms of the [MIT License](https://opensource.org/licenses/MIT).
