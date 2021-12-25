@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 2021_12_25_062729) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "pebbles", force: :cascade do |t|
-    t.string "pebble_key"
+  create_table "ponds", force: :cascade do |t|
+    t.string "key"
     t.string "uuid"
     t.string "postal_code"
     t.string "city"
@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(version: 2021_12_25_062729) do
     t.string "country"
     t.string "region"
     t.bigint "user_id"
-    t.bigint "pebble_id", null: false
+    t.bigint "pond_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["pebble_id"], name: "index_ripples_on_pebble_id"
+    t.index ["pond_id"], name: "index_ripples_on_pond_id"
     t.index ["user_id"], name: "index_ripples_on_user_id"
   end
 
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_062729) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "ripples", "pebbles"
+  add_foreign_key "ripples", "ponds"
   add_foreign_key "ripples", "users"
   add_foreign_key "ripples_tags", "ripples"
   add_foreign_key "ripples_tags", "tags"

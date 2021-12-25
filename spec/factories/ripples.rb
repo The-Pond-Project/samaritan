@@ -8,6 +8,6 @@ FactoryBot.define do
     region { 'Ohio' }
     country { 'US' }
     association :user
-    association :pebble
+    association :pond
   end
 end

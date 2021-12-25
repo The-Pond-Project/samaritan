@@ -5,14 +5,14 @@ require 'rails_helper'
 RSpec.describe '/ripples', type: :request do
   let(:ripples) { create_list(:ripple, 2) }
   let(:ripple) { create(:ripple) }
-  let(:pebble) { create(:pebble) }
+  let(:pond) { create(:pond) }
 
   let(:valid_attributes) do
-    { pebble: pebble }
+    { pond: pond }
   end
 
   let(:invalid_attributes) do
-    { not_pebble_id: 1 }
+    { not_pond_id: 1 }
   end
 
   describe 'GET /index' do
@@ -32,7 +32,7 @@ RSpec.describe '/ripples', type: :request do
 
   describe 'GET /new' do
     it 'renders a successful response' do
-      get new_pebble_ripple_url(pebble.key)
+      get new_pond_ripple_url(pond.key)
       expect(response).to be_successful
     end
   end
@@ -41,8 +41,8 @@ RSpec.describe '/ripples', type: :request do
   #   context "with valid parameters" do
   #     it "creates a new Ripple" do
   #       expect {
-  #         get new_pebble_ripple_url(pebble.key)
-  #         post ripples_url, params: { pebble_key: pebble.key, ripple: valid_attributes }
+  #         get new_pond_ripple_url(pond.key)
+  #         post ripples_url, params: { pond_key: pond.key, ripple: valid_attributes }
   #       }.to change(Ripple, :count).by(1)
   #     end
 

@@ -7,17 +7,17 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  # Pebbles
-  get '/pebbles', to: 'pebbles#index'
-  get '/pebbles/:pebble_key', to: 'pebbles#show', as: 'pebble'
+  # Ponds
+  get '/ponds', to: 'ponds#index'
+  get '/ponds/:key', to: 'ponds#show', as: 'pond'
 
   # Ripples
   delete '/ripples/:uuid', to: 'ripples#destroy'
   post '/ripples', to: 'ripples#create'
   get '/ripples', to: 'ripples#index'
   get '/ripples/:uuid', to: 'ripples#show', as: 'ripple'
-  scope '/pebbles/:pebble_key' do
-    get '/ripples/new', to: 'ripples#new', as: 'new_pebble_ripple'
+  scope '/ponds/:key' do
+    get '/ripples/new', to: 'ripples#new', as: 'new_pond_ripple'
   end
 
   # Tags

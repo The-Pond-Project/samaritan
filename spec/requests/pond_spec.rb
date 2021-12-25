@@ -2,21 +2,21 @@
 
 require 'rails_helper'
 
-RSpec.describe '/pebbles', type: :request do
-  let(:pebbles) { create_list(:pebble, 2) }
-  let(:pebble) { create(:pebble) }
+RSpec.describe '/ponds', type: :request do
+  let(:ponds) { create_list(:pond, 2) }
+  let(:pond) { create(:pond) }
 
   describe 'GET /index' do
     it 'renders a successful response' do
-      pebbles
-      get pebbles_url
+      ponds
+      get ponds_url
       expect(response).to be_successful
     end
   end
 
   describe 'GET /show' do
     it 'renders a successful response' do
-      get pebble_url(pebble.key)
+      get pond_url(pond.key)
       expect(response).to be_successful
     end
   end
