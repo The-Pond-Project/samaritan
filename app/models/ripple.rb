@@ -9,7 +9,7 @@ class Ripple < ApplicationRecord
   # id                  :integer      not null, primary key
   # uuid                :string       not null, unique true
   # user_id             :integer
-  # pond_id           :integer      not null
+  # pond_id             :integer      not null
   # postal_code         :string
   # city                :string
   # region              :string
@@ -32,6 +32,10 @@ class Ripple < ApplicationRecord
   belongs_to :pond
   has_and_belongs_to_many :tags
 
+  # Gem Configurations
+  has_paper_trail
+  acts_as_paranoid
+  
   def ripples_since
     Ripple.where(['created_at > ? and pond_id = ?', created_at, pond_id])
   end

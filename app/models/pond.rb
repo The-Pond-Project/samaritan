@@ -33,6 +33,10 @@ class Pond < ApplicationRecord
   # Associations
   has_many :ripples
 
+  # Gem Configurations
+  has_paper_trail
+  acts_as_paranoid
+
   #
   # Public Class Method
   #
