@@ -29,13 +29,13 @@ class Ripple < ApplicationRecord
 
   # Associations
   belongs_to :user, optional: true
-  belongs_to :pond
+  belongs_to :pond, touch: true
   has_and_belongs_to_many :tags
 
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
-  
+
   def ripples_since
     Ripple.where(['created_at > ? and pond_id = ?', created_at, pond_id])
   end

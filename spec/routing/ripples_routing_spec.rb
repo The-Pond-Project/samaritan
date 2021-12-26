@@ -12,7 +12,7 @@ RSpec.describe RipplesController, type: :routing do
 
     it 'routes to #new' do
       expect(get: '/ponds/P-ABC123/ripples/new').to route_to('ripples#new',
-                                                               key: 'P-ABC123')
+                                                             key: 'P-ABC123')
     end
 
     it 'routes to #show' do
