@@ -33,6 +33,9 @@ class Pond < ApplicationRecord
   # Associations
   has_many :ripples
 
+  # Scopes
+  scope :inactive, -> { where('updated_at < ?', Date.current.year - 45) }
+
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
@@ -56,6 +59,38 @@ class Pond < ApplicationRecord
         country: location[:country]
       )
     end
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns an integer count of ripples
+  def impact
+    ripples.count
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns an integer count of international ripples
+  def international_impact
+    ripples.international.count
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns an integer count of domestic ripples
+  def domestic_impact
+    ripples.domestic.count
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns the ponds last ripple
+  def last_ripple
+    ripples.last
   end
 
   private

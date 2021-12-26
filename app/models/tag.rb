@@ -25,7 +25,6 @@ class Tag < ApplicationRecord
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
-  
 
   # Scopes
   scope :approved, -> { where({ approved: true }) }

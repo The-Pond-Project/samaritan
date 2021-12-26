@@ -19,7 +19,6 @@ class User < ApplicationRecord
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
-  
 
   def username
     email.split('@').first
