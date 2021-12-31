@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   get '/tags/new', to: 'tags#new', as: 'new_tag'
   get '/tags/:name', to: 'tags#show', as: 'tag'
 
+  # Stories
+  post '/stories', to: 'stories#create'
+  get '/stories/new', to: 'stories#new', as: 'new_story'
+
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'
 
