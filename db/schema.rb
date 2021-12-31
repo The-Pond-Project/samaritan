@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_26_020414) do
+ActiveRecord::Schema.define(version: 2021_12_30_185842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "message_subscriptions", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.string "ripple_uuid", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["phone_number"], name: "index_message_subscriptions_on_phone_number"
+    t.index ["ripple_uuid"], name: "index_message_subscriptions_on_ripple_uuid"
+  end
 
   create_table "ponds", force: :cascade do |t|
     t.string "key"

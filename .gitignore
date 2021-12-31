@@ -43,3 +43,7 @@ yarn-debug.log*
 
 # SimpleCov
 coverage/
+
+# ENV
+.env
+/config/credentials/development.key
