@@ -2,7 +2,7 @@
 
 class MessageSubscription < ApplicationRecord
   # Schema Information
-  # Table name: Ripple
+  # Table name: MessageSubscriptions
   #
   # id                  :integer      not null, primary key
   # ripple_uuid         :string       not null
