@@ -22,9 +22,13 @@ gem 'rails',                          '~> 6.1.4', '>= 6.1.4.1'
 gem 'rails_best_practices'
 gem 'redis',                          '~> 4.0'
 gem 'sass-rails',                     '>= 6'
+gem 'sidekiq',                        '~> 6.3', '>= 6.3.1'
+gem 'sidekiq-failures',               '~> 1.0', '>= 1.0.1'
 gem 'turbolinks',                     '~> 5'
 gem 'twilio-ruby'
-gem 'webpacker', '~> 5.0'
+gem 'webpacker',                      '~> 5.0'
+gem 'wisper',                         '~> 2.0', '>= 2.0.1'
+gem 'wisper-sidekiq',                 '~> 1.3'
 
 group :development, :test do
   gem 'bullet'
@@ -39,6 +43,7 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'wisper-rspec', '~> 1.1'
 end
 
 group :test do

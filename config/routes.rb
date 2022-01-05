@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'pages#home'
 
@@ -34,4 +35,6 @@ Rails.application.routes.draw do
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'
 
+  # Sidekiq
+  mount Sidekiq::Web => '/sidekiq'
 end

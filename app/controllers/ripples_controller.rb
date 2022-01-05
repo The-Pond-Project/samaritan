@@ -20,6 +20,7 @@ class RipplesController < ApplicationController
     @ripple.user = current_user
 
     if @ripple.save
+      Publishers::RippleCreated.call(@ripple.uuid)
       redirect_to ripple_url(@ripple.uuid), notice: 'Ripple was successfully created.'
     else
       render :new, status: :unprocessable_entity
