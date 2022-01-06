@@ -13,9 +13,9 @@ Turbolinks.start()
 ActiveStorage.start()
 
 if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('/service-worker.js', { scope: './' })
-                         .then(function(registration) {
-                           console.log('[Companion]', 'Service worker registered!')
-                           console.log(registration)
-                         })
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js', { scope: './' } )
+      .then(registered => console.log('Service Worker registered'))
+  })
 }
