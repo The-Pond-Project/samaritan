@@ -4,7 +4,7 @@
 
 %p
   %b Pond:
-  = @ripple.pond.key
+  = link_to @ripple.pond_key, pond_path(@ripple.pond_key)
 
 - if @ripple.postal_code
   %p
@@ -18,7 +18,7 @@
   %p
   - if @ripple.domestic?
     %b State:
-    = @ripple.region
+    = @ripple.state
   - else
     %b Region:
     = @ripple.region
@@ -27,13 +27,6 @@
   %p
     %b Country:
     = @ripple.country
-- if @ripple.user
-  %p
-    %b User:
-    = @ripple.user.username
-- else 
-  %p
-    %b User: Anonymous
 
 \|
 = link_to 'Back', ripples_path

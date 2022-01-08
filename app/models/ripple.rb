@@ -36,7 +36,57 @@ class Ripple < ApplicationRecord
   has_paper_trail
   acts_as_paranoid
 
-  def ripples_since
+  # Deligations
+  delegate :key, to: :pond, prefix: true
+
+  # Aliases
+  alias_attribute :state, :region
+
+  #
+  # Public Instance Method
+  #
+  # Returns an array of ripples that came after self
+  def descendants
     Ripple.where(['created_at > ? and pond_id = ?', created_at, pond_id])
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns an array of ripples that came before self
+  def ancestors
+    Ripple.where(['created_at < ? and pond_id = ?', created_at, pond_id])
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns an integer count of descendant ripples
+  def impact
+    descendants.count
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns an integer count of international ripples
+  def international_impact
+    descendants.international.count
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns an integer count of domestic ripples
+  def domestic_impact
+    descendants.domestic.count
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns the ponds last ripple
+  def last_descendant
+    descendants.last
   end
 end
