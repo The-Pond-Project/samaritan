@@ -1,5 +1,6 @@
-class Story < ApplicationRecord
+# frozen_string_literal: true
 
+class Story < ApplicationRecord
   # Schema Information
   # Table name: Stories
   #
@@ -13,5 +14,4 @@ class Story < ApplicationRecord
 
   # Validations
   validates :body, presence: true
-
 end

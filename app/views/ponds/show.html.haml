@@ -23,6 +23,9 @@
   %p
     %b Country:
     = @pond.country
+  %p
+    %b Created: 
+    = local_time_ago(@pond.created_at)
 
 %h4 Ripples
 

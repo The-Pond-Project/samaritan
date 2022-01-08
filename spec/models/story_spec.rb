@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Story, type: :model do
@@ -11,5 +13,5 @@ RSpec.describe Story, type: :model do
         expect(described_class.count).to eq 1
       end
     end
-  end 
+  end
 end

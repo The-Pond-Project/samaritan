@@ -1,8 +1,10 @@
-%p#notice= notice
+%h3 Tags 
+- @ripple.tags&.each do |tag|
+  = tag.name
 
 %p
   %b Pond:
-  = @ripple.pond.key
+  = link_to @ripple.pond_key, pond_path(@ripple.pond_key)
 
 - if @ripple.postal_code
   %p
@@ -16,7 +18,7 @@
   %p
   - if @ripple.domestic?
     %b State:
-    = @ripple.region
+    = @ripple.state
   - else
     %b Region:
     = @ripple.region
@@ -25,13 +27,9 @@
   %p
     %b Country:
     = @ripple.country
-- if @ripple.user
-  %p
-    %b User:
-    = @ripple.user.username
-- else 
-  %p
-    %b User: Anonymous
+%p
+  %b Created: 
+  = local_time_ago(@ripple.created_at)
 
 \|
 = link_to 'Back', ripples_path

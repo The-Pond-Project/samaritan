@@ -8,7 +8,8 @@ RSpec.describe Ripple, type: :model do
   let(:user) { create(:user) }
   let(:pond) { create(:pond) }
   let(:ripple) { create(:ripple, user: user, pond: pond) }
-  let(:ripples) { create_list(:ripple, 3, user: user, pond: pond) }
+  let(:ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'US') }
+  let(:international_ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'GB') }
 
   describe '#create' do
     describe 'with valid data' do
@@ -58,17 +59,17 @@ RSpec.describe Ripple, type: :model do
 
     describe 'with invalid' do
       describe 'uuid' do
-        it 'length can NOT create a pond' do
+        it 'length can NOT create a ripple' do
           described_class.create(uuid: 'notlongenough')
           expect(described_class.count).to eq 0
         end
 
-        it 'can NOT create a pond' do
+        it 'can NOT create a ripple' do
           described_class.create(uuid: '03729ea0r77a7t4596pa661u6148c8878b91')
           expect(described_class.count).to eq 0
         end
 
-        it 'type can NOT create a pond' do
+        it 'type can NOT create a ripple' do
           described_class.create(uuid: 123)
           expect(described_class.count).to eq 0
         end
@@ -76,11 +77,51 @@ RSpec.describe Ripple, type: :model do
     end
   end
 
-  describe '#ripples_since' do
+  describe '#descendants' do
     it 'returns all ripples created after that instance that belong to the same pond' do
       ripple
       ripples
-      expect(ripple.ripples_since).to eq ripples
+      expect(ripple.descendants).to eq ripples
+    end
+  end
+
+  describe '#ancestors' do
+    it 'returns all ripples created before that instance that belong to the same pond' do
+      ripples
+      ripple
+      expect(ripple.ancestors).to eq ripples
+    end
+  end
+
+  describe '#impact' do
+    it 'returns an integer count of all the ripples since' do
+      ripple
+      ripples
+      expect(ripple.impact).to eq ripples.count
+    end
+  end
+
+  describe '#domestic_impact' do
+    it 'returns an integer count of all domestic the ripples since' do
+      ripple
+      ripples
+      expect(ripple.domestic_impact).to eq ripples.count
+    end
+  end
+
+  describe '#international_impact' do
+    it 'returns an integer count of all domestic the ripples since' do
+      ripple
+      international_ripples
+      expect(ripple.international_impact).to eq international_ripples.count
+    end
+  end
+
+  describe '#last_descendant' do
+    it 'returnsthe last descendant' do
+      ripple
+      ripples
+      expect(ripple.last_descendant).to eq ripples.last
     end
   end
 
