@@ -373,6 +373,7 @@ DEPENDENCIES
   faker
   geocoder (~> 1.7)
   haml-rails
+  html2haml (~> 2.2)
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   paper_trail (~> 12.1)

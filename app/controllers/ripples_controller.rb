@@ -12,12 +12,14 @@ class RipplesController < ApplicationController
   def show; end
 
   def new
+    @tags = Tag.approved
     @ripple = Ripple.new
   end
 
   def create
     @ripple = Ripple.new(ripple_params.merge(@location_hash))
     @ripple.user = current_user
+    @ripple.tags = tags 
 
     if @ripple.save
       redirect_to ripple_url(@ripple.uuid), notice: 'Ripple was successfully created.'
@@ -57,5 +59,10 @@ class RipplesController < ApplicationController
   def ripple_params
     params.require(:ripple).permit(:uuid, :postal_code, :city, :country, :region, :user_id,
                                    :pond_id)
+  end
+
+  def tags
+    tags = params[:ripple][:tags]
+    Tag.find(tags)
   end
 end

@@ -32,6 +32,7 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'html2haml', '~> 2.2'
   gem 'rspec-junklet'
   gem 'rspec-rails'
   gem 'rubocop'

@@ -8,5 +8,13 @@
 
   .field
     = f.hidden_field :pond_id, value: @pond.id
+  %p Select up to three tags for your act of kindness
+  - @tags.each do |tag| 
+    %input{type: "checkbox", name: 'ripple[tags][]', value: tag.id}
+    =tag.name
   .actions
     = f.submit 'Save'
+
+  %p 
+    We would love to hear from you. Share a story about how you recieved kindness or how you passed it on. Write a
+    = link_to 'Story of Kindness', new_story_path
