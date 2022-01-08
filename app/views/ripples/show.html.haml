@@ -27,6 +27,9 @@
   %p
     %b Country:
     = @ripple.country
+%p
+  %b Created: 
+  = local_time_ago(@ripple.created_at)
 
 \|
 = link_to 'Back', ripples_path
