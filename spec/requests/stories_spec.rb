@@ -1,13 +1,14 @@
- require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe "/stories", type: :request do
-  describe "GET /new" do
-    it "renders a successful response" do
+require 'rails_helper'
+
+RSpec.describe '/stories', type: :request do
+  describe 'GET /new' do
+    it 'renders a successful response' do
       get new_story_url
       expect(response).to be_successful
     end
   end
-
 
   # describe "POST /create" do
   #   context "with valid parameters" do

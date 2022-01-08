@@ -19,7 +19,7 @@ class RipplesController < ApplicationController
   def create
     @ripple = Ripple.new(ripple_params.merge(@location_hash))
     @ripple.user = current_user
-    @ripple.tags = tags 
+    @ripple.tags = tags
 
     if @ripple.save
       redirect_to ripple_url(@ripple.uuid), notice: 'Ripple was successfully created.'
