@@ -21,6 +21,8 @@ class Ripple < ApplicationRecord
   after_initialize :initialize_uuid
   before_create :convert_country_code
   before_validation :set_location_unknown
+  geocoded_by :address, if: :address_changed?
+  after_validation :geocode
 
   # Validations
   validate :validate_uuid
@@ -88,5 +90,20 @@ class Ripple < ApplicationRecord
   # Returns the ponds last ripple
   def last_descendant
     descendants.last
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns address in string form
+  def address
+    "#{city}, #{region} #{postal_code}, #{country}"
+  end
+
+  private
+
+  def address_changed?
+    city_changed? || region_changed? || postal_code_changed? || \
+      country_changed? || longitude_changed? || latitude_changed?
   end
 end

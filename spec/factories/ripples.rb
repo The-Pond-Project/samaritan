@@ -7,6 +7,8 @@ FactoryBot.define do
     city { 'Columbus' }
     region { 'Ohio' }
     country { 'US' }
+    longitude { Faker::Address.longitude }
+    latitude { Faker::Address.latitude }
     association :user
     association :pond
   end

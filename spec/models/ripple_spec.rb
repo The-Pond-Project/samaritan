@@ -135,4 +135,58 @@ RSpec.describe Ripple, type: :model do
       expect(ripple.domestic?).to eq false
     end
   end
+
+  describe '#address_changed?' do
+    before do
+      ripple
+    end
+
+    it 'true if country changed' do
+      ripple.country = 'Changed Nation'
+      expect(ripple.send(:address_changed?)).to eq true
+    end
+
+    it 'true if city changed' do
+      ripple.city = 'Changed City'
+      expect(ripple.send(:address_changed?)).to eq true
+    end
+
+    it 'true if postal_code changed' do
+      ripple.postal_code = 'Changed Zip'
+      expect(ripple.send(:address_changed?)).to eq true
+    end
+
+    it 'true if region changed' do
+      ripple.region = 'Changed region'
+      expect(ripple.send(:address_changed?)).to eq true
+    end
+
+    it 'true if longitude changed' do
+      ripple.longitude = 'Changed longitude'
+      expect(ripple.send(:address_changed?)).to eq true
+    end
+
+    it 'true if latitude changed' do
+      ripple.latitude = 'Changed latitude'
+      expect(ripple.send(:address_changed?)).to eq true
+    end
+  end
+
+  describe '#address' do
+    it 'includes country' do
+      expect(ripple.address).to include(ripple.country)
+    end
+
+    it 'includes city' do
+      expect(ripple.address).to include(ripple.city)
+    end
+
+    it 'includes postal_code' do
+      expect(ripple.address).to include(ripple.postal_code)
+    end
+
+    it 'includes region' do
+      expect(ripple.address).to include(ripple.region)
+    end
+  end
 end
