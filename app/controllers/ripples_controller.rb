@@ -51,13 +51,14 @@ class RipplesController < ApplicationController
       country: result.country,
       region: result.region,
       city: result.city,
-      postal_code:
-                        result.postal_code,
+      postal_code: result.postal_code,
+      longitude: result.longitude,
+      latitude: result.latitude,
     }
   end
 
   def ripple_params
-    params.require(:ripple).permit(:uuid, :postal_code, :city, :country, :region, :user_id,
+    params.require(:ripple).permit(:uuid, :postal_code, :city, :country, :region, :latitude, :longitude, :user_id,
                                    :pond_id)
   end
 

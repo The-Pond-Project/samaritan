@@ -1,35 +1,16 @@
-%h3 Tags 
-- @ripple.tags&.each do |tag|
-  = tag.name
-
 %p
   %b Pond:
   = link_to @ripple.pond_key, pond_path(@ripple.pond_key)
 
-- if @ripple.postal_code
-  %p
-    %b Postal code:
-    = @ripple.postal_code
-- if @ripple.city
-  %p
-    %b City:
-    = @ripple.city
-- if @ripple.region
-  %p
-  - if @ripple.domestic?
-    %b State:
-    = @ripple.state
-  - else
-    %b Region:
-    = @ripple.region
-  
-- if @ripple.country
-  %p
-    %b Country:
-    = @ripple.country
-%p
-  %b Created: 
-  = local_time_ago(@ripple.created_at)
+- unless @ripple.tags.blank?
+  %p 
+    %b Tags: 
+    - @ripple.tags&.each do |tag|
+      = tag.name
 
+%image{src: "https://maps.googleapis.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@ripple.latitude}%2C#{@ripple.longitude}&key=#{Rails.application.credentials.dig(:google, :static_maps_api_key)}", onerror: "this.onerror=null;this.src=#{asset_path('default_map.png')};"}
+
+%p{ style: 'color: grey'}="#{@ripple.address}"
+%p{ style: 'color: grey'}=local_time_ago(@ripple.created_at)
 \|
 = link_to 'Back', ripples_path
