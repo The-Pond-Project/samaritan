@@ -9,6 +9,7 @@ class Tag < ApplicationRecord
   # approved            :boolean
   # description         :text         not null
   # organization        :string
+  # deleted_at          :datetime
   # created_at          :datetime     not null
   # updated_at          :datetime     not null
 

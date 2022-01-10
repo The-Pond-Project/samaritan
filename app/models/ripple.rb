@@ -2,6 +2,7 @@
 
 class Ripple < ApplicationRecord
   include PondRippleConcern
+  include Rails.application.routes.url_helpers
 
   # Schema Information
   # Table name: Ripple
@@ -21,11 +22,11 @@ class Ripple < ApplicationRecord
   after_initialize :initialize_uuid
   before_create :convert_country_code
   before_validation :set_location_unknown
-  geocoded_by :address, if: :address_changed?
   after_validation :geocode
 
   # Validations
   validate :validate_uuid
+  validate :tag_limit
   validates :uuid, presence: true, uniqueness: true
   validates :pond_id, :country, :city, presence: true
 
@@ -37,6 +38,7 @@ class Ripple < ApplicationRecord
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
+  geocoded_by :address, if: :address_changed?
 
   # Deligations
   delegate :key, to: :pond, prefix: true
@@ -102,6 +104,10 @@ class Ripple < ApplicationRecord
 
   private
 
+  #
+  # Private Method#
+  #
+  # Used to check if an address_changed and geocoding is needed
   def address_changed?
     city_changed? || region_changed? || postal_code_changed? || \
       country_changed? || longitude_changed? || latitude_changed?

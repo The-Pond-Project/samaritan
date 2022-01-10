@@ -7,6 +7,7 @@ class User < ApplicationRecord
   # id                  :integer      not null, primary key
   # email               :string       not null, unique true
   # password            :string       not null, unique true
+  # deleted_at          :datetime
   # created_at          :datetime     not null
   # updated_at          :datetime     not null
 
