@@ -10,6 +10,7 @@ RSpec.describe Ripple, type: :model do
   let(:ripple) { create(:ripple, user: user, pond: pond) }
   let(:ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'US') }
   let(:international_ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'GB') }
+  let(:tags) { create_list(:tag, 4, approved: true) }
 
   describe '#create' do
     describe 'with valid data' do
@@ -54,6 +55,11 @@ RSpec.describe Ripple, type: :model do
       it 'converts nil postal_code to unknown' do
         described_class.create(pond: pond, user: user)
         expect(described_class.last.postal_code).to eq 'Unknown'
+      end
+
+      it 'validates tag limit of 3' do
+        described_class.create(pond: pond, user: user, tags: tags)
+        expect(described_class.count).to eq 0
       end
     end
 
