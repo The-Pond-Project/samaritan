@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :tag do
-    name { Faker::Verb.base.to_s }
+    name { "##{Faker::Verb.base}" }
     description { 'Pass it on!' }
     organization { 'Kindnesspassedon' }
     approved { Faker::Boolean.boolean }

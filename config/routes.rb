@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # resources :organizations
   root 'pages#home'
 
   # Service Workers
@@ -29,7 +30,17 @@ Rails.application.routes.draw do
 
   # Stories
   post '/stories', to: 'stories#create'
-  get '/stories/new', to: 'stories#new', as: 'new_story'
+  get '/stories/new', to: 'stories#new', as: 'new_story'#Org
+
+  # Organizations
+  delete '/organizations/:name', to: 'organizations#destroy'
+  post '/organizations', to: 'organizations#create'
+  get '/organizations', to: 'organizations#index'
+  get '/organizations/new', to: 'organizations#new', as: 'new_organization'
+  get '/organizations/:name', to: 'organizations#show', as: 'organization'
+  patch '/organizations/:name', to: 'organizations#update'
+  put '/organizations/:name', to: 'organizations#update'
+  get '/organizations/:name/edit', to: 'organizations#edit', as: 'edit_organization'
 
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'

@@ -32,3 +32,12 @@ Tag.create(name: '#justbecause', description:'An official tag from The Pond Proj
 Tag.create(name: '#growthepond', description:'An official tag from The Pond Project team', approved: true, organization: 'The Pond Project')
 Tag.create(name: '#ohio', description:'OH! IO! A tag to represent Ohio', approved: true)
 
+# Message Subscriptions
+MessageSubscription.create(ripple_uuid: Ripple.first.uuid, phone_number: '+16148097539')
+
+
+# Organizations
+Organization.create(name: 'Kindness Passed On', description: 'The official organization for ThePondProject')
+
+# Stories
+Story.create(title: 'A story of kindness', body: 'This is a great story.')

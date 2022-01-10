@@ -11,5 +11,6 @@ FactoryBot.define do
     latitude { Faker::Address.latitude }
     association :user
     association :pond
+    association :tag
   end
 end

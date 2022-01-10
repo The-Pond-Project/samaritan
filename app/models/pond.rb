@@ -15,6 +15,7 @@ class Pond < ApplicationRecord
   # region              :string
   # city                :string
   # country             :string
+  # deleted_at          :datetime
   # created_at          :datetime     not null
   # updated_at          :datetime     not null
 
