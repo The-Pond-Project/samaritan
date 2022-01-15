@@ -112,4 +112,8 @@ class Ripple < ApplicationRecord
     city_changed? || region_changed? || postal_code_changed? || \
       country_changed? || longitude_changed? || latitude_changed?
   end
+
+  def tag_limit
+    errors.add(:tags,'exceed limit of 3') if tags.size > 3
+  end
 end

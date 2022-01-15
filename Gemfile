@@ -10,6 +10,7 @@ gem 'bootsnap',                       '>= 1.4.4', require: false
 gem 'bootstrap'
 gem 'countries',                      '~> 4.1', '>= 4.1.2'
 gem 'devise',                         '~> 4.8'
+gem 'devise_invitable',               '~> 2.0.0'
 gem 'geocoder',                       '~> 1.7'
 gem 'haml-rails'
 gem 'image_processing',               '~> 1.2'

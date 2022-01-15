@@ -21,20 +21,20 @@ module PondRippleConcern
   private
 
   def initialize_uuid
-    self.uuid = SecureRandom.uuid unless uuid
+    self.uuid ||= SecureRandom.uuid
   end
 
   def convert_country_code
-    return if country && country.size > 3
+    return if country&.size > 3
 
-    self.country = ISO3166::Country.new(country).name unless country.nil?
+    self.country = ISO3166::Country.new(country).name if country.present?
   end
 
   def set_location_unknown
-    self.country = 'Unknown' unless country
-    self.region = 'Unknown' unless region
-    self.city = 'Unknown' unless city
-    self.postal_code = 'Unknown' unless postal_code
+    self.country ||= 'Unknown'
+    self.region ||= 'Unknown'
+    self.city ||= 'Unknown'
+    self.postal_code ||= 'Unknown'
   end
 
   def validate_uuid

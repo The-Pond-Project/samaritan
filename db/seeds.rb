@@ -1,7 +1,7 @@
 require 'faker'
 
 # Admin
-User.create(email: 'kindnesspassedon@gmail.com', password: 'password')
+User.create(email: 'kindnesspassedon@gmail.com', password: 'password', role: :super_admin)
 
 # Users 
 3.times do 
