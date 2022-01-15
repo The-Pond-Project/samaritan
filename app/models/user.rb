@@ -7,14 +7,14 @@ class User < ApplicationRecord
   # id                            :integer      not null, primary key
   # email                         :string       not null, unique true
   # password                      :string       not null
-  # role                          :integer      
-  # invitation_token              :string       
-  # invitation_limit              :integer      
-  # invitations_count             :integer      
+  # role                          :integer
+  # invitation_token              :string
+  # invitation_limit              :integer
+  # invitations_count             :integer
   # invited_by                    :integer
   # invitation_created_at         :datetime
-  # invitation_sent_at            :datetime     
-  # invitation_accepted_at        :datetime     
+  # invitation_sent_at            :datetime
+  # invitation_accepted_at        :datetime
   # deleted_at                    :datetime
   # created_at                    :datetime     not null
   # updated_at                    :datetime     not null

@@ -114,6 +114,6 @@ class Ripple < ApplicationRecord
   end
 
   def tag_limit
-    errors.add(:tags,'exceed limit of 3') if tags.size > 3
+    errors.add(:tags, 'exceed limit of 3') if tags.size > 3
   end
 end
