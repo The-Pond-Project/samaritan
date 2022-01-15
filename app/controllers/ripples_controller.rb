@@ -38,7 +38,7 @@ class RipplesController < ApplicationController
   private
 
   def set_ripple
-    @ripple = Ripple.find_by!(uuid: params[:uuid])
+    @ripple = Ripple.friendly.find_by!(uuid: params[:uuid])
   end
 
   def set_pond

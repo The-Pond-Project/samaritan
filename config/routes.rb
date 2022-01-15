@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
+  # Super Admin User
   authenticated :user, ->(u) { u.super_admin? } do
     devise_scope :user do
       get "/users/invitation/accept", to: "devise/invitations#edit",   as: 'accept_user_invitation'
@@ -24,6 +25,16 @@ Rails.application.routes.draw do
       patch '/users/invitation', to: 'devise/invitations#update', as: 'user_invitation'
       put "/users/invitation", to: "devise/invitations#update", as:  nil
     end
+
+    # scope '/manage' do 
+      # resources :stories
+  
+      # resources :ponds, param: :key
+    # end
+
+    delete '/tags/:name', to: 'tags#destroy'
+
+    delete '/ripples/:uuid', to: 'ripples#destroy'
   end 
 
   # Ponds
@@ -31,7 +42,6 @@ Rails.application.routes.draw do
   get '/ponds/:key', to: 'ponds#show', as: 'pond'
 
   # Ripples
-  delete '/ripples/:uuid', to: 'ripples#destroy'
   post '/ripples', to: 'ripples#create'
   get '/ripples', to: 'ripples#index'
   get '/ripples/:uuid', to: 'ripples#show', as: 'ripple'
@@ -40,7 +50,6 @@ Rails.application.routes.draw do
   end
 
   # Tags
-  delete '/tags/:name', to: 'tags#destroy'
   post '/tags', to: 'tags#create'
   get '/tags', to: 'tags#index'
   get '/tags/new', to: 'tags#new', as: 'new_tag'
@@ -48,17 +57,10 @@ Rails.application.routes.draw do
 
   # Stories
   post '/stories', to: 'stories#create'
-  get '/stories/new', to: 'stories#new', as: 'new_story'#Org
+  get '/stories/new', to: 'stories#new', as: 'new_story'
 
   # Organizations
-  delete '/organizations/:name', to: 'organizations#destroy'
-  post '/organizations', to: 'organizations#create'
-  get '/organizations', to: 'organizations#index'
-  get '/organizations/new', to: 'organizations#new', as: 'new_organization'
-  get '/organizations/:name', to: 'organizations#show', as: 'organization'
-  patch '/organizations/:name', to: 'organizations#update'
-  put '/organizations/:name', to: 'organizations#update'
-  get '/organizations/:name/edit', to: 'organizations#edit', as: 'edit_organization'
+  resources :organizations, param: :name
 
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'

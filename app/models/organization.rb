@@ -29,6 +29,12 @@ class Organization < ApplicationRecord
   has_paper_trail
   acts_as_paranoid
 
+  # For rails routing
+  # Override id as default route param
+  def to_param
+    name
+  end
+
   private
 
   def correct_image_type

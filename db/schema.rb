@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_000300) do
+ActiveRecord::Schema.define(version: 2022_01_15_010138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,8 +74,10 @@ ActiveRecord::Schema.define(version: 2022_01_11_000300) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.string "slug"
     t.index ["deleted_at"], name: "index_ponds_on_deleted_at"
     t.index ["key"], name: "index_ponds_on_key", unique: true
+    t.index ["slug"], name: "index_ponds_on_slug", unique: true
   end
 
   create_table "ripples", force: :cascade do |t|
@@ -91,8 +93,10 @@ ActiveRecord::Schema.define(version: 2022_01_11_000300) do
     t.datetime "deleted_at"
     t.float "latitude"
     t.float "longitude"
+    t.string "slug"
     t.index ["deleted_at"], name: "index_ripples_on_deleted_at"
     t.index ["pond_id"], name: "index_ripples_on_pond_id"
+    t.index ["slug"], name: "index_ripples_on_slug", unique: true
     t.index ["user_id"], name: "index_ripples_on_user_id"
   end
 
@@ -122,8 +126,10 @@ ActiveRecord::Schema.define(version: 2022_01_11_000300) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.string "slug"
     t.index ["deleted_at"], name: "index_tags_on_deleted_at"
     t.index ["name"], name: "index_tags_on_name", unique: true
+    t.index ["slug"], name: "index_tags_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|

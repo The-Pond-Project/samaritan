@@ -135,6 +135,8 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     ffi (1.15.4-x64-mingw32)
+    friendly_id (5.4.2)
+      activerecord (>= 4.0.0)
     geocoder (1.7.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -376,6 +378,7 @@ DEPENDENCIES
   devise_invitable (~> 2.0.0)
   factory_bot_rails
   faker
+  friendly_id (~> 5.4.0)
   geocoder (~> 1.7)
   haml-rails
   html2haml (~> 2.2)

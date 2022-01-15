@@ -34,7 +34,7 @@ class TagsController < ApplicationController
   private
 
   def set_tag
-    @tag = Tag.find_by!(name: params[:name])
+    @tag = Tag.friendly.find_by!(name: params[:name])
   end
 
   def tag_params
