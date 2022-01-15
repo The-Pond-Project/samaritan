@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  # resources :organizations
+
   root 'pages#home'
+  # Pages
+  get '/ripples', to: 'pages#ripples'
 
   # Service Workers
   get '/service-worker.js', to: 'service_workers/workers#index'
@@ -17,48 +19,69 @@ Rails.application.routes.draw do
     end
   end
 
+  devise_scope :user do
+    get "/users/invitation/accept", to: "devise/invitations#edit",   as: 'accept_user_invitation'
+    patch '/users/invitation', to: 'devise/invitations#update', as: 'user_invitation'
+  end
+
+  # Super Admin User
   authenticated :user, ->(u) { u.super_admin? } do
     devise_scope :user do
-      get "/users/invitation/accept", to: "devise/invitations#edit",   as: 'accept_user_invitation'
-      get '/users/invitation/new', to: 'devise/invitations#new', as: 'new_user_invitation'
-      patch '/users/invitation', to: 'devise/invitations#update', as: 'user_invitation'
+      get "/users/invitation/accept", to: "devise/invitations#edit",   as: 'manage_accept_user_invitation'
+      get '/users/invitation/new', to: 'devise/invitations#new', as: 'manage_new_user_invitation'
+      patch '/users/invitation', to: 'devise/invitations#update', as: 'manage_user_invitation'
       put "/users/invitation", to: "devise/invitations#update", as:  nil
+    end
+
+    
+    namespace :manage do
+      # Manage
+      get '/ripples', to: 'manage#ripples', as: 'ripples'
+
+      resources :ponds, param: :key do
+        resources :ripples, param: :uuid
+      end
+
+      # post '/ponds/:key/ripples', to: 'ripples#create', as: 'pond_ripples'
+      # patch '/ponds/:key/ripples', to: 'ripples#update'
+      # put '/ponds/:key/ripples', to: 'ripples#update'
+      # put '/ponds/:key/ripples/:uuid', to: 'ripples#update'
+
+      resources :tags, param: :name
+      resources :stories, param: :uuid
+      resources :organizations, param: :name
+    end
+  end
+
+  # Admin User
+  authenticated :user, ->(u) { u.admin? } do
+    namespace :manage do
+      resources :ponds, param: :key do
+        member do
+          resources :ripples, param: :uuid
+        end 
+      end
+
+      resources :tags, param: :name
+      resources :stories, param: :uuid
+      resources :organizations, param: :name
     end
   end 
 
-  # Ponds
-  get '/ponds', to: 'ponds#index'
-  get '/ponds/:key', to: 'ponds#show', as: 'pond'
 
-  # Ripples
-  delete '/ripples/:uuid', to: 'ripples#destroy'
-  post '/ripples', to: 'ripples#create'
-  get '/ripples', to: 'ripples#index'
-  get '/ripples/:uuid', to: 'ripples#show', as: 'ripple'
-  scope '/ponds/:key' do
-    get '/ripples/new', to: 'ripples#new', as: 'new_pond_ripple'
+  # Ponds and Ripples
+  resources :ponds, param: :key, only: [:index, :show] do
+    resources :ripples, param: :uuid, only: [:index, :show, :create, :new]
   end
 
   # Tags
-  delete '/tags/:name', to: 'tags#destroy'
-  post '/tags', to: 'tags#create'
-  get '/tags', to: 'tags#index'
-  get '/tags/new', to: 'tags#new', as: 'new_tag'
-  get '/tags/:name', to: 'tags#show', as: 'tag'
+  resources :tags, param: :name, only: [:index, :show, :new, :create]
 
   # Stories
-  post '/stories', to: 'stories#create'
-  get '/stories/new', to: 'stories#new', as: 'new_story'#Org
+  resources :stories, param: :uuid, only: [:new, :create]
 
   # Organizations
-  delete '/organizations/:name', to: 'organizations#destroy'
-  post '/organizations', to: 'organizations#create'
-  get '/organizations', to: 'organizations#index'
-  get '/organizations/new', to: 'organizations#new', as: 'new_organization'
-  get '/organizations/:name', to: 'organizations#show', as: 'organization'
-  patch '/organizations/:name', to: 'organizations#update'
-  put '/organizations/:name', to: 'organizations#update'
-  get '/organizations/:name/edit', to: 'organizations#edit', as: 'edit_organization'
+  resources :organizations, param: :name, only: [:index, :show]
 
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'

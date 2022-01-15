@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Ripple < ApplicationRecord
+  extend FriendlyId
   include PondRippleConcern
   include Rails.application.routes.url_helpers
 
@@ -39,12 +40,19 @@ class Ripple < ApplicationRecord
   has_paper_trail
   acts_as_paranoid
   geocoded_by :address, if: :address_changed?
+  friendly_id :uuid, use: :slugged
 
   # Deligations
   delegate :key, to: :pond, prefix: true
 
   # Aliases
   alias_attribute :state, :region
+
+  # For rails routing
+  # Override id as default route param
+  def to_param
+    uuid
+  end
 
   #
   # Public Instance Method

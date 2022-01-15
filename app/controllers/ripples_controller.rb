@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class RipplesController < ApplicationController
-  before_action :admin_logged_in?, only: %i[destroy]
-  before_action :set_ripple, only: %i[show destroy]
-  before_action :set_pond, only: %i[new]
+  before_action :set_ripple, only: %i[show]
+  before_action :set_pond, only: %i[new index]
   before_action :set_location, only: %i[create]
+  before_action :set_tags, only: %i[create new]
 
   def index
-    @ripples = Ripple.all.includes([:pond])
+    @ripples = @pond.ripples
   end
 
   def show; end
@@ -18,31 +18,30 @@ class RipplesController < ApplicationController
   end
 
   def create
-    @ripple = Ripple.new(ripple_params.merge(@location_hash))
+    create_hash = [*@location_hash, *tags_hash].compact.to_h
+    @ripple = Ripple.new(ripple_params.merge(create_hash))
     @ripple.user = current_user
-    @ripple.tags = tags
 
     if @ripple.save
-      redirect_to ripple_url(@ripple.uuid), notice: 'Ripple was successfully created.'
+      redirect_to pond_ripples_url(@ripple.pond_key, @ripple.uuid),
+                  notice: 'Ripple was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def destroy
-    @ripple.destroy
-
-    redirect_to ripples_url, notice: 'Ripple was successfully destroyed.'
-  end
-
   private
 
   def set_ripple
-    @ripple = Ripple.find_by!(uuid: params[:uuid])
+    @ripple = Ripple.friendly.find_by!(uuid: params[:uuid])
+  end
+
+  def set_tags
+    @tags = Tag.approved
   end
 
   def set_pond
-    @pond = Pond.find_by!(key: params[:key])
+    @pond = Pond.find_by!(key: params[:pond_key])
   end
 
   def set_location
@@ -63,8 +62,8 @@ class RipplesController < ApplicationController
                                    :pond_id)
   end
 
-  def tags
+  def tags_hash
     tags = params[:ripple][:tags]
-    Tag.find(tags)
+    @tags_hash = { tags: Tag.find(tags) }
   end
 end

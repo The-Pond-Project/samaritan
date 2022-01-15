@@ -1,0 +1,29 @@
+%h1 Listing stories
+
+%table
+  %thead
+    %tr
+      %th Title
+      %th Body
+      %th Pond key
+      %th Uuid
+      %th Ripple Uuid
+      %th
+      %th
+      %th
+
+  %tbody
+    - @stories.each do |story|
+      %tr
+        %td= story.title
+        %td= story.body
+        %td= story.pond_key
+        %td= story.uuid
+        %td= story.ripple_uuid
+        %td= link_to 'Show', manage_story_path(story.uuid)
+        %td= link_to 'Edit', edit_manage_story_path(story.uuid)
+        %td= link_to 'Destroy', manage_story_path(story.uuid), method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Story', new_manage_story_path

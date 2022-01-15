@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Tag < ApplicationRecord
+  extend FriendlyId
   # Schema Information
   # Table name: Tag
   #
@@ -26,11 +27,18 @@ class Tag < ApplicationRecord
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
+  friendly_id :name, use: :slugged
 
   # Scopes
   scope :approved, -> { where({ approved: true }) }
   scope :pending_approval, -> { where({ approved: nil }) }
   scope :denied, -> { where({ approved: false }) }
+
+  # For rails routing
+  # Override id as default route param
+  def to_param
+    name
+  end
 
   private
 

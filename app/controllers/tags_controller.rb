@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
-  before_action :admin_logged_in?, only: %i[destroy]
-  before_action :set_tag, only: %i[show destroy]
+  before_action :set_tag, only: %i[show]
 
   def index
     @tags = Tag.all
@@ -25,16 +24,10 @@ class TagsController < ApplicationController
     end
   end
 
-  def destroy
-    @tag.destroy
-
-    redirect_to tags_url, notice: 'Tag was successfully destroyed.'
-  end
-
   private
 
   def set_tag
-    @tag = Tag.find_by!(name: params[:name])
+    @tag = Tag.friendly.find_by!(name: params[:name])
   end
 
   def tag_params

@@ -1,0 +1,18 @@
+%p
+  %b Name:
+  = @tag.name
+%p
+  %b Description:
+  = @tag.description
+%p
+  %b Organization:
+  = @tag.organization
+%p
+  %b Approved:
+  = @tag.approved
+%p
+  %b Created: 
+  = local_time_ago(@tag.created_at)
+
+\|
+= link_to 'Back', manage_tags_path

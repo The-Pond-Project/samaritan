@@ -3,6 +3,7 @@
 # rubocop:disable Lint/IneffectiveAccessModifier
 class Pond < ApplicationRecord
   class GenerationError < StandardError; end
+  extend FriendlyId
   include PondRippleConcern
 
   # Schema Information
@@ -40,6 +41,7 @@ class Pond < ApplicationRecord
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
+  friendly_id :key, use: :slugged
 
   #
   # Public Class Method
@@ -92,6 +94,12 @@ class Pond < ApplicationRecord
   # Returns the ponds last ripple
   def last_ripple
     ripples.last
+  end
+
+  # For rails routing
+  # Override id as default route param
+  def to_param
+    key
   end
 
   private
