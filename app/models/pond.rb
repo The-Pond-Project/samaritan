@@ -97,7 +97,7 @@ class Pond < ApplicationRecord
   private
 
   def initialize_key
-    self.key = "P-#{SecureRandom.hex(3).upcase}" unless key
+    self.key ||= "P-#{SecureRandom.hex(3).upcase}"
   end
 
   # Validation methods

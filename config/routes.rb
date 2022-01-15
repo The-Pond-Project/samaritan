@@ -6,7 +6,25 @@ Rails.application.routes.draw do
   get '/service-worker.js', to: 'service_workers/workers#index'
   get '/manifest.json', to: 'service_workers/manifests#index'
 
-  devise_for :users
+  # Users
+  devise_for :users, skip: [:registrations, :invitation]
+  devise_scope :user do
+    resource :users,
+            only: [:edit, :update, :destroy],
+            controller: 'devise/registrations',
+            as: :user_registration do
+      get 'cancel'
+    end
+  end
+
+  authenticated :user, ->(u) { u.super_admin? } do
+    devise_scope :user do
+      get "/users/invitation/accept", to: "devise/invitations#edit",   as: 'accept_user_invitation'
+      get '/users/invitation/new', to: 'devise/invitations#new', as: 'new_user_invitation'
+      patch '/users/invitation', to: 'devise/invitations#update', as: 'user_invitation'
+      put "/users/invitation", to: "devise/invitations#update", as:  nil
+    end
+  end 
 
   # Ponds
   get '/ponds', to: 'ponds#index'

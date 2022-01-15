@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
+  before_action :admin_logged_in?, only: %i[destroy]
   before_action :set_tag, only: %i[show destroy]
 
   def index

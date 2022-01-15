@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 class OrganizationsController < ApplicationController
+  before_action :admin_logged_in?, only: %i[new edit update destroy]
   before_action :set_organization, only: %i[show edit update destroy]
-
   def index
     @organizations = Organization.all
   end
 
-  def show
-    # byebug
-  end
+  def show; end
 
   def new
     @organization = Organization.new

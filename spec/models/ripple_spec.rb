@@ -61,6 +61,12 @@ RSpec.describe Ripple, type: :model do
         described_class.create(pond: pond, user: user, tags: tags)
         expect(described_class.count).to eq 0
       end
+
+      it 'validates tag limit of 3' do
+        ripple = described_class.create(pond: pond, user: user)
+        ripple.update(tags: tags)
+        expect(ripple.update(tags: tags)).to eq false
+      end
     end
 
     describe 'with invalid' do

@@ -1,2 +1,6 @@
 %h1 The Pond Project 
 %h5 Kindness passed on.
+
+- if current_user
+  - if current_user.super_admin? 
+    %p Hi Super admin! Welcome back 

@@ -100,6 +100,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise_invitable (2.0.6)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     diff-lcs (1.4.4)
     docile (1.4.0)
     erubi (1.10.0)
@@ -370,6 +373,7 @@ DEPENDENCIES
   capybara
   countries (~> 4.1, >= 4.1.2)
   devise (~> 4.8)
+  devise_invitable (~> 2.0.0)
   factory_bot_rails
   faker
   geocoder (~> 1.7)

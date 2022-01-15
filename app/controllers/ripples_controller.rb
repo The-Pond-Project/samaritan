@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RipplesController < ApplicationController
+  before_action :admin_logged_in?, only: %i[destroy]
   before_action :set_ripple, only: %i[show destroy]
   before_action :set_pond, only: %i[new]
   before_action :set_location, only: %i[create]
