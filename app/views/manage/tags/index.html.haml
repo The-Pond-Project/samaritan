@@ -18,8 +18,9 @@
         %td= tag.description
         %td= tag.organization
         %td= tag.approved
-        %td= link_to 'Show', tag_path(tag.name)
+        %td= link_to 'Show', manage_tag_path(tag)
+        %td= link_to 'Destroy', manage_tag_path(tag), method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Tag', new_tag_path
+= link_to 'New Tag', new_manage_tag_path

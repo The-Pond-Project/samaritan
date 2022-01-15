@@ -1,6 +1,6 @@
 %p
   %b Pond:
-  = link_to @ripple.pond_key, pond_path(@ripple.pond_key)
+  = link_to @ripple.pond_key, manage_pond_path(@ripple.pond_key)
 
 - unless @ripple.tags.blank?
   %p 
@@ -13,4 +13,4 @@
 %p{ style: 'color: grey'}="#{@ripple.address}"
 %p{ style: 'color: grey'}=local_time_ago(@ripple.created_at)
 \|
-= link_to 'Back', pond_ripples_path
+= link_to 'Back', manage_pond_ripples_path

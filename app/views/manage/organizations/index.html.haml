@@ -18,5 +18,10 @@
         %td= organization.description
         %td= organization.address
         %td= organization.website
-        %td= link_to 'Show', organization_path(organization.name)
+        %td= link_to 'Show', manage_organization_path(organization.name)
+        %td= link_to 'Edit', edit_manage_organization_path(organization.name)
+        %td= link_to 'Destroy', manage_organization_path(organization), method: :delete, data: { confirm: 'Are you sure?' }
 
+%br
+
+= link_to 'New Organization', new_manage_organization_path

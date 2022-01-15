@@ -1,0 +1,28 @@
+= form_for @pond, url: manage_ponds_path(@pond) do |f|
+  - if @pond.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@pond.errors.count, "error")} prohibited this pond from being saved:"
+      %ul
+        - @pond.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :uuid
+    = f.text_field :uuid
+  .field
+    = f.label :postal_code
+    = f.text_field :postal_code
+  .field
+    = f.label :city
+    = f.text_field :city
+  .field
+    = f.label :region
+    = f.text_field :region
+  .field
+    = f.label :country
+    = f.text_field :country
+  .field
+    = f.label :key
+    = f.text_field :key
+  .actions
+    = f.submit 'Save'

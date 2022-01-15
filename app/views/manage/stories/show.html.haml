@@ -1,0 +1,20 @@
+%p
+  %b Title:
+  = @story.title
+%p
+  %b Body:
+  = @story.body
+%p
+  %b Uuid:
+  = @story.uuid
+%p
+  %b Ripple Uuid:
+  = @story.ripple_uuid
+
+%p
+  %b Pond Key:
+  = @story.pond_key
+
+= link_to 'Edit', edit_manage_story_path(@story.uuid)
+\|
+= link_to 'Back', manage_stories_path
