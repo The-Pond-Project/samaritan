@@ -27,6 +27,8 @@ class Pond < ApplicationRecord
 
   # Validations
   validates :uuid, :key, presence: true, uniqueness: true
+  validates :uuid, length: { is: 36 }
+  validates :key, length: { is: 8 }
   validate :validate_key, :validate_uuid
 
   # Alias Attributes

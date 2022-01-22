@@ -16,55 +16,79 @@ RSpec.describe Pond, type: :model do
   let(:amount) { 3 }
   let(:release) { create(:release) }
   let(:pond) { create(:pond, country: 'US', release: release) }
+  let(:ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'US') }
+  let(:international_ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'GB') }
 
   describe '#create' do
     describe 'with valid data' do
       it { is_expected.to validate_presence_of(:key) }
       it { is_expected.to validate_presence_of(:uuid) }
+      it { should validate_length_of(:key).is_equal_to(8) }
+      it { should validate_length_of(:uuid).is_equal_to(36) }
+
+      before do 
+        pond
+      end
 
       it 'can create a pond' do
-        pond
         expect(described_class.count).to eq 1
       end
 
       it 'converts country code to name' do
-        pond
         expect(described_class.last.country).to eq 'United States of America'
       end
     end
 
     describe 'with invalid' do
       describe 'key' do
-        it 'length can NOT create a pond' do
-          described_class.create(key: 'akey')
-          expect(described_class.count).to eq 0
+        context 'length' do 
+          let(:pond) { create(:pond, key: 'akey', release: release) }
+
+          it 'can NOT create a pond' do
+            expect { pond }.to raise_error(ActiveRecord::RecordInvalid)
+          end
         end
 
-        it 'start can NOT create a pond' do
-          described_class.create(key: 'H-ABC123')
-          expect(described_class.count).to eq 0
+        context 'start' do 
+          let(:pond) { create(:pond, key: 'H-ABC123', release: release) }
+
+          it 'can NOT create a pond' do
+            expect { pond }.to raise_error(ActiveRecord::RecordInvalid)
+          end
         end
 
-        it 'type can NOT create a pond' do
-          described_class.create(key: 123)
-          expect(described_class.count).to eq 0
+        context 'type' do 
+          let(:pond) { create(:pond, key: 123, release: release) }
+
+          it 'can NOT create a pond' do
+            expect { pond }.to raise_error(ActiveRecord::RecordInvalid)
+          end
         end
       end
 
       describe 'uuid' do
-        it 'length can NOT create a pond' do
-          described_class.create(uuid: 'notlongenough')
-          expect(described_class.count).to eq 0
+        context 'spaces' do 
+          let(:pond) { create(:pond, uuid: 'notlongenough', release: release) }
+
+          it 'can NOT create a pond' do
+            expect { pond }.to raise_error(ActiveRecord::RecordInvalid)
+          end
         end
 
-        it 'can NOT create a pond' do
-          described_class.create(uuid: '03729ea0r77a7t4596pa661u6148c8878b91')
-          expect(described_class.count).to eq 0
+        context 'length' do 
+          let(:pond) { create(:pond, uuid: '03729ea0r77a7t4596pa661u6148c8878b91', release: release) }
+
+          it 'can NOT create a pond' do
+            expect { pond }.to raise_error(ActiveRecord::RecordInvalid)
+          end
         end
 
-        it 'type can NOT create a pond' do
-          described_class.create(uuid: 123)
-          expect(described_class.count).to eq 0
+        context 'type' do 
+          let(:pond) { create(:pond, uuid: 123, release: release) }
+
+          it 'can NOT create a pond' do
+            expect { pond }.to raise_error(ActiveRecord::RecordInvalid)
+          end
         end
       end
     end
@@ -119,6 +143,36 @@ RSpec.describe Pond, type: :model do
     it 'false if country is America' do
       pond.update(country: 'GB')
       expect(pond.domestic?).to eq false
+    end
+  end
+
+  describe '#impact' do
+    it 'returns pond impact' do
+      expect(pond.impact).to eq pond.ripples.count
+    end
+  end
+
+  describe '#domestic_impact' do
+    it 'returns pond impact' do
+      expect(pond.domestic_impact).to eq pond.ripples.count
+    end
+  end
+
+  describe '#international_impact' do
+    it 'returns pond impact' do
+      expect(pond.international_impact).to eq pond.ripples.count
+    end
+  end
+
+  describe '#last_ripple' do
+    it 'returns pond impact' do
+      expect(pond.last_ripple).to eq pond.ripples.last
+    end
+  end
+
+  describe '#to_param' do 
+    it 'returns key' do
+      expect(pond.to_param).to eq pond.key
     end
   end
 end
