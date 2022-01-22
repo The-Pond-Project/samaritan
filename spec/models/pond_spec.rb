@@ -97,12 +97,12 @@ RSpec.describe Pond, type: :model do
   describe '#generate' do
     describe 'with valid arguments' do
       it 'creates pond records' do
-        described_class.generate(amount: amount, location: location)
+        described_class.generate(amount: amount, location: location, release_id: release.id)
         expect(described_class.count).to eq amount
       end
 
       it 'creates unique_pond pond records' do
-        described_class.generate(amount: amount, location: location, unique_pond_code: 'GN')
+        described_class.generate(amount: amount, location: location, unique_pond_code: 'GN', release_id: release.id)
         expect(described_class.last.key).to include('P-GN')
       end
     end
@@ -110,26 +110,26 @@ RSpec.describe Pond, type: :model do
     describe 'with invalid' do
       it 'unique_pond_code can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: amount, location: location, unique_pond_code: 'LONG')
+          described_class.generate(amount: amount, location: location, unique_pond_code: 'LONG', release_id: release.id)
         end.to raise_error(Pond::GenerationError)
       end
 
       it 'location can NOT create unique_pond pond records' do
         expect do
           described_class.generate(amount: amount, location: ['Im not a hash'],
-                                   unique_pond_code: 'MN')
+                                   unique_pond_code: 'MN', release_id: release.id)
         end.to raise_error(Pond::GenerationError)
       end
 
       it 'amount can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: 'L', location: location, unique_pond_code: 'MN')
+          described_class.generate(amount: 'L', location: location, unique_pond_code: 'MN', release_id: release.id)
         end.to raise_error(Pond::GenerationError)
       end
 
       it 'amount size can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: 500, location: location, unique_pond_code: 'MN')
+          described_class.generate(amount: 500, location: location, unique_pond_code: 'MN', release_id: release.id)
         end.to raise_error(Pond::GenerationError)
       end
     end
