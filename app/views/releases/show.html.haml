@@ -1,0 +1,11 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @release.name
+%p
+  %b Description:
+  = @release.description
+
+\|
+= link_to 'Back', organization_releases_path

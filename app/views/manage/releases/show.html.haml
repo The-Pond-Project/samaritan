@@ -1,0 +1,28 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @release.name
+%p
+  %b Description:
+  = @release.description
+
+- if @release.ponds.present?
+  %p
+    %b Ponds:
+
+    %table
+      %thead
+        %tr
+          %th Name
+          %th 
+    
+    - if @release.ponds.present?
+      -  @release.ponds.each do |pond|
+        %tr
+          %td= pond.key
+          %td= link_to 'Show', manage_pond_path(pond)
+
+= link_to 'Edit', edit_manage_organization_release_path(@organization, @release)
+\|
+= link_to 'Back', manage_organization_releases_path(@organization)

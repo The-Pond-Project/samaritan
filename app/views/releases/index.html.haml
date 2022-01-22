@@ -1,0 +1,18 @@
+%h1 Listing releases
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th
+      %th
+      %th
+
+  %tbody
+    - @releases.each do |release|
+      %tr
+        %td= release.name
+        %td= release.description
+        %td= link_to 'Show', organization_release_path(@organization.name, release.id)
+
