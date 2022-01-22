@@ -4,8 +4,8 @@ FactoryBot.define do
   factory :tag do
     name { "##{Faker::Verb.base}" }
     description { 'Pass it on!' }
-    organization { 'Kindnesspassedon' }
     approved { Faker::Boolean.boolean }
+    association :organization
   end
 
   def tag_with_ripples(ripples_count: 2)

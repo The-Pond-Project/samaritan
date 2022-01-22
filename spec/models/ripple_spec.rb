@@ -7,10 +7,11 @@ RSpec.describe Ripple, type: :model do
 
   let(:user) { create(:user) }
   let(:pond) { create(:pond) }
+  let(:organization) { create(:organization) }
   let(:ripple) { create(:ripple, user: user, pond: pond) }
   let(:ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'US') }
   let(:international_ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'GB') }
-  let(:tags) { create_list(:tag, 4, approved: true) }
+  let(:tags) { create_list(:tag, 4, approved: true, organization: organization) }
 
   describe '#create' do
     describe 'with valid data' do

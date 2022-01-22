@@ -14,7 +14,8 @@ RSpec.describe Pond, type: :model do
     }
   end
   let(:amount) { 3 }
-  let(:pond) { create(:pond) }
+  let(:release) { create(:release) }
+  let(:pond) { create(:pond, country: 'US', release: release) }
 
   describe '#create' do
     describe 'with valid data' do
@@ -22,12 +23,12 @@ RSpec.describe Pond, type: :model do
       it { is_expected.to validate_presence_of(:uuid) }
 
       it 'can create a pond' do
-        described_class.create(city: 'Columbus', region: 'Ohio', country: 'US')
+        pond
         expect(described_class.count).to eq 1
       end
 
       it 'converts country code to name' do
-        described_class.create(city: 'Columbus', region: 'Ohio', country: 'US')
+        pond
         expect(described_class.last.country).to eq 'United States of America'
       end
     end

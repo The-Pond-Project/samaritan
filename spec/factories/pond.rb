@@ -8,5 +8,6 @@ FactoryBot.define do
     region { 'Ohio' }
     country { 'US' }
     key { "P-#{SecureRandom.hex(3).upcase}" }
+    association :release
   end
 end
