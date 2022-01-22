@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_15_032907) do
+ActiveRecord::Schema.define(version: 2022_01_22_141442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,8 +60,10 @@ ActiveRecord::Schema.define(version: 2022_01_15_032907) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
     t.index ["deleted_at"], name: "index_organizations_on_deleted_at"
     t.index ["name"], name: "index_organizations_on_name"
+    t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
 
   create_table "ponds", force: :cascade do |t|
@@ -75,10 +77,24 @@ ActiveRecord::Schema.define(version: 2022_01_15_032907) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.string "slug"
+    t.integer "release_id"
     t.index ["deleted_at"], name: "index_ponds_on_deleted_at"
     t.index ["key"], name: "index_ponds_on_key", unique: true
     t.index ["slug"], name: "index_ponds_on_slug", unique: true
     t.index ["uuid"], name: "index_ponds_on_uuid", unique: true
+  end
+
+  create_table "releases", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.string "slug"
+    t.index ["deleted_at"], name: "index_releases_on_deleted_at"
+    t.index ["organization_id"], name: "index_releases_on_organization_id"
+    t.index ["slug"], name: "index_releases_on_slug", unique: true
   end
 
   create_table "ripples", force: :cascade do |t|
@@ -123,12 +139,12 @@ ActiveRecord::Schema.define(version: 2022_01_15_032907) do
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "organization"
     t.boolean "approved"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.string "slug"
+    t.integer "organization_id"
     t.index ["deleted_at"], name: "index_tags_on_deleted_at"
     t.index ["name"], name: "index_tags_on_name", unique: true
     t.index ["slug"], name: "index_tags_on_slug", unique: true
@@ -172,6 +188,7 @@ ActiveRecord::Schema.define(version: 2022_01_15_032907) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "releases", "organizations"
   add_foreign_key "ripples", "ponds"
   add_foreign_key "ripples", "users"
   add_foreign_key "ripples_tags", "ripples"

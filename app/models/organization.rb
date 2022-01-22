@@ -3,6 +3,8 @@
 require 'uri'
 
 class Organization < ApplicationRecord
+  extend FriendlyId
+
   # Schema Information
   # Table name: Organization
   #
@@ -22,12 +24,15 @@ class Organization < ApplicationRecord
   validate :url_format
 
   # Associations
-  has_many :ripples
+  has_many :tags
+  has_many :releases
+  has_many :ponds, through: :releases
   has_one_attached :image
 
   # Gem Configurations
   has_paper_trail
   acts_as_paranoid
+  friendly_id :name, use: :slugged
 
   # For rails routing
   # Override id as default route param

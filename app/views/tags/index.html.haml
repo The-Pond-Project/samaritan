@@ -16,9 +16,12 @@
       %tr
         %td= tag.name
         %td= tag.description
-        %td= tag.organization
-        %td= tag.approved
-        %td= link_to 'Show', tag_path(tag.name)
+        %td= tag.organization.name
+        - if tag.approved.present?
+          %td= tag.approved
+        - else
+          %td pending
+        %td= link_to 'Show', organization_tag_path(tag.organization, tag)
 
 %br
 

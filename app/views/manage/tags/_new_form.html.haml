@@ -12,8 +12,10 @@
   .field
     = f.label :description
     = f.text_area :description
+
   .field
     = f.label :organization
-    = f.text_field :organization
+    = f.select :organization_id, @organizations.map { |org| [org.name, org.id] }
+  
   .actions
     = f.submit 'Save'

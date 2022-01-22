@@ -4,9 +4,15 @@ module Manage
   class TagsController < ApplicationController
     before_action :admin_logged_in?
     before_action :set_tag, only: %i[show edit update destroy]
+    before_action :set_organizations, only: %i[new edit create]
+    before_action :set_organization, only: %i[index show delete]
+
+    def tags
+      @tags = Tag.all.includes([:organization])
+    end
 
     def index
-      @tags = Tag.all
+      @tags = @organization.tags
     end
 
     def show; end
@@ -21,8 +27,7 @@ module Manage
       @tag = Tag.new(tag_params)
 
       if @tag.save
-        redirect_to manage_tag_url(@tag), notice: 'Tag was successfully created.'
-
+        redirect_to manage_organization_tag_url(@tag.organization, @tag), notice: 'Tag was successfully created.'
       else
         render :new, status: :unprocessable_entity
       end
@@ -40,7 +45,7 @@ module Manage
     def destroy
       @tag.destroy
 
-      redirect_to manage_tags_url, notice: 'Tag was successfully destroyed.'
+      redirect_to manage_orgnaization_tags_url(@organization), notice: 'Tag was successfully destroyed.'
     end
 
     private
@@ -49,8 +54,16 @@ module Manage
       @tag = Tag.friendly.find_by!(name: params[:name])
     end
 
+    def set_organizations
+      @organizations = Organization.all
+    end
+
+    def set_organization
+      @organization = Organization.find_by!(name: params[:organization_name])
+    end
+
     def tag_params
-      params.require(:tag).permit(:name, :description, :organization, :approved)
+      params.require(:tag).permit(:name, :description, :organization_id, :approved)
     end
   end
 end

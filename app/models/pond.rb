@@ -12,6 +12,7 @@ class Pond < ApplicationRecord
   # id                  :integer      not null, primary key
   # uuid                :string       not null, unique true
   # key                 :string       not null, unique true
+  # release_id          :integer      not null,
   # postal_code         :string
   # region              :string
   # city                :string
@@ -34,6 +35,8 @@ class Pond < ApplicationRecord
 
   # Associations
   has_many :ripples
+  belongs_to :release
+  has_one :organization, through: :release
 
   # Scopes
   scope :inactive, -> { where('updated_at < ?', Date.current.year - 45) }

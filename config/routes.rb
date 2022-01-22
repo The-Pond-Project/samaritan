@@ -33,38 +33,38 @@ Rails.application.routes.draw do
       put "/users/invitation", to: "devise/invitations#update", as:  nil
     end
 
-    
+    # Manage
     namespace :manage do
-      # Manage
       get '/ripples', to: 'manage#ripples', as: 'ripples'
+      get '/tags', to: 'manage#tags', as: 'tags'
 
       resources :ponds, param: :key do
         resources :ripples, param: :uuid
       end
 
-      # post '/ponds/:key/ripples', to: 'ripples#create', as: 'pond_ripples'
-      # patch '/ponds/:key/ripples', to: 'ripples#update'
-      # put '/ponds/:key/ripples', to: 'ripples#update'
-      # put '/ponds/:key/ripples/:uuid', to: 'ripples#update'
-
       resources :tags, param: :name
       resources :stories, param: :uuid
-      resources :organizations, param: :name
+      resources :organizations, param: :name do 
+        resources :releases
+        resources :tags, param: :name, only: [:index, :show]
+      end
     end
   end
 
   # Admin User
   authenticated :user, ->(u) { u.admin? } do
+    # Manage
     namespace :manage do
       resources :ponds, param: :key do
-        member do
-          resources :ripples, param: :uuid
-        end 
+        resources :ripples, param: :uuid
       end
 
       resources :tags, param: :name
       resources :stories, param: :uuid
-      resources :organizations, param: :name
+      resources :organizations, param: :name do 
+        resources :releases
+        resources :tags, param: :name, only: [:index, :show]
+      end
     end
   end 
 
@@ -81,7 +81,10 @@ Rails.application.routes.draw do
   resources :stories, param: :uuid, only: [:new, :create]
 
   # Organizations
-  resources :organizations, param: :name, only: [:index, :show]
+  resources :organizations, param: :name, only: [:index, :show] do 
+    resources :releases, only: [:index, :show]
+    resources :tags, param: :name, only: [:index, :show]
+  end
 
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'
