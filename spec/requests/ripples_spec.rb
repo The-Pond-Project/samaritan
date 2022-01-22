@@ -8,7 +8,7 @@ RSpec.describe '/ripples', type: :request do
   let(:ripple) { create(:ripple, pond: pond) }
 
   let(:valid_attributes) do
-    { pond: pond }
+    { pond_id: pond.id }
   end
 
   let(:invalid_attributes) do
@@ -41,26 +41,25 @@ RSpec.describe '/ripples', type: :request do
   #   context "with valid parameters" do
   #     it "creates a new Ripple" do
   #       expect {
-  #         get new_pond_ripple_url(pond.key)
-  #         post ripples_url, params: { pond_key: pond.key, ripple: valid_attributes }
+  #         post pond_ripples_url(pond), params: { pond_key: pond.key, ripple: valid_attributes }
   #       }.to change(Ripple, :count).by(1)
   #     end
 
   #     it "redirects to the created ripple" do
-  #       post ripples_url, params: { ripple: valid_attributes }
-  #       expect(response).to redirect_to(ripple_url(Ripple.last.uuid))
+  #       post pond_ripples_url(pond), params: { pond_key: pond.key, ripple: valid_attributes }
+  #       expect(response).to redirect_to(pond_ripple_url(pond, Ripple.last))
   #     end
   #   end
 
   #   context "with invalid parameters" do
   #     it "does not create a new Ripple" do
   #       expect {
-  #         post ripples_url, params: { ripple: invalid_attributes }
+  #         post pond_ripples_url(pond), params: { pond_key: pond.key, ripple: invalid_attributes }
   #       }.to change(Ripple, :count).by(0)
   #     end
 
   #     it "renders a successful response (i.e. to display the 'new' template)" do
-  #       post ripples_url, params: { ripple: invalid_attributes }
+  #       post pond_ripples_url(pond), params: { ripple: invalid_attributes }
   #       expect(response).to be_successful
   #     end
   #   end

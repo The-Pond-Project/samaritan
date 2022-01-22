@@ -23,7 +23,7 @@ class RipplesController < ApplicationController
     @ripple.user = current_user
 
     if @ripple.save
-      redirect_to pond_ripples_url(@ripple.pond_key, @ripple.uuid),
+      redirect_to pond_ripple_url(@ripple.pond_key, @ripple.uuid),
                   notice: 'Ripple was successfully created.'
     else
       render :new, status: :unprocessable_entity
@@ -64,6 +64,6 @@ class RipplesController < ApplicationController
 
   def tags_hash
     tags = params[:ripple][:tags]
-    @tags_hash = { tags: Tag.find(tags) }
+    @tags_hash = tags.present? ? { tags: Tag.find(tags) } : { tags: [] }
   end
 end
