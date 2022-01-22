@@ -42,14 +42,11 @@ Rails.application.routes.draw do
         resources :ripples, param: :uuid
       end
 
-      # post '/ponds/:key/ripples', to: 'ripples#create', as: 'pond_ripples'
-      # patch '/ponds/:key/ripples', to: 'ripples#update'
-      # put '/ponds/:key/ripples', to: 'ripples#update'
-      # put '/ponds/:key/ripples/:uuid', to: 'ripples#update'
-
       resources :tags, param: :name
       resources :stories, param: :uuid
-      resources :organizations, param: :name
+      resources :organizations, param: :name do 
+        resources :releases
+      end
     end
   end
 
@@ -81,7 +78,9 @@ Rails.application.routes.draw do
   resources :stories, param: :uuid, only: [:new, :create]
 
   # Organizations
-  resources :organizations, param: :name, only: [:index, :show]
+  resources :organizations, param: :name, only: [:index, :show] do 
+    resources :releases, only: [:index, :show]
+  end
 
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'
