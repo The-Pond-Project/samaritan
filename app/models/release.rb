@@ -16,8 +16,8 @@ class Release < ApplicationRecord
 
   # Validations
   validates :name, :description, presence: true
-  validates :description, length: { minimum: 5, maximum: 350 }
-  validates :name, length: { minimum: 5, maximum: 45 }
+  validates :description, length: { in: 5..350 }
+  validates :name, length: { in: 5..45 }
 
   # Gem Configurations
   has_paper_trail
