@@ -1,4 +1,9 @@
 # frozen_string_literal: true
+ENV["RAILS_ENV"] ||= 'test'
+require File.expand_path("../../config/environment",__FILE__)
+require 'rspec/rails'
+require "capybara/rspec"
+include Capybara::DSL
 
 require 'simplecov'
 SimpleCov.start
@@ -99,4 +104,7 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+
+  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
