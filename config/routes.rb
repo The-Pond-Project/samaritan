@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
   root 'pages#home'
-  # Pages
-  get '/ripples', to: 'pages#ripples'
 
   # Service Workers
   get '/service-worker.js', to: 'service_workers/workers#index'
@@ -68,6 +66,8 @@ Rails.application.routes.draw do
     end
   end 
 
+    # Pages
+    get '/ripples', to: 'pages#ripples'
 
   # Ponds and Ripples
   resources :ponds, param: :key, only: [:index, :show] do
