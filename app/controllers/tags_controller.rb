@@ -4,7 +4,7 @@ class TagsController < ApplicationController
   before_action :set_tag, only: %i[show]
 
   def index
-    @tags = Tag.all
+    @tags = Tag.all.includes([:organization])
   end
 
   def show; end
