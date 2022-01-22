@@ -17,6 +17,7 @@ RSpec.describe Ripple, type: :model do
     describe 'with valid data' do
       it { is_expected.to validate_presence_of(:uuid) }
       it { is_expected.to validate_presence_of(:pond_id) }
+      it { should validate_length_of(:uuid).is_equal_to(36) }
 
       it 'can create a pond' do
         described_class.create(city: 'Columbus', country: 'US', pond: pond, user: user)
@@ -200,6 +201,12 @@ RSpec.describe Ripple, type: :model do
 
     it 'includes region' do
       expect(ripple.address).to include(ripple.region)
+    end
+  end
+
+  describe '#to_param' do 
+    it 'returns key' do
+      expect(ripple.to_param).to eq ripple.uuid
     end
   end
 end
