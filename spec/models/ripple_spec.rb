@@ -205,7 +205,7 @@ RSpec.describe Ripple, type: :model do
   end
 
   describe '#to_param' do 
-    it 'returns key' do
+    it 'returns uuid' do
       expect(ripple.to_param).to eq ripple.uuid
     end
   end
