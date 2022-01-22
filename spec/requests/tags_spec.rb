@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe '/tags', type: :request do
-
   let(:tags) { create_list(:tag, 3) }
   let(:tag) { create(:tag) }
 

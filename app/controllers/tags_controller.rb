@@ -18,7 +18,8 @@ class TagsController < ApplicationController
     @tag = Tag.new(tag_params)
 
     if @tag.save
-      redirect_to organization_tag_url(@tag.organization, @tag), notice: 'Tag was successfully created.'
+      redirect_to organization_tag_url(@tag.organization, @tag),
+                  notice: 'Tag was successfully created.'
 
     else
       render :new, status: :unprocessable_entity

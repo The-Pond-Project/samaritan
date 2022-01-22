@@ -1,8 +1,9 @@
 # frozen_string_literal: true
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment",__FILE__)
+
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
-require "capybara/rspec"
+require 'capybara/rspec'
 include Capybara::DSL
 
 require 'simplecov'

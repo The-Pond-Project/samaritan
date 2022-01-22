@@ -3,11 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Manages', type: :request do
-
   let(:user) { create(:user, :super_admin) }
 
-  before do 
-    sign_in(user) 
+  before do
+    sign_in(user)
   end
 
   describe 'GET /ripples' do

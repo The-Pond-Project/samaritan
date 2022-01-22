@@ -21,14 +21,14 @@ RSpec.describe Pond, type: :model do
 
   describe '#create' do
     describe 'with valid data' do
-      it { is_expected.to validate_presence_of(:key) }
-      it { is_expected.to validate_presence_of(:uuid) }
-      it { should validate_length_of(:key).is_equal_to(8) }
-      it { should validate_length_of(:uuid).is_equal_to(36) }
-
-      before do 
+      before do
         pond
       end
+
+      it { is_expected.to validate_presence_of(:key) }
+      it { is_expected.to validate_presence_of(:uuid) }
+      it { is_expected.to validate_length_of(:key).is_equal_to(8) }
+      it { is_expected.to validate_length_of(:uuid).is_equal_to(36) }
 
       it 'can create a pond' do
         expect(described_class.count).to eq 1
@@ -41,7 +41,7 @@ RSpec.describe Pond, type: :model do
 
     describe 'with invalid' do
       describe 'key' do
-        context 'length' do 
+        context 'length' do
           let(:pond) { create(:pond, key: 'akey', release: release) }
 
           it 'can NOT create a pond' do
@@ -49,7 +49,7 @@ RSpec.describe Pond, type: :model do
           end
         end
 
-        context 'start' do 
+        context 'start' do
           let(:pond) { create(:pond, key: 'H-ABC123', release: release) }
 
           it 'can NOT create a pond' do
@@ -57,7 +57,7 @@ RSpec.describe Pond, type: :model do
           end
         end
 
-        context 'type' do 
+        context 'type' do
           let(:pond) { create(:pond, key: 123, release: release) }
 
           it 'can NOT create a pond' do
@@ -67,7 +67,7 @@ RSpec.describe Pond, type: :model do
       end
 
       describe 'uuid' do
-        context 'spaces' do 
+        context 'spaces' do
           let(:pond) { create(:pond, uuid: 'notlongenough', release: release) }
 
           it 'can NOT create a pond' do
@@ -75,15 +75,17 @@ RSpec.describe Pond, type: :model do
           end
         end
 
-        context 'length' do 
-          let(:pond) { create(:pond, uuid: '03729ea0r77a7t4596pa661u6148c8878b91', release: release) }
+        context 'length' do
+          let(:pond) do
+            create(:pond, uuid: '03729ea0r77a7t4596pa661u6148c8878b91', release: release)
+          end
 
           it 'can NOT create a pond' do
             expect { pond }.to raise_error(ActiveRecord::RecordInvalid)
           end
         end
 
-        context 'type' do 
+        context 'type' do
           let(:pond) { create(:pond, uuid: 123, release: release) }
 
           it 'can NOT create a pond' do
@@ -102,7 +104,8 @@ RSpec.describe Pond, type: :model do
       end
 
       it 'creates unique_pond pond records' do
-        described_class.generate(amount: amount, location: location, unique_pond_code: 'GN', release_id: release.id)
+        described_class.generate(amount: amount, location: location, unique_pond_code: 'GN',
+                                 release_id: release.id)
         expect(described_class.last.key).to include('P-GN')
       end
     end
@@ -110,7 +113,8 @@ RSpec.describe Pond, type: :model do
     describe 'with invalid' do
       it 'unique_pond_code can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: amount, location: location, unique_pond_code: 'LONG', release_id: release.id)
+          described_class.generate(amount: amount, location: location, unique_pond_code: 'LONG',
+                                   release_id: release.id)
         end.to raise_error(Pond::GenerationError)
       end
 
@@ -123,13 +127,15 @@ RSpec.describe Pond, type: :model do
 
       it 'amount can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: 'L', location: location, unique_pond_code: 'MN', release_id: release.id)
+          described_class.generate(amount: 'L', location: location, unique_pond_code: 'MN',
+                                   release_id: release.id)
         end.to raise_error(Pond::GenerationError)
       end
 
       it 'amount size can NOT create unique_pond pond records' do
         expect do
-          described_class.generate(amount: 500, location: location, unique_pond_code: 'MN', release_id: release.id)
+          described_class.generate(amount: 500, location: location, unique_pond_code: 'MN',
+                                   release_id: release.id)
         end.to raise_error(Pond::GenerationError)
       end
     end
@@ -170,7 +176,7 @@ RSpec.describe Pond, type: :model do
     end
   end
 
-  describe '#to_param' do 
+  describe '#to_param' do
     it 'returns key' do
       expect(pond.to_param).to eq pond.key
     end

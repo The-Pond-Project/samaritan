@@ -16,8 +16,8 @@ RSpec.describe Tag, type: :model do
   describe '#create' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:description) }
-    it { should validate_length_of(:name).is_at_least(1).is_at_most(45) }
-    it { should validate_length_of(:description).is_at_least(5).is_at_most(350) }
+    it { is_expected.to validate_length_of(:name).is_at_least(1).is_at_most(45) }
+    it { is_expected.to validate_length_of(:description).is_at_least(5).is_at_most(350) }
 
     describe 'with valid data' do
       it 'can create a tag' do
@@ -72,7 +72,7 @@ RSpec.describe Tag, type: :model do
     end
   end
 
-  describe '#to_param' do 
+  describe '#to_param' do
     it 'returns name' do
       expect(tag.to_param).to eq tag.name
     end

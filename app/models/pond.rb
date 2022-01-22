@@ -54,7 +54,7 @@ class Pond < ApplicationRecord
   # This method is a class method that will generate x amount of pond objects.
   # You can pass in a 2 Char unique pond code and a location hash
   # Amount: Interger, Location: Hash, unique_pond_code: Nil or String(2)
-  def self.generate(amount:, location: {}, release_id:, unique_pond_code: nil)
+  def self.generate(amount:, release_id:, location: {}, unique_pond_code: nil)
     validate_generate_args(amount: amount, location: location,
                            unique_pond_code: unique_pond_code, release_id: release_id)
 
