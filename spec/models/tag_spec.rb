@@ -16,6 +16,8 @@ RSpec.describe Tag, type: :model do
   describe '#create' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:description) }
+    it { should validate_length_of(:name).is_at_least(1).is_at_most(45) }
+    it { should validate_length_of(:description).is_at_least(5).is_at_most(350) }
 
     describe 'with valid data' do
       it 'can create a tag' do
@@ -41,30 +43,6 @@ RSpec.describe Tag, type: :model do
             expect { tag }.to raise_error(ActiveRecord::RecordInvalid)
           end
         end
-
-        context 'size' do
-          let(:tag) do
-            create(:tag, name: "##{Faker::Lorem.characters(number: 25)}",
-                         organization: organization)
-          end
-
-          it 'can NOT create a tag' do
-            expect { tag }.to raise_error(ActiveRecord::RecordInvalid)
-          end
-        end
-      end
-
-      describe '#description' do
-        context 'size' do
-          let(:tag) do
-            create(:tag, description: Faker::Lorem.characters(number: 250),
-                         organization: organization)
-          end
-
-          it 'can NOT create a tag' do
-            expect { tag }.to raise_error(ActiveRecord::RecordInvalid)
-          end
-        end
       end
     end
   end
@@ -78,22 +56,25 @@ RSpec.describe Tag, type: :model do
 
   describe '#approved' do
     it 'returns all approved tags' do
-      approved_tags
       expect(described_class.approved).to eq approved_tags
     end
   end
 
   describe '#pending_approval' do
     it 'returns all tags pending approval' do
-      pending_approval
       expect(described_class.pending_approval).to eq pending_approval
     end
   end
 
   describe '#denied' do
     it 'returns all denied tags' do
-      denied
       expect(described_class.denied).to eq denied
+    end
+  end
+
+  describe '#to_param' do 
+    it 'returns name' do
+      expect(tag.to_param).to eq tag.name
     end
   end
 end
