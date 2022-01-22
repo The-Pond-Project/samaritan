@@ -12,4 +12,6 @@ class MessageSubscription < ApplicationRecord
 
   # Validations
   validates :ripple_uuid, :phone_number, presence: true
+  validates :ripple_uuid, length: { is: 36 }
+  validates :phone_number, length: { in: 8..15 }
 end
