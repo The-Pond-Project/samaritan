@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe '/ripples', type: :request do
   let(:ripples) { create_list(:ripple, 2) }
-  let(:ripple) { create(:ripple) }
   let(:pond) { create(:pond) }
+  let(:ripple) { create(:ripple, pond: pond) }
 
   let(:valid_attributes) do
     { pond: pond }
@@ -18,21 +18,21 @@ RSpec.describe '/ripples', type: :request do
   describe 'GET /index' do
     it 'renders a successful response' do
       ripples
-      get ripples_url
+      get pond_ripples_url(pond)
       expect(response).to be_successful
     end
   end
 
   describe 'GET /show' do
     it 'renders a successful response' do
-      get ripple_url(ripple.uuid)
+      get pond_ripple_url(pond, ripple)
       expect(response).to be_successful
     end
   end
 
   describe 'GET /new' do
     it 'renders a successful response' do
-      get new_pond_ripple_url(pond.key)
+      get new_pond_ripple_url(pond)
       expect(response).to be_successful
     end
   end
