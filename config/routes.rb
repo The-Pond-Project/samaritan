@@ -70,8 +70,8 @@ Rails.application.routes.draw do
     end
   end 
 
-    # Pages
-    get '/ripples', to: 'pages#ripples'
+  # Pages
+  get '/ripples', to: 'pages#ripples'
 
   # Ponds and Ripples
   resources :ponds, param: :key, only: [:index, :show] do

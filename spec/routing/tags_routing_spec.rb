@@ -19,9 +19,5 @@ RSpec.describe TagsController, type: :routing do
     it 'routes to #create' do
       expect(post: '/tags').to route_to('tags#create')
     end
-
-    it 'routes to #destroy' do
-      expect(delete: '/tags/kindnesspassedon').to route_to('tags#destroy', name: 'kindnesspassedon')
-    end
   end
 end
