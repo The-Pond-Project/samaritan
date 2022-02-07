@@ -8,6 +8,8 @@ RSpec.describe Organization, type: :model do
     it { is_expected.to validate_presence_of(:description) }
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_least(5).is_at_most(45) }
+    it { is_expected.to validate_length_of(:description).is_at_least(5).is_at_most(350) }
 
     context 'with valid data' do
       it 'can create a organization' do
@@ -31,6 +33,12 @@ RSpec.describe Organization, type: :model do
           expect { organization }.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
+    end
+  end
+
+  describe '#to_param' do
+    it 'returns name' do
+      expect(organization.to_param).to eq organization.name
     end
   end
 end

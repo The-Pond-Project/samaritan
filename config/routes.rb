@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  root 'pages#home'
-  # Pages
-  get '/ripples', to: 'pages#ripples'
+  unauthenticated do
+    root 'pages#home'
+  end 
 
   # Service Workers
   get '/service-worker.js', to: 'service_workers/workers#index'
@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   # Super Admin User
   authenticated :user, ->(u) { u.super_admin? } do
+    root 'ponds#index', as: :manager_root
+
     devise_scope :user do
       get "/users/invitation/accept", to: "devise/invitations#edit",   as: 'manage_accept_user_invitation'
       get '/users/invitation/new', to: 'devise/invitations#new', as: 'manage_new_user_invitation'
@@ -68,6 +70,8 @@ Rails.application.routes.draw do
     end
   end 
 
+  # Pages
+  get '/ripples', to: 'pages#ripples'
 
   # Ponds and Ripples
   resources :ponds, param: :key, only: [:index, :show] do

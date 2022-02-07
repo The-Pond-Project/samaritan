@@ -27,6 +27,8 @@ class Pond < ApplicationRecord
 
   # Validations
   validates :uuid, :key, presence: true, uniqueness: true
+  validates :uuid, length: { is: 36 }
+  validates :key, length: { is: 8 }
   validate :validate_key, :validate_uuid
 
   # Alias Attributes
@@ -52,9 +54,9 @@ class Pond < ApplicationRecord
   # This method is a class method that will generate x amount of pond objects.
   # You can pass in a 2 Char unique pond code and a location hash
   # Amount: Interger, Location: Hash, unique_pond_code: Nil or String(2)
-  def self.generate(amount:, location: {}, unique_pond_code: nil)
+  def self.generate(amount:, release_id:, location: {}, unique_pond_code: nil)
     validate_generate_args(amount: amount, location: location,
-                           unique_pond_code: unique_pond_code)
+                           unique_pond_code: unique_pond_code, release_id: release_id)
 
     amount.times do
       create(
@@ -62,7 +64,8 @@ class Pond < ApplicationRecord
         postal_code: location[:postal_code],
         city: location[:city],
         region: location[:region],
-        country: location[:country]
+        country: location[:country],
+        release_id: release_id
       )
     end
   end
@@ -133,11 +136,12 @@ class Pond < ApplicationRecord
     "P-#{unique_code}".upcase + SecureRandom.hex(2).upcase
   end
 
-  def self.validate_generate_args(amount:, location:, unique_pond_code: nil)
+  def self.validate_generate_args(amount:, location:, release_id:, unique_pond_code: nil)
     if unique_pond_code && unique_pond_code.size > 2
       raise GenerationError, 'Pond Code must be 2 characters'
     end
 
+    raise GenerationError, 'Release is can not be nil' unless release_id.is_a?(Integer)
     raise GenerationError, 'Pond location must be hash' unless location.is_a?(Hash)
     raise GenerationError, 'Amount must be Integer' unless amount.is_a?(Integer)
     raise GenerationError, 'Amount must be lower than 250' unless amount <= 250

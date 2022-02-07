@@ -15,6 +15,8 @@ class Story < ApplicationRecord
 
   # Validations
   validates :body, presence: true
+  validates :body, length: { in: 5..2000 }
+  validates :title, length: { maximum: 45 }
 
   # Callbacks
   after_initialize :initialize_uuid,

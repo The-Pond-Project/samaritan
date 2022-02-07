@@ -18,8 +18,8 @@ class Tag < ApplicationRecord
   validate  :validate_tag_name
   validates :name, presence: true, uniqueness: true
   validates :description, presence: true
-  validates :description, length: { maximum: 200 }
-  validates :name, length: { maximum: 25 }
+  validates :name, length: { in: 1..45 }
+  validates :description, length: { in: 5..350 }
 
   # Associations
   belongs_to :organization

@@ -27,7 +27,8 @@ module Manage
       @tag = Tag.new(tag_params)
 
       if @tag.save
-        redirect_to manage_organization_tag_url(@tag.organization, @tag), notice: 'Tag was successfully created.'
+        redirect_to manage_organization_tag_url(@tag.organization, @tag),
+                    notice: 'Tag was successfully created.'
       else
         render :new, status: :unprocessable_entity
       end
@@ -45,7 +46,8 @@ module Manage
     def destroy
       @tag.destroy
 
-      redirect_to manage_orgnaization_tags_url(@organization), notice: 'Tag was successfully destroyed.'
+      redirect_to manage_orgnaization_tags_url(@organization),
+                  notice: 'Tag was successfully destroyed.'
     end
 
     private

@@ -29,6 +29,7 @@ class Ripple < ApplicationRecord
   validate :validate_uuid
   validate :tag_limit
   validates :uuid, presence: true, uniqueness: true
+  validates :uuid, length: { is: 36 }
   validates :pond_id, :country, :city, presence: true
 
   # Associations

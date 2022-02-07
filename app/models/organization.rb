@@ -20,6 +20,8 @@ class Organization < ApplicationRecord
   # Validations
   validates :name, uniqueness: true
   validates :name, :description, presence: true, uniqueness: true
+  validates :name, length: { in: 5..45 }
+  validates :description, length: { in: 5..350 }
   validate :correct_image_type
   validate :url_format
 

@@ -30,13 +30,6 @@ RSpec.describe '/organizations', type: :request do
     end
   end
 
-  describe 'GET /new' do
-    it 'renders a successful response' do
-      get new_organization_url
-      expect(response).to be_successful
-    end
-  end
-
   # describe "GET /edit" do
   #   it "render a successful response" do
   #     organization = Organization.create! valid_attributes

@@ -16,7 +16,7 @@ RSpec.describe '/ponds', type: :request do
 
   describe 'GET /show' do
     it 'renders a successful response' do
-      get pond_url(pond.key)
+      get pond_url(pond)
       expect(response).to be_successful
     end
   end
