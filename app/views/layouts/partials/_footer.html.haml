@@ -1,0 +1,64 @@
+-#  fixed-bottom
+%footer 
+  .container
+    .row
+      .col-md-4.footer-column
+        %ul.nav.flex-column
+          %li.nav-item
+            %span.footer-title Impact
+          %li.nav-item
+            = link_to 'Organizations', organizations_path, class: 'nav-link'
+          %li.nav-item
+            = link_to 'Tags', tags_path, class: 'nav-link'
+          %li.nav-item
+            = link_to 'Ponds', ponds_path, class: 'nav-link'
+          %li.nav-item
+            = link_to 'Ripples', ripples_path, class: 'nav-link'
+      .col-md-4.footer-column
+        %ul.nav.flex-column
+          %li.nav-item
+            %span.footer-title Get Involved
+          %li.nav-item
+            %a.nav-link{:href => "#"} Donate
+          %li.nav-item
+            %a.nav-link{href: "https://github.com/The-Pond-Project/samaritan"} Contribute
+          %li.nav-item
+            %a.nav-link{:href => "#"} Partner
+      .col-md-4.footer-column
+        %ul.nav.flex-column
+          %li.nav-item
+            %span.footer-title Connect
+          %li.nav-item
+            %span.nav-link
+              +47 45 80 80 80
+          %li.nav-item
+            %a.nav-link{:href => "#"} Partner
+            -# = link_to 'Story of Kindness', new_story_path, class: 'nav-link'
+              %i.fas.fa-comments>
+          %li.nav-item
+            = mail_to "kindnesspassedon@gmail.com", 'Email'
+          %li.nav-item
+            %a.nav-link{:href => "#"} Report a bug
+    .text-center
+      %i.fas.fa-ellipsis-h
+    .row.text-center
+      .col-md-4.box
+        %span.copyright.quick-links
+          ThePondProject 2022
+      .col-md-4.box
+        %ul.list-inline.social-buttons
+          %li.list-inline-item
+            %a{:href => "#"}
+              %i.bi.bi-instagram
+          %li.list-inline-item
+            %a{:href => "#"}
+              %i.bi.bi-linkedin
+          %li.list-inline-item
+            %a{:href => "#"}
+              %i.bi.bi-facebook
+      .col-md-4.box
+        %ul.list-inline.quick-links
+          %li.list-inline-item
+            %a{:href => "#"} Privacy Policy
+          %li.list-inline-item
+            %a{:href => "#"} Terms of Use
