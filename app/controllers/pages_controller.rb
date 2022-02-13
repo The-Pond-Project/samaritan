@@ -5,6 +5,8 @@ class PagesController < ApplicationController
 
   def impact; end
 
+  def donate; end
+
   def ripples
     @ripples = Ripple.all.includes([:pond])
   end
