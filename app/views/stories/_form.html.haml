@@ -1,22 +1,25 @@
 = form_for @story do |f|
   - if @story.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@story.errors.count, "error")} prohibited this story from being saved:"
-      %ul
-        - @story.errors.full_messages.each do |message|
-          %li= message
+    .container
+      #error_explanation
+        %h2= "#{pluralize(@story.errors.count, "error")} prohibited this story from being saved:"
+        %ul
+          - @story.errors.full_messages.each do |message|
+            %li= message
 
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :body
-    = f.text_area :body
-  .field
-    = f.label :pond_key
-    = f.text_field :pond_key
-  .field
-    = f.label :ripple_uuid
-    = f.text_field :ripple_uuid
-  .actions
-    = f.submit 'Save'
+  .form-group
+    .container
+      .row.m-3 
+        .col
+          = f.text_field :title, placeholder: 'Title', class: 'form-control'
+      .row.m-3       
+        .col
+          = f.text_field :pond_key, placeholder: 'Pond Key (eg. P-ABC123)', class: 'form-control'
+        .col
+          = f.text_field :pond_key, placeholder: 'Ripple Id (eg. ds123-efds234-fasd2)', class: 'form-control'
+      .row.m-3       
+        .col
+          = f.text_area :body, placeholder: 'Tell your story...', class: 'form-control', size: '30x20'
+      .row.m-3 
+        .actions.m-3  
+          = f.submit 'Send', class: 'btn btn-outline-primary'
