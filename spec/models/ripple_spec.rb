@@ -213,8 +213,7 @@ RSpec.describe Ripple, type: :model do
   describe '#ripple_since' do
     it 'returns human readable time since' do
       ripples
-      ripples.last.created_at = ripples.last.created_at - 3.weeks
-      ripples.last.save
+      pond.ripples.last.update(created_at: pond.ripples.last.created_at - 3.weeks)
       expect(described_class.ripple_since).to eq '3 weeks ago'
     end
   end
