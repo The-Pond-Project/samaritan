@@ -209,4 +209,22 @@ RSpec.describe Ripple, type: :model do
       expect(ripple.to_param).to eq ripple.uuid
     end
   end
+
+  describe '#ripple_since' do
+    it 'returns human readable time since' do
+      ripples
+      ripples.last.created_at = ripples.last.created_at - 3.weeks
+      ripples.last.save
+      expect(described_class.ripple_since).to eq '3 weeks ago'
+    end
+  end
+
+  describe '#largest_pond' do
+    let(:pond_two) { create(:pond) }
+    it 'returns uuid' do
+      pond
+      pond_two
+      expect(Ripple.largest_pond).to eq pond.ripples.count
+    end
+  end
 end

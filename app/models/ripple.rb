@@ -59,7 +59,7 @@ class Ripple < ApplicationRecord
   # Example: '3 weeks ago'
   def self.ripple_since 
     created = last.created_at.to_time.to_i
-    today =  Time.now.to_time.to_i
+    today = Time.now.to_time.to_i
     (today - created).ago.to_words
   end
 
@@ -69,7 +69,7 @@ class Ripple < ApplicationRecord
   # Returns the largest pond size 
   # 
   def self.largest_pond 
-    group(:pond_id).count.values.max
+    group(:pond_id).count.values.max || 0
   end
 
   # For rails routing
