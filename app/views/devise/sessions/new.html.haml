@@ -1,0 +1,23 @@
+.login
+  .container-fluid
+    .row.no-gutter
+      .col-md-6.d-none.d-md-flex.login-bg-image
+      .col-md-6.bg-light
+        .session.d-flex.align-items-center.py-5
+          .container
+            .row
+              .col-lg-10.col-xl-7.mx-auto
+                .form-group.mb-3.session-header.fadeInDown
+                  %h1.text-uppercase.text-center Login
+                = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+                  .form-group.mb-3.fadeIn.first
+                    = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control rounded-pill border-0 shadow-sm px-4', placeholder: 'Email'
+                  .form-group.mb-3.fadeIn.second
+                    = f.password_field :password, autocomplete: "current-password", class: 'form-control rounded-pill border-0 shadow-sm px-4 text-warning', placeholder: 'Password'
+                  .form-group.mb-3.fadeIn.third
+                    = f.submit "Log in", class: 'form-control btn-block text-uppercase rounded-pill  shadow-sm m-0'
+                  - if devise_mapping.rememberable?
+                    .field.fadeIn.fourth.text-center
+                      = f.check_box :remember_me
+                      = f.label :remember_me
+                      = link_to "Forgot your password?", new_password_path(resource_name)

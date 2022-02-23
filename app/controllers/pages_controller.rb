@@ -7,6 +7,8 @@ class PagesController < ApplicationController
 
   def donate; end
 
+  def contribute; end
+
   def ripples
     @ripples = Ripple.all.includes([:pond])
   end

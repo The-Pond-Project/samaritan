@@ -35,6 +35,23 @@ class Tag < ApplicationRecord
   scope :pending_approval, -> { where({ approved: nil }) }
   scope :denied, -> { where({ approved: false }) }
 
+  # Public Class Method
+  # Return the most popular tag
+  #
+  def self.most_popular
+    tags_hash = joins(:ripples_tags).group(:tag_id).count
+    tag_id = tags_hash.max_by { |k, v| v }[0]
+    find_by(id: tag_id)
+  end
+
+  def self.leaderboard
+    includes(:organization)
+      .joins(:ripples_tags)
+      .group('tag_id', 'tags.id', 'tags.name')
+      .order('COUNT(tags.id) DESC')
+      .limit(5)
+  end
+
   # For rails routing
   # Override id as default route param
   def to_param

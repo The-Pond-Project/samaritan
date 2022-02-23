@@ -18,6 +18,14 @@ module PondRippleConcern
     DOMESTIC.include?(country)
   end
 
+  #
+  # Public Instance Method
+  #
+  # Returns full location in string form
+  def full_location 
+    "#{city}, #{region}, #{country}"
+  end
+
   private
 
   def initialize_uuid

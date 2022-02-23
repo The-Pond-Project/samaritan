@@ -1,27 +1,27 @@
-%h1 Listing ponds
+.pond-jumbotron
+  .container
+    .row.custom-section.d-flex.align-items-start
+      .col-12.col-lg-10
+        -# %h1.fw-bol.tron-text{ style: 'font-weight: bold; font-size: 65px'} Donate. Participate through giving
+        -# = link_to 'Give to ThePondProject', root_path, class:'btn btn-primary'
 
-%table
-  %thead
-    %tr
-      %th Uuid
-      %th Postal code
-      %th City
-      %th Region
-      %th Country
-      %th Key
-      %th
-      %th
-      %th
-
-  %tbody
+.ponds 
+  .container#grid
     - @ponds.each do |pond|
-      %tr
-        %td= pond.uuid
-        %td= pond.postal_code
-        %td= pond.city
-        %td= pond.region
-        %td= pond.country
-        %td= pond.key
-        %td= link_to 'Show', pond_path(pond.key)
-
-%br
+      = link_to pond_path(pond.key) do
+        .col-sm-4.profile
+          .border-background
+            .card{ style: 'border: 2px solid #E7F2F6;' } 
+              .card__top
+                %span= pond.key
+                %span Key
+              .card__bottom
+                %div
+                  %div Impact 
+                  %div= pond.impact
+                %div
+                  %div International
+                  %div= pond.international_impact
+                %div
+                  %div Domestic
+                  %div= pond.domestic_impact

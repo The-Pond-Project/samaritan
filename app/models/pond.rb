@@ -41,7 +41,8 @@ class Pond < ApplicationRecord
   has_one :organization, through: :release
 
   # Scopes
-  scope :inactive, -> { where('updated_at < ?', Date.current.year - 45) }
+  scope :inactive, -> { where(['updated_at < ?', Time.now - 45.days]) }
+  scope :active, -> { where.not(['updated_at < ?', Time.now - 45.days]) }
 
   # Gem Configurations
   has_paper_trail
@@ -101,6 +102,18 @@ class Pond < ApplicationRecord
   def last_ripple
     ripples.last
   end
+
+  #
+  # Public Instance Method
+  #
+  # Returns when the time since ponds last ripple was recorded and now
+  # Example: '3 weeks ago'
+  def ripple_since 
+    created = ripples.last.created_at.to_time.to_i
+    today =  Time.now.to_time.to_i
+    (today - created).ago.to_words
+  end
+
 
   # For rails routing
   # Override id as default route param

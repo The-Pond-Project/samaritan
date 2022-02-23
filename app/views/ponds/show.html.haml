@@ -1,37 +1,90 @@
-%p#notice= notice
-%h2
-  = @pond.key
+.pond.m-5.p-2
+  .container
+    %h1.text-center= @pond.key
+    %hr/
+    .row
+      .col-sm-8
+        %iframe{:allowfullscreen => "", :frameborder => "0", :height => "540", :src => "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11880.492291371422!2d12.4922309!3d41.8902102!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x28f1c82e908503c4!2sColosseo!5e0!3m2!1sit!2sit!4v1524815927977", :style => "border:0", :width => "100%"}
+      #contact2.col-sm-4
+        %h3 About This Pond
+        %hr{:align => "left", :width => "50%"}/
+        %h4.pt-2{ style: 'color: #1484ac' } Location
+        - if @pond.postal_code
+          %p
+            %b Postal code:
+            = @pond.postal_code
+        - if @pond.city
+          %p
+            %b City:
+            = @pond.city
+        - if @pond.region.present?
+          - if @pond.domestic?
+            %p
+              %b State:
+              = @pond.state
+          - else
+            %p
+              %b Region:
+              = @pond.region
+          
+        - if @pond.country
+          %p
+            %b Country:
+            = @pond.country
+        %br/
+        = link_to(pond_ripples_path(@pond)) do
+          %h4.pt-2{ style: 'color: #1484ac' } Impact
+        %p
+          %b Domestic Impact:
+          = @pond.domestic_impact
+        %p
+          %b International Impact:
+          = @pond.international_impact
+        %br/
+        %h4.pt-2{ style: 'color: #1484ac' } Since last Ripple
+        %p
+          %b= @pond.ripple_since
+        %br/
+        %h4.pt-2{ style: 'color: #1484ac' } Details
+        %p
+          %b Organization:
+          = link_to @pond.organization.name, organization_path(@pond.organization)
+        %p
+          %b Release:
+          = link_to @pond.release.name, organization_release_path(@pond.organization, @pond.release)
+        %p
+          %b ID:
+          = @pond.uuid
+        %p
+          %b Created:
+          = local_time_ago(@pond.created_at)
+        %br/
 
-- if @pond.postal_code
-  %p
-    %b Postal code:
-    = @pond.postal_code
-- if @pond.city
-  %p
-    %b City:
-    = @pond.city
-- if @pond.region
-  %p
-  - if @pond.domestic?
-    %b State:
-    = @pond.region
-  - else
-    %b Region:
-    = @pond.region
-  
-- if @pond.country
-  %p
-    %b Country:
-    = @pond.country
-  %p
-    %b Created: 
-    = local_time_ago(@pond.created_at)
 
-%h4 Ripples
 
-%ul
-- @ripples.each do |ripple|
-  %li= ripple.uuid
-  
-\|
-= link_to 'Back', ponds_path
+%section.pt-5.pb-5
+  .container
+    .row
+      .col-6
+        %h3.mb-3 Ripples
+      .col-6.text-right
+        %a.btn.btn-primary.mb-3.mr-1{"data-slide" => "prev", :href => "#carouselExampleIndicators2", :role => "button"}
+          %i.bi.bi-chevron-left
+        %a.btn.btn-primary.mb-3{"data-slide" => "next", :href => "#carouselExampleIndicators2", :role => "button"}     
+          %i.bi.bi-chevron-right
+      .col-12
+        #carouselExampleIndicators2.carousel.slide{"data-ride" => "carousel"}
+          .carousel-inner
+            - @pond.ripples.each_slice(3).to_a.each_with_index do |group, index|
+              .carousel-item{ class: "#{ index == 0 ? 'active' : '' }"}
+                .row
+                  - group.each do |ripple|
+                    .col-md-4.mb-3.d-flex.align-items-stretch
+                      .card
+                        = image_tag('default_map.png', class: 'img-fluid', alt: 'map' )
+                        .card-body
+                          = link_to pond_ripple_path(@pond, ripple), class: 'ripple-pond-a' do
+                            %h4.card-title= "#{ripple.city}, #{ripple.region}"
+                            %p.card-text
+                              %b Created:
+                              = local_time_ago(ripple.created_at)

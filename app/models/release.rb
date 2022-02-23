@@ -27,4 +27,17 @@ class Release < ApplicationRecord
   # Associations
   has_many :ponds
   belongs_to :organization
+
+  # Public Class Mehtod
+  #
+  #
+  # Returns the dividen of the total releases 
+  #
+  def self.average_release_size
+    releases = Release.count
+    # since every pond has to belong to a release 
+    # we can just use the count of all ponds
+    ponds = Pond.count
+    ponds / releases
+  end
 end

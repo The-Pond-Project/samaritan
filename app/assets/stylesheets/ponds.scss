@@ -1,0 +1,61 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,700';
+
+.ponds{
+
+  margin: 0;    
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  
+  #grid {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  .profile {
+    padding: 7px;
+  }
+  }
+  
+  .card {
+  background-image: url('https://cdn.easymapmaker.com/map_styles/default.png');
+  height: 300px;
+  border-radius: 10px;
+  
+  &__top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80%;
+    color: grey;
+    span:nth-child(1) {
+      color: #1484ac;
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+    span:nth-child(2) {
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+  }
+  &__bottom {
+    height: 20%;
+    background-color: #e8ecf6;
+    color: grey;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+    border-top: 1px solid lightgrey;
+    
+    & > div > div:nth-child(2) {
+      font-weight: bold;
+    }
+  }
+  }
+
+  .border-background{
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.33, rgb(14,173,173)), color-stop(0.67, rgb(0,255,255)));
+    background-image: -moz-linear-gradient(center bottom, rgb(14,173,173) 33%, rgb(0,255,255) 67% );
+    padding: 2px;
+  }
+  
+}

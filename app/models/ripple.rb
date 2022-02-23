@@ -35,7 +35,7 @@ class Ripple < ApplicationRecord
   # Associations
   belongs_to :user, optional: true
   belongs_to :pond, touch: true
-  has_and_belongs_to_many :tags
+  has_and_belongs_to_many :tags, touch: true
 
   # Gem Configurations
   has_paper_trail
@@ -48,6 +48,29 @@ class Ripple < ApplicationRecord
 
   # Aliases
   alias_attribute :state, :region
+
+  # Scopes
+  scope :last_thirty_days, -> { where(['created_at >= ?', Time.now - 30.days]) }
+
+  #
+  # Public Class Method
+  #
+  # Returns when the time since the last was ripple recorded and now
+  # Example: '3 weeks ago'
+  def self.ripple_since 
+    created = last.created_at.to_time.to_i
+    today =  Time.now.to_time.to_i
+    (today - created).ago.to_words
+  end
+
+  #
+  # Public Class Method
+  #
+  # Returns the largest pond size 
+  # 
+  def self.largest_pond 
+    group(:pond_id).count.values.max
+  end
 
   # For rails routing
   # Override id as default route param
