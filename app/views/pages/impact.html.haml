@@ -1,0 +1,133 @@
+.main-content.impact-cards
+  .header.bg-gradient-primary.pb-8.pt-5.pt-md-8
+    .container-fluid
+      %h1.text-white Impact Stats
+      %p.mb-5.text-white These are the stats since the first release of KindCards in March 2022.
+      .header-body
+        .row
+          .col-xl-3.col-lg-6
+            .card.card-stats.mb-4.mb-xl-0      
+              .card-body
+                .row
+                  .col
+                    %h5.card-title.text-uppercase.text-muted.mb-0 Active Ponds
+                    %span.h2.font-weight-bold.mb-0= Pond.active.count
+                  .col-auto
+                    .icon.icon-shape.bg-pond-blue.text-white.rounded-circle.shadow
+                      %span.material-icons-outlined.material-icons style
+                %p.mt-3.mb-0.text-muted.text-sm
+                  %span.mr-2
+                    %i.fa.fa-arrow-up
+                    = Pond.count
+                  %span.text-nowrap Total Ponds
+          .col-xl-3.col-lg-6
+            .card.card-stats.mb-4.mb-xl-0
+              .card-body
+                .row
+                  .col
+                    %h5.card-title.text-uppercase.text-muted.mb-0 Ripples
+                    %span.h2.font-weight-bold.mb-0= Ripple.count
+                  .col-auto
+                    .icon.icon-shape.bg-primary.text-white.rounded-circle.shadow
+                      %i.bi.bi-droplet-fill
+                %p.mt-3.mb-0.text-muted.text-sm
+                  %span.text-success.mr-2
+                    %i.fas.fa-arrow-down
+                    = Ripple.last_thirty_days.count
+                  %span.text-nowrap In the last 30 days
+          .col-xl-3.col-lg-6
+            .card.card-stats.mb-4.mb-xl-0
+              .card-body
+                .row
+                  .col
+                    %h5.card-title.text-uppercase.text-muted.mb-0 Releases
+                    %span.h2.font-weight-bold.mb-0= Release.count
+                  .col-auto
+                    .icon.icon-shape.bg-gold.text-white.rounded-circle.shadow
+                      %i.bi.bi-calendar3
+                %p.mt-3.mb-0.text-muted.text-sm
+                  %span.text-primary.mr-2
+                    %i.fas.fa-arrow-down
+                    = Release.average_release_size
+                  %span.text-nowrap Average Release Size
+          .col-xl-3.col-lg-6
+            .card.card-stats.mb-4.mb-xl-0
+              .card-body
+                .row
+                  .col
+                    %h5.card-title.text-uppercase.text-muted.mb-0 Partnered organizations
+                    %span.h2.font-weight-bold.mb-0= Organization.count
+                  .col-auto
+                    .icon.icon-shape.bg-green.text-white.rounded-circle.shadow
+                      %i.bi.bi-building
+                %p.mt-3.mb-0.text-muted.text-sm
+                  %span.mr-2
+                    %i.fas.fa-arrow-up
+                    = link_to Organization.last.name, organization_path(Organization.last)
+                  %span.text-nowrap Recent Partner
+
+.impact-leaderboard
+  .container
+    .h1.text-center.mb-4
+      %strong
+        %span{ style: 'color: #1484ac '}= Tag.most_popular.name
+      is the most used tag
+    .col-md-12.col-sm-12.col-xs-12
+      .row
+        .col-md-12
+          .widget-box
+            .widget-header.bordered-bottom.bordered-themesecondary
+            .widget-body
+              .widget-main.no-padding
+                .tickets-container
+                  %ul.tickets-list
+                    - Tag.leaderboard.each do |tag|
+                      %li.ticket-item
+                        .row
+                          .ticket-user.col-md-6.col-sm-12
+                            %span.tag-name= tag.name
+                            %span.user-at by
+                            %span.user-company= tag.organization.name
+                          .ticket-time.col-md-4.col-sm-6.col-xs-12
+                            .divider.hidden-md.hidden-sm.hidden-xs
+                            %i.fa.fa-clock-o
+                            %span.time= "Last used #{tag.ripples.last.pond.ripple_since}"
+                          .ticket-type.col-md-2.col-sm-6.col-xs-12
+                            %span.divider.hidden-xs
+                            %span.type 
+                              %strong Total
+                              = tag.ripples.count
+
+.impact-time-since
+  .container
+    %h1.text-center.m-4
+      The last Ripple of Kindness was 
+      %strong
+        %span{ style: 'color: #1484ac '}= Ripple.ripple_since
+
+.container.ripple-stats.mt-4
+  %section#our-stats
+    .row.mb-5
+      .col.text-center
+        %h2.text-green.h1.text-center More Stats
+        %p.text-uppercase.font-italic.font-weight-light Detailed look at ripples and ponds
+    .row.text-center.mb-2
+      .col-md-4
+        .counter
+          %h2.timer.count-title.count-number= Ripple.largest_pond
+          %p.count-text Largest Pond size
+      .col-md-4
+        .counter
+          %h2.timer.count-title.count-number= Ripple.international.count
+          %p.count-text International Ripples
+      .col-md-4
+        .counter
+          %h2.timer.count-title.count-number= Ripple.domestic.count
+          %p.count-text Domestic Ripples
+
+.impact-last-location
+  .container
+    %h1.text-center.m-4
+      The last Ripple Location
+      %strong
+        %span{ style: 'color: #1484ac '}= Ripple.last.full_location

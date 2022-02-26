@@ -1,22 +1,55 @@
-%h1 Listing organizations
+.partner-jumbotron
+  .container
+    .row.custom-section.d-flex.align-items-start
+      .col-12.col-lg-10
+        %h1.fw-bol.tron-text{ style: 'font-weight: bold; font-size: 45px'} Participate through collaboration
+        %p.fw-light.tron-text{ style: 'font-weight: 300; width: 60%; font-size: 16px;'} We welcome businesses or organizations to partner with us in our mission.
+        = link_to 'Learn More', root_path, class:'btn btn-primary'
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th Address
-      %th Website
-      %th
-      %th
-      %th
 
-  %tbody
-    - @organizations.each do |organization|
-      %tr
-        %td= organization.name
-        %td= organization.description
-        %td= organization.address
-        %td= organization.website
-        %td= link_to 'Show', organization_path(organization.name)
+.container.organizations
+  .row
+    .container
+      %h1.text-center.m-4{ style: 'color: #edc06d'} Partnered Organizations
+      .list-group
+      - @organizations.each do |organization|
+        %a{:href => "#"}
+        .row.border.p-4.m-3.rounded
+          .media.col-md-3
+            %figure.pull-left
+              - if organization.image.attached?
+                = image_tag(organization.image, size: '350x250', alt: "#{organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
+              - else
+                = image_tag('logo_default', size: '350x250', alt: "#{organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
+          .col-md-6.pt-5.pb-5
+            %h4.list-group-item-heading About
+            %p.list-group-item-text= organization.description
+          .col-md-3.text-center.pt-5.pb-5
+            %h2
+              = organization.ponds.count
+              %small ponds
+            %button.btn.btn-default.btn-lg.btn-block{:type => "button"} View About
+
+-# .container
+-#   %h1 Listing organizations
+
+-#   %table
+-#     %thead
+-#       %tr
+-#         %th Name
+-#         %th Description
+-#         %th Address
+-#         %th Website
+-#         %th
+-#         %th
+-#         %th
+
+-#     %tbody
+-#       - @organizations.each do |organization|
+-#         %tr
+-#           %td= organization.name
+-#           %td= organization.description
+-#           %td= organization.address
+-#           %td= organization.website
+-#           %td= link_to 'Show', organization_path(organization.name)
 

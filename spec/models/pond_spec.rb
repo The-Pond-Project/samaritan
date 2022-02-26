@@ -16,8 +16,8 @@ RSpec.describe Pond, type: :model do
   let(:amount) { 3 }
   let(:release) { create(:release) }
   let(:pond) { create(:pond, country: 'US', release: release) }
-  let(:ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'US') }
-  let(:international_ripples) { create_list(:ripple, 3, user: user, pond: pond, country: 'GB') }
+  let(:ripples) { create_list(:ripple, 3, pond: pond, country: 'US') }
+  let(:international_ripples) { create_list(:ripple, 3, pond: pond, country: 'GB') }
 
   describe '#create' do
     describe 'with valid data' do
@@ -179,6 +179,14 @@ RSpec.describe Pond, type: :model do
   describe '#to_param' do
     it 'returns key' do
       expect(pond.to_param).to eq pond.key
+    end
+  end
+
+  describe '#ripple_since' do
+    it 'returns human readable time since' do
+      ripples
+      pond.ripples.last.update(created_at: pond.ripples.last.created_at - 3.weeks)
+      expect(pond.ripple_since).to eq '3 weeks ago'
     end
   end
 end

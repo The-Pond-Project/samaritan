@@ -72,6 +72,9 @@ Rails.application.routes.draw do
 
   # Pages
   get '/ripples', to: 'pages#ripples'
+  get '/impact', to: 'pages#impact'
+  get '/donate', to: 'pages#donate'
+  get '/contribute', to: 'pages#contribute'
 
   # Ponds and Ripples
   resources :ponds, param: :key, only: [:index, :show] do
