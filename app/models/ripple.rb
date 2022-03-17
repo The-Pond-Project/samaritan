@@ -50,14 +50,14 @@ class Ripple < ApplicationRecord
   alias_attribute :state, :region
 
   # Scopes
-  scope :last_thirty_days, -> { where(['created_at >= ?', Time.now - 30.days]) }
+  scope :last_thirty_days, -> { where(['created_at >= ?', Time.zone.now - 30.days]) }
 
   #
   # Public Class Method
   #
   # Returns when the time since the last was ripple recorded and now
   # Example: '3 weeks ago'
-  def self.ripple_since 
+  def self.ripple_since
     created = last.created_at.to_time.to_i
     today = Time.now.to_time.to_i
     (today - created).ago.to_words
@@ -66,9 +66,9 @@ class Ripple < ApplicationRecord
   #
   # Public Class Method
   #
-  # Returns the largest pond size 
-  # 
-  def self.largest_pond 
+  # Returns the largest pond size
+  #
+  def self.largest_pond
     group(:pond_id).count.values.max || 0
   end
 

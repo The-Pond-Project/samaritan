@@ -5,7 +5,9 @@ class PagesController < ApplicationController
 
   def impact; end
 
-  def donate; end
+  def donate
+    @bills = Bill.all
+  end
 
   def contribute; end
 

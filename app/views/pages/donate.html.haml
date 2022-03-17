@@ -17,45 +17,13 @@
     .col-12.m-3
       %h1 Costs and Receipts
       %h4.text-secondary.pt-5 2022
-    .col-12.col-sm-6.col-md-4
-      .card
-        %a{:href => "#"}
+    - @bills.each do |bill|
+      .col-12.col-sm-6.col-md-4
+        .card
           .card-body.d-flex.align-items-center
             .pl-3.data
-              %h5 Ngrok
+              %h5= link_to(bill.name, bill.document, download: '')
               %p.m-0
-                Yearly Statement for Ngrok. A development tool.
-    .col-12.col-sm-6.col-md-4
-      .card
-        %a{:href => "#"}
-          .card-body.d-flex.align-items-center
-            .pl-3.data
-              %h5 Ngrok
-              %p.m-0
-                Yearly Statement for Ngrok. A development tool.
-    .col-12.col-sm-6.col-md-4
-      .card
-        %a{:href => "#"}
-          .card-body.d-flex.align-items-center
-            .pl-3.data
-              %h5 Ngrok
-              %p.m-0
-                Yearly Statement for Ngrok. A development tool.
-  .row.mt-4
-    .col-12.col-sm-6.col-md-4
-      .card
-        %a{:href => "#"}
-          .card-body.d-flex.align-items-center
-            .pl-3.data
-              %h5 Ngrok
-              %p.m-0
-                Yearly Statement for Ngrok. A development tool.
-    .col-12.col-sm-6.col-md-4
-      .card
-        %a{:href => "#"}
-          .card-body.d-flex.align-items-center
-            .pl-3.data
-              %h5 Ngrok
-              %p.m-0
-                Yearly Statement for Ngrok. A development tool.  
+                = bill.description
+
     

@@ -22,7 +22,7 @@ module PondRippleConcern
   # Public Instance Method
   #
   # Returns full location in string form
-  def full_location 
+  def full_location
     "#{city}, #{region}, #{country}"
   end
 

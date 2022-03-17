@@ -36,3 +36,14 @@ MessageSubscription.create(ripple_uuid: Ripple.first.uuid, phone_number: '+16148
 
 # Stories
 Story.create(title: 'A story of kindness', body: 'This is a great story.')
+
+# Bills
+Bill.create(
+  name: 'NGROK HTTP Development Tunneling',
+  description: 'Ngrok is a tool used for development of the Mission For Kindness Platform.',
+  recurrence: 0,
+  expense_type: 0,
+  amount: 60.00,
+  paid: false,
+  due_at: Time.current + 365.days
+)

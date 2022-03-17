@@ -46,6 +46,7 @@ Rails.application.routes.draw do
 
       resources :tags, param: :name
       resources :stories, param: :uuid
+      resources :bills
       resources :organizations, param: :name do 
         resources :releases
         resources :tags, param: :name, only: [:index, :show]
