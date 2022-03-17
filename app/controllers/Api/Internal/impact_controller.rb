@@ -7,7 +7,7 @@ module Api
       end
 
       def show
-        render json: ::Impact.new
+        render json: ::Impact.new, serializer: ::Internal::ImpactSerializer
       end
 
       def count

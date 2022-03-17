@@ -8,7 +8,7 @@ module Api
       end
 
       def show
-        render json: @pond
+        render json: @pond, serializer: ::Internal::PondSerializer 
       end
 
       private

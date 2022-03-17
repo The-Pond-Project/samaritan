@@ -8,7 +8,7 @@ module Api
       end
 
       def show
-        render json: @ripple
+        render json: @ripple, serializer: ::Internal::RippleSerializer
       end
 
       private
