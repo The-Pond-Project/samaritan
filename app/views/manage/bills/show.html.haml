@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @bill.name
+%p
+  %b Description:
+  = @bill.description
+%p
+  %b Recurrence:
+  = @bill.recurrence
+%p
+  %b Type:
+  = @bill.expense_type
+%p
+  %b Amount:
+  = @bill.amount
+%p
+  %b Paid:
+  = @bill.paid
+%p
+  %b Due:
+  = local_time_ago(@bill.due_at)
+- if @bill.document.present?
+  %p
+    = link_to( 'View Document', @bill.document, download: '')
+
+= link_to 'Edit', edit_manage_bill_path(@bill)
+\|
+= link_to 'Back', manage_bills_path

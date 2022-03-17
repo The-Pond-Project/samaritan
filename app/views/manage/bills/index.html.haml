@@ -1,0 +1,31 @@
+%h1 Listing bills
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Recurrence
+      %th Type
+      %th Amount
+      %th Paid
+      %th Due
+      %th
+      %th
+      %th
+
+  %tbody
+    - @bills.each do |bill|
+      %tr
+        %td= bill.name
+        %td= bill.recurrence
+        %td= bill.expense_type
+        %td= bill.amount
+        %td= bill.paid
+        %td= bill.due_at
+        %td= link_to 'Show', manage_bill_path(bill)
+        %td= link_to 'Edit', edit_manage_bill_path(bill)
+        %td= link_to 'Destroy', manage_bill_path(bill), method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Bill', new_manage_bill_path
