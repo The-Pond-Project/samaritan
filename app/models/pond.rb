@@ -74,6 +74,14 @@ class Pond < ApplicationRecord
   #
   # Public Instance Method
   #
+  # Returns if a ripple is active or not
+  def active?
+    updated_at < Time.current - 45.days
+  end
+
+  #
+  # Public Instance Method
+  #
   # Returns an integer count of ripples
   def impact
     ripples.count
