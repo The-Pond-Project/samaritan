@@ -31,11 +31,11 @@ class Release < ApplicationRecord
   # Public Class Mehtod
   #
   #
-  # Returns the dividen of the total releases 
+  # Returns the dividen of the total releases
   #
   def self.average_release_size
     releases = Release.count
-    # since every pond has to belong to a release 
+    # since every pond has to belong to a release
     # we can just use the count of all ponds
     ponds = Pond.count
     ponds / releases

@@ -1,4 +1,6 @@
-require "rails_helper"
+# frozen_string_literal: true
+
+require 'rails_helper'
 
 RSpec.describe Manage::BillsController, type: :routing do
   # describe "routing" do
@@ -17,7 +19,6 @@ RSpec.describe Manage::BillsController, type: :routing do
   #   it "routes to #edit" do
   #     expect(get: "/bills/1/edit").to route_to("bills#edit", id: "1")
   #   end
-
 
   #   it "routes to #create" do
   #     expect(post: "/bills").to route_to("bills#create")

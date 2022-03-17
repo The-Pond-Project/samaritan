@@ -223,7 +223,7 @@ RSpec.describe Ripple, type: :model do
     it 'returns uuid' do
       pond
       pond_two
-      expect(Ripple.largest_pond).to eq pond.ripples.count
+      expect(described_class.largest_pond).to eq pond.ripples.count
     end
   end
 end

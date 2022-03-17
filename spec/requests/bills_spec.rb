@@ -1,15 +1,15 @@
- require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe "/bills", type: :request do
+require 'rails_helper'
+
+RSpec.describe '/bills', type: :request do
   let(:user) { create(:user, :super_admin) }
+  let(:bills) { create_list(:bill, 2) }
+  let(:bill) { create(:bill) }
 
   before do
     sign_in(user)
   end
-
-  
-  let(:bills) { create_list(:bill, 2) }
-  let(:bill) { create(:bill) }
 
   describe 'GET /index' do
     it 'renders a successful response' do
@@ -32,7 +32,6 @@ RSpec.describe "/bills", type: :request do
       expect(response).to be_successful
     end
   end
-
 
   # describe "GET /edit" do
   #   it "render a successful response" do

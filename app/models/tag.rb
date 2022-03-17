@@ -40,7 +40,7 @@ class Tag < ApplicationRecord
   #
   def self.most_popular
     tags_hash = joins(:ripples_tags).group(:tag_id).count
-    tag_id = tags_hash.max_by { |k, v| v }[0]
+    tag_id = tags_hash.max_by { |_k, v| v }[0]
     find_by(id: tag_id)
   end
 

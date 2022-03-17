@@ -3,14 +3,14 @@
 class Bill < ApplicationRecord
   extend FriendlyId
 
-# Schema Information
+  # Schema Information
   # Table name: Bill
   #
   # id                  :integer      not null, primary key
   # name                :string       not null
   # description         :string       not null
   # recurrence          :integer
-  # expense_type        :integer      
+  # expense_type        :integer
   # paid                :boolean      not null
   # amount              :float        not null
   # due_at              :datetime     not null
@@ -23,9 +23,9 @@ class Bill < ApplicationRecord
 
   # Validations
   validates :name, :description, :amount, :due_at, presence: true
-  validates :recurrence, :expense_type,  presence: true
+  validates :recurrence, :expense_type, presence: true
   validates :name, length: { in: 5..45 }
-  validates :paid, inclusion: { in: [ true, false ] }
+  validates :paid, inclusion: { in: [true, false] }
   validates :description, length: { in: 5..350 }
   validate :correct_document_type
 
@@ -48,10 +48,6 @@ class Bill < ApplicationRecord
   def correct_document_type
     return unless document.attached?
 
-    unless document.content_type.in?(%w[application/pdf])
-      errors.add(:document, 'must be a pdf')
-    end
+    errors.add(:document, 'must be a pdf') unless document.content_type.in?(%w[application/pdf])
   end
-  
-
 end
