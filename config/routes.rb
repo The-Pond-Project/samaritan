@@ -99,11 +99,15 @@ Rails.application.routes.draw do
 
   # API Routes
   namespace :api do
+    get '/_ping', to: 'health#ping'
+
     namespace :internal do
       resources :ponds, only: [:index, :show]
       resources :ripples, only: [:index, :show]
+      resources :organizations, only: [:index, :show]
       get '/impact', to: 'impact#show'
     end
   end
+  
 
 end
