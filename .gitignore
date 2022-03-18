@@ -47,3 +47,5 @@ coverage/
 # ENV
 .env
 /config/credentials/development.key
+
+/config/credentials/production.key

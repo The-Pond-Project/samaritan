@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.2'
 
+gem 'active_model_serializers'
 gem 'bcrypt',                         '~> 3.1.7'
 gem 'bootsnap',                       '>= 1.4.4', require: false
 gem 'bootstrap'
@@ -15,7 +16,6 @@ gem 'friendly_id',                    '~> 5.4.0'
 gem 'geocoder',                       '~> 1.7'
 gem 'haml-rails'
 gem 'image_processing',               '~> 1.2'
-gem 'jbuilder',                       '~> 2.7'
 gem 'local_time',                     '~> 2.1'
 gem 'paper_trail',                    '~> 12.1'
 gem 'paranoia'

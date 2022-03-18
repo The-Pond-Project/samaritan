@@ -97,4 +97,20 @@ Rails.application.routes.draw do
   # Twilio Message Subscriptions
   post '/messagesubscriptions/sms', to: 'message_subscriptions#sms'
 
+  # API Routes
+  namespace :api do
+    get '/_ping', to: 'health#ping'
+
+    namespace :internal do
+      resources :ponds, only: [:index, :show]
+      resources :ripples, only: [:index, :show]
+      resources :organizations, only: [:index, :show]
+      resources :releases, only: [:index, :show]
+      resources :tags, only: [:index, :show]
+      resources :stories, only: [:index, :show]
+      get '/impact', to: 'impact#show'
+    end
+  end
+  
+
 end

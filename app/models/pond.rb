@@ -74,6 +74,14 @@ class Pond < ApplicationRecord
   #
   # Public Instance Method
   #
+  # Returns if a ripple is active or not
+  def active?
+    updated_at < Time.current - 45.days
+  end
+
+  #
+  # Public Instance Method
+  #
   # Returns an integer count of ripples
   def impact
     ripples.count
@@ -109,9 +117,9 @@ class Pond < ApplicationRecord
   # Returns when the time since ponds last ripple was recorded and now
   # Example: '3 weeks ago'
   def ripple_since
-    created = ripples.last.created_at.to_time.to_i
+    created = ripples.last&.created_at.to_time.to_i
     today =  Time.now.to_time.to_i
-    (today - created).ago.to_words
+    (today - created).ago.to_words if created && today
   end
 
   # For rails routing
