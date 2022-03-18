@@ -62,4 +62,9 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  # ngrok hosting
+  config.hosts << /[a-z0-9-]+\.ngrok\.io/
+  Rails.application.routes.default_url_options[:host] = 'micahbowie.ngrok.io'
+  Rails.application.routes.default_url_options[:protocol] = 'https'
 end

@@ -105,6 +105,9 @@ Rails.application.routes.draw do
       resources :ponds, only: [:index, :show]
       resources :ripples, only: [:index, :show]
       resources :organizations, only: [:index, :show]
+      resources :releases, only: [:index, :show]
+      resources :tags, only: [:index, :show]
+      resources :stories, only: [:index, :show]
       get '/impact', to: 'impact#show'
     end
   end

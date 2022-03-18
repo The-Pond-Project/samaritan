@@ -4,7 +4,7 @@ module Api
       before_action :find_organization, only: [:show]
 
       def index
-        render json: Organization.all, each_serializer: ::Internal::OrganizationSerializer
+        render json: Organization.all.includes([:releases]), each_serializer: ::Internal::OrganizationSerializer
       end
 
       def show

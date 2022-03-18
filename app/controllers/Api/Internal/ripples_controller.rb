@@ -4,7 +4,7 @@ module Api
       before_action :find_ripple, only: [:show]
 
       def index
-        render json: Ripple.all, each_serializer: ::Internal::RippleSerializer
+        render json: Ripple.all.includes([:pond]), each_serializer: ::Internal::RippleSerializer
       end
 
       def show

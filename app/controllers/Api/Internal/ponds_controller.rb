@@ -4,7 +4,7 @@ module Api
       before_action :find_pond, only: [:show]
 
       def index
-        render json: Pond.all, each_serializer: ::Internal::PondSerializer
+        render json: Pond.all.includes([:ripples]), each_serializer: ::Internal::PondSerializer
       end
 
       def show
