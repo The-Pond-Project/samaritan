@@ -9,8 +9,10 @@ class PagesController < ApplicationController
 
   def terms; end
 
+  def thank_you; end
+
   def donate
-    @bills = Bill.all
+    @bills = Bill.this_year
   end
 
   def contribute; end

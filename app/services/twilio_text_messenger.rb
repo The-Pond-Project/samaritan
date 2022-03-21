@@ -23,11 +23,11 @@ class TwilioTextMessenger
   private
 
   def account_sid
-    Rails.application.credentials.dig(:twilio, :twilio_account_sid)
+    Credentials.dig(:twilio, :twilio_account_sid)
   end
 
   def auth_token
-    Rails.application.credentials.dig(:twilio, :twilio_auth_token)
+    Credentials.dig(:twilio, :twilio_auth_token)
   end
 
   def client
@@ -35,6 +35,6 @@ class TwilioTextMessenger
   end
 
   def from
-    "+#{Rails.application.credentials.dig(:twilio, :twilio_phone_number)}"
+    "+#{Credentials.dig(:twilio, :twilio_phone_number)}"
   end
 end

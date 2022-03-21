@@ -17,7 +17,8 @@ gem 'geocoder',                       '~> 1.7'
 gem 'haml-rails'
 gem 'image_processing',               '~> 1.2'
 gem 'local_time',                     '~> 2.1'
-gem 'paper_trail',                    '~> 12.1'
+gem 'money'
+gem 'paper_trail', '~> 12.1'
 gem 'paranoia'
 gem 'pg',                             '~> 1.1'
 gem 'puma',                           '~> 5.0'
@@ -25,6 +26,8 @@ gem 'rails',                          '~> 6.1.4', '>= 6.1.4.1'
 gem 'rails_best_practices'
 gem 'redis',                          '~> 4.0'
 gem 'sass-rails',                     '>= 6'
+gem 'stripe'
+gem 'stripe_event'
 gem 'time-lord',                      '~> 1.0'
 gem 'turbolinks',                     '~> 5'
 gem 'twilio-ruby'
@@ -52,6 +55,7 @@ end
 group :test do
   gem 'database_cleaner-active_record'
   gem 'simplecov'
+  gem 'stripe-ruby-mock', '~> 3.0.1', require: 'stripe_mock'
 end
 
 group :development do
