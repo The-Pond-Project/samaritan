@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
   # Super Admin User
   authenticated :user, ->(u) { u.super_admin? } do
-    root 'ponds#index', as: :manager_root
+    root 'manage/manage#dashboard', as: :manager_root
 
     devise_scope :user do
       get "/users/invitation/accept", to: "devise/invitations#edit",   as: 'manage_accept_user_invitation'
@@ -37,7 +37,9 @@ Rails.application.routes.draw do
 
     # Manage
     namespace :manage do
+      root 'manage#dashboard', as: :manager_root
       get '/ripples', to: 'manage#ripples', as: 'ripples'
+      get '/releases', to: 'manage#releases', as: 'releases'
       get '/tags', to: 'manage#tags', as: 'tags'
 
       resources :ponds, param: :key do

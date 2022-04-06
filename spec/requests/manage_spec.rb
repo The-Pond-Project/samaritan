@@ -16,6 +16,13 @@ RSpec.describe 'Manages', type: :request do
     end
   end
 
+  describe 'GET /releases' do
+    it 'returns http success' do
+      get '/manage/releases'
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe 'GET /tags' do
     it 'returns http success' do
       get '/manage/tags'

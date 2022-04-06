@@ -19,8 +19,10 @@
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    
-    = render 'layouts/partials/navbar'
+    - if current_user.super_admin? || current_user.admin?
+      = render 'layouts/partials/manage_navbar'
+    - else
+      = render 'layouts/partials/navbar'
     = render 'layouts/partials/alerts'
     = yield
 
