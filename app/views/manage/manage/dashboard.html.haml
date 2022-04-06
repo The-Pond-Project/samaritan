@@ -1,0 +1,44 @@
+.manage-dashboard.container{ style: 'padding-top: 40px'}
+  .card.p-5.m-5.border-2
+    .row.p-2
+      .col.m-2
+        = link_to(manage_bills_path) do 
+          .icon-container.text-center
+            %i.bi.bi-receipt{style: 'font-size: 60px'}
+            %p Bills
+      .col.m-2
+        = link_to(manage_organizations_path) do 
+          .icon-container.text-center
+            %i.bi.bi-building{style: 'font-size: 60px'}
+            %p.mt-1  Organizations
+      .col.m-2
+        = link_to(manage_tags_path) do 
+          .icon-container.text-center
+            %i.bi.bi-tags-fill{style: 'font-size: 60px'}
+            %p.mt-1  Tags
+      .col.m-2
+        = link_to(manage_stories_path) do 
+          .icon-container.text-center
+            %i.bi.bi-journal-text{style: 'font-size: 60px'}
+            %p.mt-1 Stories
+    .row.p-2.mt-4
+      .col.m-2
+        = link_to(manage_ponds_path) do 
+          .icon-container.text-center
+            %i.bi.bi-water{style: 'font-size: 60px'}
+            %p.mt-1 Ponds
+      .col.m-2
+        = link_to(manage_ripples_path) do 
+          .icon-container.text-center
+            %i.bi.bi-broadcast{style: 'font-size: 60px'}
+            %p.mt-1 Ripples
+      .col.m-2
+        = link_to(manage_releases_path) do 
+          .icon-container.text-center
+            %i.bi.bi-calendar{style: 'font-size: 60px'}
+            %p.mt-1 Releases
+      .col.m-2
+        = link_to(impact_path) do 
+          .icon-container.text-center
+            %i.bi.bi-activity{style: 'font-size: 60px'}
+            %p.mt-1 Stats
