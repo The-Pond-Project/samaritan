@@ -1,29 +1,24 @@
-%h1 Listing tags
-
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th Organization
-      %th Approved
-      %th
-      %th
-      %th
-
-  %tbody
-    - @tags.each do |tag|
+.manage-table.pt-5
+  .container
+    %h1.mb-1 Tags
+    .row.col-md-6.col-md-offset-2.custyle
+    %table.table.table-striped.custab
       %tr
-        %td= tag.name
-        %td= tag.description
-        %td= tag.organization.name
-        - if tag.approved.present?
-          %td= tag.approved
-        - else
-          %td pending
-        %td= link_to 'Show', manage_organization_tag_path(tag.organization, tag)
-        %td= link_to 'Destroy', manage_organization_tag_path(tag.organization, tag), method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Tag', new_manage_tag_path
+        %th Name
+        %th Description
+        %th Organization
+        %th Approved
+        %th
+        %th
+      %tbody
+        - @tags.each do |tag|
+          %tr
+            %td= tag.name
+            %td= tag.description
+            %td= link_to tag.organization.name, manage_organization_path(tag.organization)
+            - if tag.approved.present?
+              %td= tag.approved
+            - else
+              %td pending
+            %td= link_to 'Show', manage_organization_tag_path(tag.organization, tag)
+            %td= link_to 'Destroy', manage_organization_tag_path(tag.organization, tag), method: :delete, data: { confirm: 'Are you sure?' }

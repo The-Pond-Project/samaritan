@@ -1,21 +1,21 @@
-%h1 Listing releases
-
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th
-      %th
-      %th
-
-  %tbody
-    - @releases.each do |release|
+.manage-table.pt-5
+  .container
+    %h1.mb-1 Releases
+    .row.col-md-6.col-md-offset-2.custyle
+    %table.table.table-striped.custab
       %tr
-        %td= release.name
-        %td= release.description
-        %td= link_to 'Show', manage_organization_release_path(release.organization, release)
-        %td= link_to 'Edit', edit_manage_organization_release_path(release.organization, release)
-        %td= link_to 'Destroy',  manage_organization_release_path(release.organization, release), method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
+        %th Name
+        %th Description
+        %th Organization
+        %th
+        %th
+        %th
+      %tbody
+        - @releases.each do |release|
+          %tr
+            %td= release.name
+            %td= release.description
+            %td= link_to release.organization.name, manage_organization_path(release.organization)
+            %td= link_to 'Show', manage_organization_release_path(release.organization, release)
+            %td= link_to 'Edit', edit_manage_organization_release_path(release.organization, release)
+            %td= link_to 'Destroy',  manage_organization_release_path(release.organization, release), method: :delete, data: { confirm: 'Are you sure?' }
