@@ -1,27 +1,28 @@
-%h1 Listing organizations
-
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th Address
-      %th Website
-      %th
-      %th
-      %th
-
-  %tbody
-    - @organizations.each do |organization|
+.manage-table.pt-5
+  .container
+    %h1.mb-1
+      Organizations |
+      = link_to new_manage_organization_path do
+        %i.bi.bi-pencil-square
+    .row.col-md-6.col-md-offset-2.custyle
+    %table.table.table-striped.custab
       %tr
-        %td= organization.name
-        %td= organization.description
-        %td= organization.address
-        %td= organization.website
-        %td= link_to 'Show', manage_organization_path(organization.name)
-        %td= link_to 'Edit', edit_manage_organization_path(organization.name)
-        %td= link_to 'Destroy', manage_organization_path(organization), method: :delete, data: { confirm: 'Are you sure?' }
+        %th Name
+        %th Description
+        %th Address
+        %th Website
+        %th
+        %th
+        %th
+      %tbody
+        - @organizations.each do |organization|
+          %tr
+            %td= organization.name
+            %td= organization.description
+            %td= organization.address
+            %td= organization.website
+            %td= link_to 'Show', manage_organization_path(organization.name)
+            %td= link_to 'Edit', edit_manage_organization_path(organization.name)
+            %td= link_to 'Destroy', manage_organization_path(organization), method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
 
-= link_to 'New Organization', new_manage_organization_path
