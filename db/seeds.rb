@@ -1,49 +1,56 @@
 require 'faker'
 
-# Admin
-User.create(email: 'kindnesspassedon@gmail.com', password: 'password', role: :super_admin)
+if Rails.env.development?
+  # Admin
+  User.create(email: 'kindnesspassedon@gmail.com', password: 'password', role: :super_admin)
 
-# Users 
-3.times do 
-  User.create(email: Faker::Internet.email , password: 'password' )
-end
+  # Users 
+  3.times do 
+    User.create(email: Faker::Internet.email , password: 'password' )
+  end
 
-# Organizations
-kpo = Organization.create(name: 'Kindness Passed On', description: 'The official organization for ThePondProject')
+  # Organizations
+  kpo = Organization.create(name: 'Kindness Passed On', description: 'The official organization for ThePondProject')
 
-# Releases
-genesis = Release.create(name: 'Genesis', description: 'The beginning', organization: kpo)
-Release.create(name: 'Test Release', description: 'Test', organization: kpo)
+  # Releases
+  genesis = Release.create(name: 'Genesis', description: 'The beginning', organization: kpo)
+  Release.create(name: 'Test Release', description: 'Test', organization: kpo)
 
-# Ponds
-Pond.create(key: 'P-ABC123', city: 'Columbus', region: 'Ohio', country: 'US', release: genesis)
+  # Ponds
+  Pond.create(key: 'P-ABC123', city: 'Columbus', region: 'Ohio', country: 'US', release: genesis)
 
-# Ripples
-3.times do 
-  Ripple.create(city:Faker::Address.city,  country: Faker::Address.country_code, user: User.first, pond: Pond.first )
-end
+  # Ripples
+  3.times do 
+    Ripple.create(city:Faker::Address.city,  country: Faker::Address.country_code, user: User.first, pond: Pond.first )
+  end
 
-# Tags 
-Tag.create(name: '#kindnesspassedon', description:'An official tag from The Pond Project team', approved: true, organization: kpo, ripples: [Ripple.first])
-Tag.create(name: '#passiton', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
-Tag.create(name: '#rippleitout', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
-Tag.create(name: '#justbecause', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
-Tag.create(name: '#growthepond', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
-Tag.create(name: '#ohio', description:'OH! IO! A tag to represent Ohio', approved: true)
+  # Tags 
+  Tag.create(name: '#kindnesspassedon', description:'An official tag from The Pond Project team', approved: true, organization: kpo, ripples: [Ripple.first])
+  Tag.create(name: '#passiton', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
+  Tag.create(name: '#rippleitout', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
+  Tag.create(name: '#justbecause', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
+  Tag.create(name: '#growthepond', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
+  Tag.create(name: '#ohio', description:'OH! IO! A tag to represent Ohio', approved: true)
 
-# Message Subscriptions
-MessageSubscription.create(ripple_uuid: Ripple.first.uuid, phone_number: '+16148097539')
+  # Message Subscriptions
+  MessageSubscription.create(ripple_uuid: Ripple.first.uuid, phone_number: '+16148097539')
 
-# Stories
-Story.create(title: 'A story of kindness', body: 'This is a great story.')
+  # Stories
+  Story.create(title: 'A story of kindness', body: 'This is a great story.')
 
-# Bills
-Bill.create(
-  name: 'NGROK HTTP Development Tunneling',
-  description: 'Ngrok is a tool used for development of the Mission For Kindness Platform.',
-  recurrence: 0,
-  expense_type: 0,
-  amount: 60.00,
-  paid: false,
-  due_at: Time.current + 365.days
-)
+  # Bills
+  Bill.create(
+    name: 'NGROK HTTP Development Tunneling',
+    description: 'Ngrok is a tool used for development of the Mission For Kindness Platform.',
+    recurrence: 0,
+    expense_type: 0,
+    amount: 60.00,
+    paid: false,
+    due_at: Time.current + 365.days
+  )
+elsif Rails.env.production?
+  # Production Seeds
+  User.create(email: 'kindnesspassedon@gmail.com', password: Rails.application.credentials.dig(:pond, :sudo_password), role: :super_admin)
+  User.create(email: 'micahbowie20@gmail.com', password: Rails.application.credentials.dig(:pond, :sudo_password), role: :admin)
+end 
+
