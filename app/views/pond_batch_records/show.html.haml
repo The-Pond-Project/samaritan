@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Organization:
+  = @pond_batch_record.organization
+%p
+  %b Amount:
+  = @pond_batch_record.amount
+%p
+  %b Key:
+  = @pond_batch_record.key
+
+= link_to 'Edit', edit_pond_batch_record_path(@pond_batch_record)
+\|
+= link_to 'Back', pond_batch_records_path

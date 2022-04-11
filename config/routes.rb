@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :pond_batch_records
   unauthenticated do
     root 'pages#home'
   end 
@@ -50,7 +51,9 @@ Rails.application.routes.draw do
       resources :stories, param: :uuid
       resources :bills
       resources :organizations, param: :name do 
-        resources :releases
+        resources :releases do 
+          resources :pond_batch_creation, only: [:new, :create]
+        end
         resources :tags, param: :name, only: [:index, :show]
       end
     end

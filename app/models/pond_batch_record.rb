@@ -1,0 +1,2 @@
+class PondBatchRecord < ApplicationRecord
+end

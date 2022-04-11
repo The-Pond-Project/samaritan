@@ -1,0 +1,2 @@
+module PondBatchRecordsHelper
+end

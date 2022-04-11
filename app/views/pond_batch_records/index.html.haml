@@ -1,0 +1,25 @@
+%h1 Listing pond_batch_records
+
+%table
+  %thead
+    %tr
+      %th Organization
+      %th Amount
+      %th Key
+      %th
+      %th
+      %th
+
+  %tbody
+    - @pond_batch_records.each do |pond_batch_record|
+      %tr
+        %td= pond_batch_record.organization
+        %td= pond_batch_record.amount
+        %td= pond_batch_record.key
+        %td= link_to 'Show', pond_batch_record
+        %td= link_to 'Edit', edit_pond_batch_record_path(pond_batch_record)
+        %td= link_to 'Destroy', pond_batch_record, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Pond batch record', new_pond_batch_record_path
