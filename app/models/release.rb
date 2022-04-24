@@ -38,6 +38,7 @@ class Release < ApplicationRecord
     # since every pond has to belong to a release
     # we can just use the count of all ponds
     ponds = Pond.count
+    return 0 if releases.zero? || ponds.zero?
     ponds / releases
   end
 end

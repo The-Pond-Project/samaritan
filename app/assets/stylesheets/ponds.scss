@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,700';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
 .ponds{
 
@@ -64,19 +64,19 @@
     background: radial-gradient(circle, rgba(102,199,244,1) 0%, rgba(31,168,217,1) 88%);
   }
 
-  .user-list tbody td > img {
+  .pond-list tbody td > img {
     position: relative;
 	max-width: 50px;
 	float: left;
 	margin-right: 15px;
   }
-  .user-list tbody td .user-link {
+  .pond-list tbody td .user-link {
     display: block;
     font-size: 1.25em;
     padding-top: 3px;
     margin-left: 60px;
   }
-  .user-list tbody td .user-subhead {
+  .pond-list tbody td .user-subhead {
     font-size: 0.875em;
     font-style: italic;
   }
