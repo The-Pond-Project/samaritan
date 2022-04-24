@@ -20,7 +20,6 @@ module Manage
 
     def create
       @bill = Bill.new(bill_params.merge(converted_params))
-      byebug
       if @bill.save
         redirect_to manage_bill_url(@bill), notice: 'Bill was successfully created.'
       else

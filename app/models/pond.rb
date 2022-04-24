@@ -117,7 +117,7 @@ class Pond < ApplicationRecord
   # Returns when the time since ponds last ripple was recorded and now
   # Example: '3 weeks ago'
   def ripple_since
-    created = ripples.last&.created_at.to_time.to_i
+    created = ripples.last&.created_at&.to_time&.to_i
     today =  Time.now.to_time.to_i
     (today - created).ago.to_words if created && today
   end
