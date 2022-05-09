@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Lint/IneffectiveAccessModifier
 class Pond < ApplicationRecord
   extend FriendlyId
   include PondRippleConcern
@@ -121,4 +120,3 @@ class Pond < ApplicationRecord
     errors.add(:key, 'must be 8 charcters long') unless key.size == 8
   end
 end
-# rubocop:enable Lint/IneffectiveAccessModifier

@@ -11,7 +11,6 @@
 # updated_at          :datetime     not null
 
 class PondBatchRecord < ApplicationRecord
-
   # Validations
   validates :amount, presence: true
   validate :file_type
@@ -30,9 +29,6 @@ class PondBatchRecord < ApplicationRecord
   def file_type
     return unless csv_file.attached?
 
-    unless csv_file.content_type.in?(%w[text/csv])
-      errors.add(:csv_file, 'must be a csv')
-    end
+    errors.add(:csv_file, 'must be a csv') unless csv_file.content_type.in?(%w[text/csv])
   end
-
 end

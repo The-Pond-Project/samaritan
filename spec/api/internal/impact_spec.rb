@@ -9,7 +9,7 @@ RSpec.describe '/impact', type: :request do
   let(:organizations) { create_list(:organization, 2) }
   let(:release) { create(:release, organization: organizations.first) }
 
-  before do 
+  before do
     ripples
     authorize_request
   end
@@ -26,7 +26,7 @@ RSpec.describe '/impact', type: :request do
     end
   end
 
-  def expected_response 
+  def expected_response
     {
       ponds: Pond.count,
       largest_pond: Ripple.largest_pond,
@@ -35,7 +35,7 @@ RSpec.describe '/impact', type: :request do
       domestic_ripples: Ripple.domestic.count,
       releases: Release.count,
       average_release_size: Release.average_release_size,
-      organizations: Organization.count
+      organizations: Organization.count,
     }.to_json
   end
 end

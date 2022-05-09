@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require 'rails_helper'
@@ -8,7 +7,7 @@ RSpec.describe '/releases', type: :request do
   let(:releases) { create_list(:release, 2) }
   let(:release) { create(:release) }
 
-  before do 
+  before do
     releases
     authorize_request
   end
@@ -37,7 +36,7 @@ RSpec.describe '/releases', type: :request do
     end
   end
 
-  def expected_response 
+  def expected_response
     releases.map do |release|
       ::Internal::ReleaseSerializer.new(release)
     end.to_json

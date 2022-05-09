@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 module Manage
@@ -16,7 +18,7 @@ module Manage
       end
     end
 
-    private 
+    private
 
     def set_release
       @release = Release.friendly.find_by!(slug: params[:release_id])
@@ -29,10 +31,10 @@ module Manage
     def creator
       @creator ||= ::PondBatchCreator.new(
         amount: params[:amount],
-        location: params[:location], 
-        release_id: @release.id, 
+        location: params[:location],
+        release_id: @release.id,
         unique_code: params[:unique_code]
       )
     end
   end
-end 
+end

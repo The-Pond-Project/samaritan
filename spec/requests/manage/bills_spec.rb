@@ -33,57 +33,59 @@ RSpec.describe '/bills', type: :request do
     end
   end
 
-  describe "GET /edit" do
-    it "render a successful response" do
+  describe 'GET /edit' do
+    it 'render a successful response' do
       get edit_manage_bill_url(bill)
       expect(response).to be_successful
     end
   end
 
-  describe "POST /create" do
+  describe 'POST /create' do
     before do
       bill
     end
-    context "with valid parameters" do
-      it "creates a new Bill" do
-        expect {
+
+    context 'with valid parameters' do
+      it 'creates a new Bill' do
+        expect do
           post manage_bills_url, params: { bill: bill.attributes }
-        }.to change(Bill, :count).by(1)
+        end.to change { Bill.count }.by(1)
       end
 
-      it "redirects to the created bill" do
+      it 'redirects to the created bill' do
         post manage_bills_url, params: { bill: bill.attributes }
         expect(response).to redirect_to(manage_bill_url(Bill.last))
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Bill" do
-        expect {
-          post manage_bills_url, params: { bill: {trash: 'params'} }
-        }.to_not change(Bill, :count)
+    context 'with invalid parameters' do
+      it 'does not create a new Bill' do
+        expect do
+          post manage_bills_url, params: { bill: { trash: 'params' } }
+        end.not_to change { Bill.count }
       end
 
       it "renders an unprocessable_entity response (i.e. to display the 'new' template)" do
-        post manage_bills_url, params: { bill: {trash: 'params'} }
+        post manage_bills_url, params: { bill: { trash: 'params' } }
         expect(response.code).to eq('422')
       end
     end
   end
 
-  describe "PATCH /update" do
+  describe 'PATCH /update' do
     before do
       bills
       @old_bill = bills.last
     end
-    context "with valid parameters" do
-      it "updates the requested bill" do
+
+    context 'with valid parameters' do
+      it 'updates the requested bill' do
         patch manage_bill_url(@old_bill), params: { bill: bill.attributes }
         @old_bill.reload
         expect(@old_bill.name).to eq(bill.name)
       end
 
-      it "redirects to the bill" do
+      it 'redirects to the bill' do
         patch manage_bill_url(@old_bill), params: { bill: bill.attributes }
         @old_bill.reload
         expect(response).to redirect_to(manage_bill_url(@old_bill))
@@ -99,15 +101,15 @@ RSpec.describe '/bills', type: :request do
     # end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested bill" do
+  describe 'DELETE /destroy' do
+    it 'destroys the requested bill' do
       bill
-      expect {
+      expect do
         delete manage_bill_url(bill)
-      }.to change(Bill, :count).by(-1)
+      end.to change { Bill.count }.by(-1)
     end
 
-    it "redirects to the bills list" do
+    it 'redirects to the bills list' do
       bill
       delete manage_bill_url(bill)
       expect(response).to redirect_to(manage_bills_url)

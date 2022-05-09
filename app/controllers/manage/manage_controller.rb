@@ -2,7 +2,6 @@
 
 module Manage
   class ManageController < ApplicationController
-
     def dashboard; end
 
     def ripples

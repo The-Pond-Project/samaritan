@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Impact features' do
@@ -12,11 +14,11 @@ RSpec.describe 'Impact features' do
     visit('/impact')
   end
 
-  include_examples 'navbar' 
-  include_examples 'footer' 
+  include_examples 'navbar'
+  include_examples 'footer'
 
   describe 'header' do
-    it 'displays content' do 
+    it 'displays content' do
       expect(page).to have_content('Impact Stats')
       expect(page).to have_content('These are the stats since the first release of KindCards in March 2022.')
       expect(page).to have_content('Active Ponds')
@@ -31,14 +33,14 @@ RSpec.describe 'Impact features' do
   end
 
   describe 'leaderboard' do
-    it 'displays content' do 
+    it 'displays content' do
       expect(page).to have_content('is the most used tag')
       expect(page).to have_content('The last Ripple of Kindness was')
     end
   end
 
   describe 'more stats' do
-    it 'displays content' do 
+    it 'displays content' do
       expect(page).to have_content('More Stats')
       expect(page).to have_content('Detailed look at ripples and ponds')
       expect(page).to have_content('Largest Pond size')
@@ -47,4 +49,4 @@ RSpec.describe 'Impact features' do
       expect(page).to have_content('The last Ripple Location')
     end
   end
-end 
+end

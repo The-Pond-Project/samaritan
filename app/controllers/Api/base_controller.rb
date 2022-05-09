@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 module Api
   class BaseController < ActionController::API
     before_action :authorize
-    API_KEY = Rails.application.credentials.dig(:internal_api_key)
+    API_KEY = Rails.application.credentials[:internal_api_key]
 
-    private 
+    private
 
     def authorize
-      head 401 unless samaritan_client? && authorized?
+      head :unauthorized unless samaritan_client? && authorized?
     end
 
     def samaritan_client?

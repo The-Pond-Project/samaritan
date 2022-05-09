@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 module Api
   module Internal
     class TagsController < ::Api::BaseController
       before_action :find_tag, only: [:show]
 
       def index
-        render json: Tag.approved.includes([:organization]), each_serializer: ::Internal::TagSerializer
+        render json: Tag.approved.includes([:organization]),
+               each_serializer: ::Internal::TagSerializer
       end
 
       def show

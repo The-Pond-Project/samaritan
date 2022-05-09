@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Home features' do
@@ -7,30 +9,30 @@ RSpec.describe 'Home features' do
   let(:ponds) { create_list(:pond, 5, release: release) }
   let(:ripples) { create_list(:ripple, 5, pond: ponds.first, tags: tags) }
 
-  before do 
+  before do
     ripples
     visit('/')
   end
 
-  include_examples 'navbar' 
-  include_examples 'footer' 
+  include_examples 'navbar'
+  include_examples 'footer'
 
   describe 'welcometron' do
-    it 'displays content' do 
+    it 'displays content' do
       expect(page).to have_content('Kindness Passed On')
       expect(page).to have_content('Do a generous act for someone and track the impact that your kindness makes on the world.')
-      expect(page).to have_link('Learn More', href:'#about')
+      expect(page).to have_link('Learn More', href: '#about')
     end
   end
 
   describe 'qoute' do
-    it 'displays content' do 
+    it 'displays content' do
       expect(page).to have_content('No act of kindness, no matter how small, is ever wasted.')
     end
   end
 
   describe 'how it works' do
-    it 'displays content' do 
+    it 'displays content' do
       expect(page).to have_content('How it works')
       expect(page).to have_content('A KindCard is a physical paper card. The QR code on the KindCard is scanned to add a ripple of kindness to the pond.')
       expect(page).to have_content('Do It!')
@@ -43,7 +45,7 @@ RSpec.describe 'Home features' do
   end
 
   describe 'about' do
-    it 'displays content' do 
+    it 'displays content' do
       expect(page).to have_content('ABOUT')
       expect(page).to have_content('The Pond Project is an open source project that is focused on making a difference in the community through selfless acts of kindness.')
       expect(page).to have_content('Our goal is to show the impact of "Kindness Passed On". The impact that an act of kindness can have on you (the giver), on the recipent, and the unfathomable effect it has on the world around us. The Pond Project is not a Non-Profit rather we partner with a Non-Profit every year and give 100% of KindCard proceeds for that year to the organization. So everytime you pass on a kindcard you are not only impacting the recipent you are also blessing a non-profit and their mission.')

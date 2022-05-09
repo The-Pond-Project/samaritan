@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :pond_batch_record do
-    organization { "" }
+    organization { '' }
     amount { 1 }
-    key { "MyString" }
+    key { 'MyString' }
   end
 end

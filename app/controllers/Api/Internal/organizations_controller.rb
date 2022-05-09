@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 module Api
   module Internal
     class OrganizationsController < ::Api::BaseController
       before_action :find_organization, only: [:show]
 
       def index
-        render json: Organization.all.includes([:releases]).includes(image_attachment: :blob), each_serializer: ::Internal::OrganizationSerializer
+        render json: Organization.all.includes([:releases]).includes(image_attachment: :blob),
+               each_serializer: ::Internal::OrganizationSerializer
       end
 
       def show

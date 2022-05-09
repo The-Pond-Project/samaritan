@@ -7,7 +7,7 @@ RSpec.describe '/stories', type: :request do
   let(:stories) { create_list(:story, 2) }
   let(:story) { create(:story) }
 
-  before do 
+  before do
     stories
     authorize_request
   end
@@ -36,7 +36,7 @@ RSpec.describe '/stories', type: :request do
     end
   end
 
-  def expected_response 
+  def expected_response
     stories.map do |story|
       ::Internal::StorySerializer.new(story)
     end.to_json

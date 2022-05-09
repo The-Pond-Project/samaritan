@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PondBatchRecordsController < ApplicationController
   before_action :set_pond_batch_record, only: [:show, :edit, :update, :destroy]
 
@@ -7,8 +9,7 @@ class PondBatchRecordsController < ApplicationController
   end
 
   # GET /pond_batch_records/1
-  def show
-  end
+  def show; end
 
   # GET /pond_batch_records/new
   def new
@@ -16,8 +17,7 @@ class PondBatchRecordsController < ApplicationController
   end
 
   # GET /pond_batch_records/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /pond_batch_records
   def create
@@ -46,13 +46,14 @@ class PondBatchRecordsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_pond_batch_record
-      @pond_batch_record = PondBatchRecord.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def pond_batch_record_params
-      params.require(:pond_batch_record).permit(:organization, :amount, :key)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_pond_batch_record
+    @pond_batch_record = PondBatchRecord.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def pond_batch_record_params
+    params.require(:pond_batch_record).permit(:organization, :amount, :key)
+  end
 end
