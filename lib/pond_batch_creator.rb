@@ -32,10 +32,7 @@ class PondBatchCreator
       end
     end
     errors << 'Pond creation error' if ponds.count != amount
-    if success?
-      create_csv_file!
-      create_batch_record!
-    end
+    create_csv_file! && create_batch_record! if success?
     ponds
   end
 

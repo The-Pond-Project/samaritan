@@ -13,18 +13,35 @@ RSpec.describe PondBatchCreator do
       it 'creates a pond' do
         expect { described_class.new(release_id: release.id).create_ponds }.to change { Pond.count }.by 1
       end
+
+      it 'creates a pond batch record' do
+        expect { described_class.new(release_id: release.id).create_ponds }.to change { PondBatchRecord.count }.by 1
+        expect(PondBatchRecord.last.csv_file.attached?).to eq(true)
+      end
     end
 
     context 'with multiple params' do
+      it 'creates a pond batch record' do
+        expect { 
+          described_class.new(
+            release_id: release.id,
+            location: location,
+            unique_code: 'ML',
+            amount: 1
+          ).create_ponds
+        }.to change { PondBatchRecord.count }.by 1
+        expect(PondBatchRecord.last.csv_file.attached?).to eq(true)
+      end
+
       it 'creates a pond' do
         expect { 
           described_class.new(
             release_id: release.id,
             location: location,
             unique_code: 'ML',
-            amount: 5
+            amount: 1
           ).create_ponds
-        }.to change { Pond.count }.by 5
+        }.to change { Pond.count }.by 1
       end
 
       it 'creates 250 ponds' do
@@ -92,6 +109,16 @@ RSpec.describe PondBatchCreator do
             )
           creator.create_ponds
           expect(creator.errors). to include('Release must be a String') 
+        end
+      end
+
+      context 'release_id does not belong to a record in the database' do
+        it 'raises pond creation error' do
+          creator = described_class.new(
+              release_id: 12345678980,
+            )
+          creator.create_ponds
+          expect(creator.errors). to include('Release not found!') 
         end
       end
     end
