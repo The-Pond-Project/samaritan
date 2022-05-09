@@ -7,7 +7,7 @@ RSpec.describe '/ripples', type: :request do
   let(:ripples) { create_list(:ripple, 2) }
   let(:ripple) { create(:ripple) }
 
-  before do 
+  before do
     ripples
     authorize_request
   end
@@ -36,7 +36,7 @@ RSpec.describe '/ripples', type: :request do
     end
   end
 
-  def expected_response 
+  def expected_response
     ripples.map do |ripple|
       ::Internal::RippleSerializer.new(ripple)
     end.to_json

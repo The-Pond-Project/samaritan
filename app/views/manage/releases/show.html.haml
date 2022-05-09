@@ -1,28 +1,51 @@
-%p#notice= notice
-
-%p
-  %b Name:
-  = @release.name
-%p
-  %b Description:
-  = @release.description
-
-- if @release.ponds.present?
+.container.pt-5
+  %h1
+    = @release.name 
+    = link_to edit_manage_organization_release_path(@organization, @release) do
+      %i.bi.bi-pencil-square
   %p
-    %b Ponds:
+    = @release.description
 
-    %table
-      %thead
-        %tr
-          %th Name
-          %th 
-    
-    - if @release.ponds.present?
-      -  @release.ponds.each do |pond|
-        %tr
-          %td= pond.key
-          %td= link_to 'Show', manage_pond_path(pond)
 
-= link_to 'Edit', edit_manage_organization_release_path(@organization, @release)
-\|
-= link_to 'Back', manage_organization_releases_path(@organization)
+  - if @release.pond_batch_records.present?
+    .manage-table.pt-5
+    .container
+      %h4.mb-1
+        Batch Records
+      .row.col-md-6.col-md-offset-2.custyle
+      %table.table.table-striped.custab
+        %tr
+          %th File
+          %th Created
+        %tbody
+          -  @release.pond_batch_records.reverse.each do |batch_record|
+            - if batch_record.csv_file.attached?
+              %tr
+                %td= link_to batch_record.csv_file.filename, url_for(batch_record.csv_file)
+                %td= batch_record.created_at.to_date
+
+  - if @release.ponds.present?
+    .manage-table.pt-5
+    .container
+      %h4.mb-1
+        Ponds
+      .row.col-md-6.col-md-offset-2.custyle
+      %table.table.table-striped.custab
+        %tr
+          %th Key
+          %th UUID
+          %th Location
+          %th Created
+          %th
+          %th
+          %th
+        %tbody
+          - @release.ponds.each do |pond|
+            %tr
+              %td= pond.key
+              %td= pond.uuid
+              %td= pond.full_location
+              %td= pond.created_at.to_date
+              %td= link_to 'Show', manage_pond_path(pond)
+              %td= link_to 'Edit', edit_manage_pond_path(pond)
+              %td= link_to 'Destroy',manage_pond_path(pond), method: :delete, data: { confirm: 'Are you sure?' }

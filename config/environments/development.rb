@@ -16,7 +16,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   # Do not eager load code on boot.
-  config.eager_load = false
+  config.eager_load = true
 
   # Show full error reports.
   config.consider_all_requests_local = true
@@ -83,6 +83,9 @@ Rails.application.configure do
 
   # Devise 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # Load file changes without restart server
+  config.reload_classes_only_on_change = false
 
   # ngrok hosting
   config.hosts << /[a-z0-9-]+\.ngrok\.io/

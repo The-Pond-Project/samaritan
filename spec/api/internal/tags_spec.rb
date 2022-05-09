@@ -7,7 +7,7 @@ RSpec.describe '/tags', type: :request do
   let(:tags) { create_list(:tag, 2, approved: true) }
   let(:tag) { create(:tag) }
 
-  before do 
+  before do
     tags
     authorize_request
   end
@@ -36,7 +36,7 @@ RSpec.describe '/tags', type: :request do
     end
   end
 
-  def expected_response 
+  def expected_response
     tags.map do |tag|
       ::Internal::TagSerializer.new(tag)
     end.to_json

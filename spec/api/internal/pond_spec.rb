@@ -7,7 +7,7 @@ RSpec.describe '/ponds', type: :request do
   let(:ponds) { create_list(:pond, 2) }
   let(:pond) { create(:pond) }
 
-  before do 
+  before do
     ponds
     authorize_request
   end
@@ -36,7 +36,7 @@ RSpec.describe '/ponds', type: :request do
     end
   end
 
-  def expected_response 
+  def expected_response
     ponds.map do |pond|
       ::Internal::PondSerializer.new(pond)
     end.to_json

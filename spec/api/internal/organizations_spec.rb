@@ -7,7 +7,7 @@ RSpec.describe '/organizations', type: :request do
   let(:organizations) { create_list(:organization, 2) }
   let(:organization) { create(:organization) }
 
-  before do 
+  before do
     organizations
     authorize_request
   end
@@ -36,7 +36,7 @@ RSpec.describe '/organizations', type: :request do
     end
   end
 
-  def expected_response 
+  def expected_response
     organizations.map do |organization|
       ::Internal::OrganizationSerializer.new(organization)
     end.to_json

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Internal
     class PondsController < ::Api::BaseController
@@ -8,7 +10,7 @@ module Api
       end
 
       def show
-        render json: @pond, serializer: ::Internal::PondSerializer 
+        render json: @pond, serializer: ::Internal::PondSerializer
       end
 
       private

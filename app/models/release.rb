@@ -26,6 +26,7 @@ class Release < ApplicationRecord
 
   # Associations
   has_many :ponds
+  has_many :pond_batch_records, dependent: :destroy
   belongs_to :organization
 
   # Public Class Mehtod
@@ -39,6 +40,7 @@ class Release < ApplicationRecord
     # we can just use the count of all ponds
     ponds = Pond.count
     return 0 if releases.zero? || ponds.zero?
+
     ponds / releases
   end
 end

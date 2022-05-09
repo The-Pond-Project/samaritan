@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Internal
     class ImpactController < ::Api::BaseController
@@ -13,9 +15,6 @@ module Api
       def count
         render json: { count: Pond.count }
       end
-
-      private
-
     end
   end
 end

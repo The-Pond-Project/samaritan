@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Pond features' do
@@ -12,8 +14,8 @@ RSpec.describe 'Pond features' do
     visit('/ponds')
   end
 
-  # include_examples 'navbar' 
-  # include_examples 'footer' 
+  # include_examples 'navbar'
+  # include_examples 'footer'
 
   describe 'table' do
     it 'displays content' do
@@ -22,6 +24,5 @@ RSpec.describe 'Pond features' do
       expect(page).to have_content('Ripples')
       expect(page).to have_content('Last active')
     end
-
   end
-end 
+end

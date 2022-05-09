@@ -4,20 +4,20 @@
     .row.col-md-6.col-md-offset-2.custyle
     %table.table.table-striped.custab
       %tr
+        %th Key
         %th Uuid
         %th Postal code
         %th City
         %th Region
         %th Country
-        %th Key
         %th
       %tbody
         - @ponds.each do |pond|
           %tr
+            %td= pond.key
             %td= pond.uuid
             %td= pond.postal_code
             %td= pond.city
             %td= pond.region
             %td= pond.country
-            %td= pond.key
             %td= link_to 'Show', manage_pond_path(pond.key)

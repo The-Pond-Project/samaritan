@@ -1,0 +1,37 @@
+.container.pt-4
+  %h1 Create Ponds
+  - if @creator.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@creator.errors.count, "error")} prohibited ponds from being saved:"
+      %ul
+        - @creator.errors.each do |message|
+          %li= message
+  = form_with  url: manage_organization_release_pond_batch_record_index_path(@organization, @release), enctype: "multipart/form-data", method: 'POST' do
+
+    .field
+      = hidden_field :release_id, value: @release.id
+    .field
+      = label_tag :amount
+      = number_field_tag :amount, min: '1', step: '1', type: 'number', value: '1'
+    .field
+      = label_tag :unique_code
+      = text_field_tag :unique_code
+    %h3 Location
+    =fields_for :location do |location|
+      .field
+        = label_tag :country
+        = location.text_field :country
+      .field
+        = label_tag :region
+        = location.text_field :region
+      .field
+        = label_tag :city
+        = location.text_field :city
+      .field
+        = label_tag :postal_code
+        = location.text_field :postal_code
+
+    .actions
+      = submit_tag 'Create'
+
+

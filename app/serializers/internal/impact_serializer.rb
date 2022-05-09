@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 module Internal
   class ImpactSerializer < ActiveModel::Serializer
     attributes :ponds, :largest_pond,
-    :ripples, :international_ripples, :domestic_ripples,
-    :releases, :average_release_size, 
-    :organizations
-
+               :ripples, :international_ripples, :domestic_ripples,
+               :releases, :average_release_size,
+               :organizations
 
     def ponds
       Pond.count
@@ -38,4 +39,4 @@ module Internal
       Organization.count
     end
   end
-end 
+end

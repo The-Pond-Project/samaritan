@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Lint/IneffectiveAccessModifier
 class Pond < ApplicationRecord
-  class GenerationError < StandardError; end
   extend FriendlyId
   include PondRippleConcern
 
@@ -48,28 +46,6 @@ class Pond < ApplicationRecord
   has_paper_trail
   acts_as_paranoid
   friendly_id :key, use: :slugged
-
-  #
-  # Public Class Method
-  #
-  # This method is a class method that will generate x amount of pond objects.
-  # You can pass in a 2 Char unique pond code and a location hash
-  # Amount: Interger, Location: Hash, unique_pond_code: Nil or String(2)
-  def self.generate(amount:, release_id:, location: {}, unique_pond_code: nil)
-    validate_generate_args(amount: amount, location: location,
-                           unique_pond_code: unique_pond_code, release_id: release_id)
-
-    amount.times do
-      create(
-        key: unique_pond_code ? custom_hex_key(unique_pond_code) : standard_hex_key,
-        postal_code: location[:postal_code],
-        city: location[:city],
-        region: location[:region],
-        country: location[:country],
-        release_id: release_id
-      )
-    end
-  end
 
   #
   # Public Instance Method
@@ -143,28 +119,4 @@ class Pond < ApplicationRecord
     errors.add(:key, 'must start with P-') unless key.first(2) == 'P-'
     errors.add(:key, 'must be 8 charcters long') unless key.size == 8
   end
-
-  # standard pond key hex
-  # Example: P-40326A
-  def self.standard_hex_key
-    "P-#{SecureRandom.hex(3).upcase}"
-  end
-
-  # custom pond key hex
-  # Example if unique code was 'GN': P-GN326A
-  def self.custom_hex_key(unique_code)
-    "P-#{unique_code}".upcase + SecureRandom.hex(2).upcase
-  end
-
-  def self.validate_generate_args(amount:, location:, release_id:, unique_pond_code: nil)
-    if unique_pond_code && unique_pond_code.size > 2
-      raise GenerationError, 'Pond Code must be 2 characters'
-    end
-
-    raise GenerationError, 'Release is can not be nil' unless release_id.is_a?(Integer)
-    raise GenerationError, 'Pond location must be hash' unless location.is_a?(Hash)
-    raise GenerationError, 'Amount must be Integer' unless amount.is_a?(Integer)
-    raise GenerationError, 'Amount must be lower than 250' unless amount <= 250
-  end
 end
-# rubocop:enable Lint/IneffectiveAccessModifier
