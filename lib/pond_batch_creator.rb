@@ -1,3 +1,5 @@
+require 'csv'
+
 class PondBatchCreator
   attr_reader :amount, :release_id, :unique_code, :ponds
 
@@ -16,7 +18,7 @@ class PondBatchCreator
   end
 
   def create_ponds
-    ActiveRecord::Base.transaction do 
+    ActiveRecord::Base.transaction do
       amount.times do
           pond = Pond.create(
             key: unique_code.present? ? custom_hex_key(unique_code) : standard_hex_key,
@@ -30,12 +32,15 @@ class PondBatchCreator
       end
     end
     errors << 'Pond creation error' if ponds.count != amount
-    create_batch_record! if success?
+    if success?
+      create_csv_file!
+      create_batch_record!
+    end
     ponds
   end
 
   def location
-    return {} unless @location.is_a?(Hash)
+    return {} unless @location.is_a?(ActionController::Parameters) || @location.is_a?(Hash)
     @location
   end
 
@@ -50,23 +55,36 @@ class PondBatchCreator
   end
 
   def create_batch_record!
-    PondBathRecord.create!(
-      release_id: release_id,
-      amount: amount
+    @batch_record ||= PondBatchRecord.create!(
+                      release_id: release_id,
+                      amount: amount,
+                    )
+    @batch_record.csv_file.attach(
+      io: File.open(@tempfile.path),
+      filename: csv_file_name, 
+      content_type: "text/csv"
     )
   end
 
-  def csv
-    attributes = ['organization', 'key', 'uuid', 'location', 'created_at']
-    @csv ||= ::CSV.generate( headers: true) do |csv|
-                      csv << attributes
-                      ponds.each do |pond|
-                        csv << [pond.organization.name, pond.key, pond.uuid, pond.full_location, pond.created_at]
-                      end
+  def create_csv_file!
+    @tempfile ||= Tempfile.new(csv_file_name)
+    attributes = ['Organization', 'Key', 'UUID', 'Location', 'Created']
+    @csv_file ||= CSV.open(@tempfile, "w") do |csv|
+                    csv << attributes
+                    ponds.each do |pond|
+                      csv << [pond.organization.name, pond.key, pond.uuid, pond.full_location, pond.created_at]
                     end
+                  end
   end
 
-  private 
+  private
+
+  def csv_file_name
+    org_name = Release.find(release_id).organization.name.downcase.chomp.gsub(' ', '_')
+    date = Time.now.strftime('%m%d%Y')
+    time = Time.now.strftime('%H%M')
+    "#{org_name}_pond_creation_#{date}_#{time}.csv"
+  end
 
   # standard pond key hex
   # Example: P-40326A
@@ -86,6 +104,7 @@ class PondBatchCreator
     end
 
     errors << 'Release must be a String' unless release_id.is_a?(Integer)
+    errors << 'Release not found!' unless Release.find_by(id: release_id).present?
     errors << 'Amount can not be lower than 0' unless amount >= 0
     errors << 'Amount must be lower than 1000' unless amount <= 1000
   end

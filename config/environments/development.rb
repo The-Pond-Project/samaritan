@@ -84,6 +84,9 @@ Rails.application.configure do
   # Devise 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  # Load file changes without restart server
+  config.reload_classes_only_on_change = false
+
   # ngrok hosting
   config.hosts << /[a-z0-9-]+\.ngrok\.io/
   Rails.application.routes.default_url_options[:host] = 'micahbowie.ngrok.io'

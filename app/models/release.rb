@@ -26,6 +26,7 @@ class Release < ApplicationRecord
 
   # Associations
   has_many :ponds
+  has_many :pond_batch_records, dependent: :destroy
   belongs_to :organization
 
   # Public Class Mehtod

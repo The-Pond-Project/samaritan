@@ -6,7 +6,7 @@
       %ul
         - @creator.errors.each do |message|
           %li= message
-  = form_tag  manage_organization_release_pond_batch_creation_index_path(@organization, @release), method: 'POST' do
+  = form_with  url: manage_organization_release_pond_batch_record_index_path(@organization, @release), enctype: "multipart/form-data", method: 'POST' do
 
     .field
       = hidden_field :release_id, value: @release.id

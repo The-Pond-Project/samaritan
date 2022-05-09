@@ -1,7 +1,7 @@
 require 'csv'
 
 module Manage
-  class PondBatchCreationController < ApplicationController
+  class PondBatchRecordController < ApplicationController
     before_action :set_release, :set_organization, :creator
 
     def new; end
@@ -9,8 +9,7 @@ module Manage
     def create
       creator.create_ponds
       if creator.success?
-        success_msg = "#{creator.amount} ponds were sucessfully created"
-        # send_data @csv_file
+        success_msg = "#{creator.amount} pond(s) were sucessfully created"
         redirect_to manage_organization_release_path(@organization, @release), notice: success_msg
       else
         render :new, status: :unprocessable_entity
@@ -28,22 +27,12 @@ module Manage
     end
 
     def creator
-      @creator ||= PondBatchCreator.new(
+      @creator ||= ::PondBatchCreator.new(
         amount: params[:amount],
         location: params[:location], 
         release_id: @release.id, 
         unique_code: params[:unique_code]
       )
-    end
-
-    def csv_file
-      attributes = ['organization', 'key', 'uuid', 'location', 'created_at']
-      @csv_file ||= ::CSV.generate( headers: true) do |csv|
-                        csv << attributes
-                        creator.ponds.each do |pond|
-                          csv << [pond.organization.name, pond.key, pond.uuid, pond.full_location, pond.created_at]
-                        end
-                      end
     end
   end
 end 

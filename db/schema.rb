@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_26_190011) do
+ActiveRecord::Schema.define(version: 2022_04_11_015251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,15 @@ ActiveRecord::Schema.define(version: 2022_02_26_190011) do
     t.index ["deleted_at"], name: "index_organizations_on_deleted_at"
     t.index ["name"], name: "index_organizations_on_name"
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
+  end
+
+  create_table "pond_batch_records", force: :cascade do |t|
+    t.bigint "release_id", null: false
+    t.integer "amount", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["release_id"], name: "index_pond_batch_records_on_release_id"
   end
 
   create_table "ponds", force: :cascade do |t|
