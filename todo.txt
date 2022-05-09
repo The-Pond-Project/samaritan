@@ -1,6 +1,4 @@
-- Add csv blob to pond batch record
-- add validations to batch record 
-- finish pond creator to save batch records with csv
-- add tests
-- add index view to see and download batch records
-- deleted unneeded code
+- add style for tags show 
+- add partners page
+- look up proper way to load images in rails webpage
+- make fallback images

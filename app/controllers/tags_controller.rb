@@ -5,7 +5,7 @@ class TagsController < ApplicationController
   before_action :set_organizations, only: %i[new edit create]
 
   def index
-    @tags = Tag.all.includes([:organization])
+    @tags = Tag.approved
   end
 
   def show; end

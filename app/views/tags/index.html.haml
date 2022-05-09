@@ -1,28 +1,22 @@
-%h1 Listing tags
+.container.pt-4.d-flex.flex-sm-row.flex-column.align-items-center
+  .svg-container.w-50
+    = show_svg('hashtag.svg')
+  .tags-jumbotron.mx-3
+    %h1 Tags
+    %p.tags-paragraph.text-muted.flex-fill
+      Here are all the tags that can be used when recording a ripple. Don't see a tag you like? Add your own!
+    = link_to 'Create a tag', new_tag_path, { class:'btn btn-primary'}
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th Organization
-      %th Approved
-      %th
-      %th
-      %th
-
-  %tbody
+%hr
+.container.mt-5.tags-show
+  %ul.tags.mt-4
     - @tags.each do |tag|
-      %tr
-        %td= tag.name
-        %td= tag.description
-        %td= tag.organization.name
-        - if tag.approved.present?
-          %td= tag.approved
-        - else
-          %td pending
-        %td= link_to 'Show', organization_tag_path(tag.organization, tag)
+      = link_to tag_path(tag) do  
+        %li.mx-3
+          %button.tag_style   
+            = tag.name
+            %span
+              %p.tag_count
+                = tag.ripples.count
 
-%br
-
-= link_to 'New Tag', new_tag_path
+.push-footer.mb-5

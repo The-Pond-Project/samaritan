@@ -5,7 +5,7 @@
       %p.mb-5.text-white These are the stats since the first release of KindCards in March 2022.
       .header-body
         .row
-          .col-xl-3.col-lg-6
+          .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
             .card.card-stats.mb-4.mb-xl-0      
               .card-body
                 .row
@@ -20,7 +20,7 @@
                     %i.fa.fa-arrow-up
                     = Pond.count
                   %span.text-nowrap Total Ponds
-          .col-xl-3.col-lg-6
+          .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
             .card.card-stats.mb-4.mb-xl-0
               .card-body
                 .row
@@ -35,7 +35,7 @@
                     %i.fas.fa-arrow-down
                     = Ripple.last_thirty_days.count
                   %span.text-nowrap In the last 30 days
-          .col-xl-3.col-lg-6
+          .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
             .card.card-stats.mb-4.mb-xl-0
               .card-body
                 .row
@@ -50,7 +50,7 @@
                     %i.fas.fa-arrow-down
                     = Release.average_release_size
                   %span.text-nowrap Average Release Size
-          .col-xl-3.col-lg-6
+          .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
             .card.card-stats.mb-4.mb-xl-0
               .card-body
                 .row
@@ -66,7 +66,7 @@
                     = link_to Organization.last.name, organization_path(Organization.last)
                   %span.text-nowrap Recent Partner
 
-.impact-leaderboard
+.impact-leaderboard{'data-aos': 'fade-up'}
   .container
     .h1.text-center.mb-4
       %strong
@@ -98,14 +98,14 @@
                               %strong Total
                               = tag.ripples.count
 
-.impact-time-since
+.impact-time-since{'data-aos': 'fade-up'}
   .container
     %h1.text-center.m-4
       The last Ripple of Kindness was 
       %strong
         %span{ style: 'color: #1484ac '}= Ripple.ripple_since
 
-.container.ripple-stats.mt-4
+.container.ripple-stats.mt-4{'data-aos': 'fade-up'}
   %section#our-stats
     .row.mb-5
       .col.text-center
@@ -125,7 +125,7 @@
           %h2.timer.count-title.count-number= Ripple.domestic.count
           %p.count-text Domestic Ripples
 
-.impact-last-location
+.impact-last-location{'data-aos': 'fade-up'}
   .container
     %h1.text-center.m-4
       The last Ripple Location
