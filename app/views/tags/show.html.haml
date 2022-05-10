@@ -1,18 +1,48 @@
-%p
-  %b Name:
-  = @tag.name
-%p
-  %b Description:
-  = @tag.description
-%p
-  %b Organization:
-  = @tag.organization.name
-%p
-  %b Approved:
-  = @tag.approved
-%p
-  %b Created: 
-  = local_time_ago(@tag.created_at)
+.container.mt-5.tags-show
+  %ul.tags.mt-4
+    %li.mx-3
+      %button.tag_style   
+        = @tag.name
+        %span
+          %p.tag_count
+            = @tag.ripples.count
+  .mx-3
+    %p.my-2
+      %b Organization:
+      = link_to @tag.organization.name, organization_path(@tag.organization)
+      =  + ' |'
+      %b Approval:
+      = @tag.approval + ' |'
+      %b Created:
+      = local_time_ago(@tag.created_at)
+    %p.text-muted.my-2
+      = @tag.description
+  %hr
 
-\|
-= link_to 'Back', tags_path
+%section.pt-5.pb-5
+  .container
+    .row
+      .col-6
+        %h3.mb-3 Ripples
+      .col-6.text-right
+        %a.btn.btn-primary.mb-3.mr-1{"data-slide" => "prev", :href => "#carouselExampleIndicators2", :role => "button"}
+          %i.bi.bi-chevron-left
+        %a.btn.btn-primary.mb-3{"data-slide" => "next", :href => "#carouselExampleIndicators2", :role => "button"}     
+          %i.bi.bi-chevron-right
+      .col-12
+        #carouselExampleIndicators2.carousel.slide{"data-ride" => "carousel"}
+          .carousel-inner
+            - @tag.ripples.each_slice(3).to_a.each_with_index do |group, index|
+              .carousel-item{ class: "#{ index == 0 ? 'active' : '' }"}
+                .row
+                  - group.each do |ripple|
+                    .col-md-4.mb-3.d-flex.align-items-stretch
+                      .card
+                        = image_tag('default_map.png', class: 'img-fluid', alt: 'map' )
+                        .card-body
+                          %h4.card-title= "#{ripple.city}, #{ripple.region}"
+                          %p.card-text
+                            %b Created:
+                            = local_time_ago(ripple.created_at)
+
+.push-footer.mb-5

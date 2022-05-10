@@ -1,4 +1,7 @@
-- add style for tags show 
+- update home page with new graphics
 - add partners page
-- look up proper way to load images in rails webpage
 - make fallback images
+- style organization show path
+- add new fallback image for organization path
+- add tests
+- get travis ci working

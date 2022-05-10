@@ -50,7 +50,21 @@ if Rails.env.development?
   )
 elsif Rails.env.production?
   # Production Seeds
-  User.create(email: 'kindnesspassedon@gmail.com', password: Rails.application.credentials.dig(:pond, :sudo_password), role: :super_admin)
-  User.create(email: 'micahbowie20@gmail.com', password: Rails.application.credentials.dig(:pond, :sudo_password), role: :admin)
+  User.find_or_create(email: 'kindnesspassedon@gmail.com', password: Rails.application.credentials.dig(:pond, :sudo_password), role: :super_admin)
+  User.find_or_create(email: 'micahbowie20@gmail.com', password: Rails.application.credentials.dig(:pond, :sudo_password), role: :admin)
+
+  # Organizations
+  mfk = Organization.find_or_create(name: 'Mission For Kindness', description: 'Mission For Kindness is the organization that started The Pond Project. This is the official orgnization where you can find all free releases and other general information/stats.')
+
+  # Tags 
+  Tag.find_or_create(name: '#kindnesspassedon', description:'An official tag from The Pond Project team', approved: true, organization: mfk)
+  Tag.find_or_create(name: '#passiton', description:'An official tag from The Pond Project team', approved: true, organization: mfk )
+  Tag.find_or_create(name: '#rippleitout', description:'An official tag from The Pond Project team', approved: true, organization: mfk )
+  Tag.find_or_create(name: '#justbecause', description:'An official tag from The Pond Project team', approved: true, organization: mfk )
+  Tag.find_or_create(name: '#growthepond', description:'An official tag from The Pond Project team', approved: true, organization: mfk )
+  Tag.find_or_create(name: '#ohio', description:'OH! IO! A tag to represent Ohio', approved: true, organization: mfk)
+  Tag.find_or_create(name: '#altruist', description:'A tag for people that believe in people', approved: true, organization: mfk)
+  Tag.find_or_create(name: '#genesispond', description:'A tag for ponds from the original release', approved: true, organization: mfk)
+  Tag.find_or_create(name: '#missionforkindness', description:'An official tag from The Pond Project team', approved: true, organization: mfk)
 end 
 

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
+  MISSION_FOR_KINDNESS = 'Mission For Kindness'.freeze
+
   before_action :set_tag, only: %i[show]
-  before_action :set_organizations, only: %i[new edit create]
 
   def index
     @tags = Tag.approved
@@ -16,10 +17,11 @@ class TagsController < ApplicationController
 
   def create
     @tag = Tag.new(tag_params)
+    @tag.organization = Organization.find_by(name: MISSION_FOR_KINDNESS) # Tags default to Mission For Kindness
 
     if @tag.save
       redirect_to organization_tag_url(@tag.organization, @tag),
-                  notice: 'Tag was successfully created.'
+                  notice: 'Tag was successfully submitted. Your tag will be reviewed and approved within 2 days.'
 
     else
       render :new, status: :unprocessable_entity
@@ -32,11 +34,7 @@ class TagsController < ApplicationController
     @tag = Tag.friendly.find_by!(name: params[:name])
   end
 
-  def set_organizations
-    @organizations = Organization.all
-  end
-
   def tag_params
-    params.require(:tag).permit(:name, :description, :organization_id, :approved)
+    params.require(:tag).permit(:name, :description, :approved)
   end
 end
