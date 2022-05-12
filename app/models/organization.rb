@@ -29,6 +29,7 @@ class Organization < ApplicationRecord
   has_many :tags
   has_many :releases
   has_many :ponds, through: :releases
+  has_many :ripples, through: :ponds
   has_one_attached :image
 
   # Gem Configurations
@@ -40,6 +41,19 @@ class Organization < ApplicationRecord
   # Override id as default route param
   def to_param
     name
+  end
+
+  #
+  # Public Instance Method
+  #
+  # Returns when the time since the last was ripple recorded and now
+  # Example: '3 weeks ago'
+  def last_ripple_was
+    return 'No Ripples have been recorded yet' unless ripples.last.present?
+
+    created = ripples.last.created_at.to_time.to_i
+    today = Time.now.to_time.to_i
+    "Last Ripple was " + (today - created).ago.to_words
   end
 
   private

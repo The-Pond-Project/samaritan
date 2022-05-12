@@ -94,7 +94,7 @@ Rails.application.configure do
   config.reload_classes_only_on_change = false
 
   # ngrok hosting
-  config.hosts << /[a-z0-9-]+\.ngrok\.io/
+  config.hosts << /[a-z0-9-]+\.dev\.ngrok\.io/
   Rails.application.routes.default_url_options[:host] = 'micahbowie.ngrok.io'
   Rails.application.routes.default_url_options[:protocol] = 'https'
 end
