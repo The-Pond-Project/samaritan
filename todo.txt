@@ -5,3 +5,6 @@
 - add new fallback image for organization path
 - add tests
 - get travis ci working
+- add styling to ponds ripples index
+- add in graphics
+- add stats to pond show page
