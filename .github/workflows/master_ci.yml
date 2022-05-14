@@ -46,7 +46,7 @@ jobs:
       # Add or replace database setup steps here
       - name: Setup database
         env:
-          PG_DATABASE: postgres
+          PG_DATABASE: the_pond_project_test
           PG_HOST: localhost
           PG_USER: postgres
           PG_PASSWORD: password
