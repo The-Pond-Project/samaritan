@@ -50,7 +50,7 @@ RSpec.describe Tag, type: :model do
 
   describe '#ripples' do
     it 'returns all of its ripples' do
-      tag.ripples << ripples
+      tag.update(ripples: ripples)
       expect(tag.ripples).to eq ripples
     end
   end
