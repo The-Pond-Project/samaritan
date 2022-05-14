@@ -15,6 +15,7 @@ require 'capybara/rspec'
 include ActionDispatch::TestProcess
 include ActionDispatch::TestProcess::FixtureFile
 
+
 # Rspec configuration
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
