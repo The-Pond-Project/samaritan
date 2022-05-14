@@ -50,6 +50,8 @@ jobs:
           PG_USER: postgres
           PG_PASSWORD: postgres
           RAILS_ENV: test
+        run: bundle exec rails db:drop RAILS_ENV=test
+        run: bundle exec rails db:create RAILS_ENV=test
         run: bundle exec rails db:schema:load
       # - name: Set up database schema
       #   run: bin/rails db:schema:load
