@@ -50,11 +50,12 @@ jobs:
           bundle exec rails db:schema:load
       # Tests
       - name: Run unit specs
-        env:
-            PG_USER: postgres
-            PG_PASSWORD: postgres
-            RAILS_ENV: test
         run: bundle exec rspec spec/models
+      - name: Create Coverage Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: coverage/
 
   lint:
     runs-on: ubuntu-latest
