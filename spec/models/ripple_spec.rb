@@ -88,17 +88,18 @@ RSpec.describe Ripple, type: :model do
   end
 
   describe '#descendants' do
-    before do 
+    before do
       ripple
       ripples
     end
+
     it 'returns all ripples created after that instance that belong to the same pond' do
-      expect(ripples).to eq ripple.descendants
+      expect(ripple.descendants).to eq ripples
     end
   end
 
   describe '#ancestors' do
-    before do 
+    before do
       ripples
       ripple
     end
