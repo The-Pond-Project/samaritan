@@ -53,8 +53,9 @@ jobs:
           RAILS_ENV: test
           WITH_COVERAGE: true
           DISABLE_SPRING: 1
-      - name: Set up database schema
         run: bin/rails db:schema:load
+      # - name: Set up database schema
+      #   run: bin/rails db:schema:load
       # Add or replace test runners here
       - name: Run tests
         run: bundle exec rspec spec/models
