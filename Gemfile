@@ -39,7 +39,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'html2haml', '~> 2.2'
-  gem 'pg', '~> 1.1'
   gem 'rspec-junklet'
   gem 'rspec-rails'
   gem 'rubocop'
