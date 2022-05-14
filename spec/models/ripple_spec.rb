@@ -99,7 +99,7 @@ RSpec.describe Ripple, type: :model do
     it 'returns all ripples created before that instance that belong to the same pond' do
       ripples
       ripple
-      expect(ripple.ancestors).to eq ripples
+      expect(ripple.reload.ancestors).to eq ripples
     end
   end
 
