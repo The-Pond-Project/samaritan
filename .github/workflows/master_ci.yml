@@ -24,15 +24,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         env:
+          RAILS_ENV: ci
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-        # env:
-        #   POSTGRES_DB: rails_test
-        #   POSTGRES_USER: rails
-        #   POSTGRES_PASSWORD: password
-    # env:
-    #   RAILS_ENV: test
-    #   DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -49,13 +43,11 @@ jobs:
         env:
           PG_USER: postgres
           PG_PASSWORD: postgres
-          RAILS_ENV: test
+          RAILS_ENV: ci
         run: | 
           bundle exec rails db:drop RAILS_ENV=test
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load
-      # - name: Set up database schema
-      #   run: bin/rails db:schema:load
       # Add or replace test runners here
       - name: Run tests
         run: bundle exec rspec spec/models
