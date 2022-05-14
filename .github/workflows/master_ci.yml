@@ -20,11 +20,11 @@ jobs:
           - "5432:5432"
         env:
           POSTGRES_DB: the_pond_project_test
-          POSTGRES_USER: rails
+          POSTGRES_USER: Micah
           POSTGRES_PASSWORD: password
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      DATABASE_URL: "postgres://Micah:password@localhost:5432/the_pond_project_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
