@@ -50,7 +50,7 @@ jobs:
           PG_USER: postgres
           PG_PASSWORD: password
           RAILS_ENV: test
-        run: rails db:schema:load
+        run: bundle exec rails db:schema:load
       # - name: Set up database schema
       #   run: bin/rails db:schema:load
       # Add or replace test runners here
