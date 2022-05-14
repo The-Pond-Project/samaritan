@@ -24,6 +24,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         # env:
         #   POSTGRES_DB: rails_test
@@ -46,13 +47,9 @@ jobs:
       # Add or replace database setup steps here
       - name: Setup database
         env:
-          PG_DATABASE: the_pond_project_test
-          PG_HOST: localhost
           PG_USER: postgres
           PG_PASSWORD: password
           RAILS_ENV: test
-          WITH_COVERAGE: true
-          DISABLE_SPRING: 1
         run: bin/rails db:schema:load
       # - name: Set up database schema
       #   run: bin/rails db:schema:load
