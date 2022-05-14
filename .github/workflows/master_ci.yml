@@ -48,7 +48,7 @@ jobs:
       - name: Setup database
         env:
           PG_USER: postgres
-          PG_PASSWORD: password
+          PG_PASSWORD: postgres
           RAILS_ENV: test
         run: bundle exec rails db:schema:load
       # - name: Set up database schema
