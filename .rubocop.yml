@@ -1,0 +1,127 @@
+require:
+  - rubocop-rspec
+  - rubocop-rails 
+
+AllCops: 
+  TargetRubyVersion: 2.6
+  Exclude: 
+    - bin/**/*
+    - config/**/*
+    - db/**/*
+    - lib/tasks/auto_annotate_models.rake
+    - node_modules/**/*
+    - script/**/*
+    - vendor/**/*
+    - log/**/*
+    - spec\rails_helper.rb
+    - spec\spec_helper.rb
+
+Rails: 
+  Enabled: true 
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false 
+
+Metrics/BlockLength:
+  Exclude: 
+    - spec/**/*
+    - lib/tasks/**/*
+
+Metrics/ClassLength:
+  Max: 100
+  CountComments: false
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 20
+
+Style/Documentation:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/MultilineIfModifier:
+  Enabled: false
+
+Style/HasAndBelongsToMany:
+  Enabled: false
+  
+Style/MutableConstant:
+  Enabled: false
+
+Style/PerlBackrefs:
+  Enabled: false
+
+Style/RedundantBegin:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+RSpec/ContextWording: 
+  Prefixes:
+    - as 
+    - when 
+    - with 
+    - without 
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/features/**/*
+
+# RSpec/DescribeSymbol:
+
+RSpec/EmptyLineAfterFinalLet:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 12 
+  Exclude:
+    - spec/features/**/*
+
+RSpec/ExpectChange:
+  EnforcedStyle: block
+
+# RSpec/FilePath:
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Exclude: 
+    - spec/features/**/*
+    - spec/views/**/*
+    - spec/requests/**/*
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 7
+
+RSpec/SkipsModelValidations:
+  Exclude:
+    - spec/**/*
+
+Rails/UnknownEnv:
+  Environments:
+    - production 
+    - integration
+    - testing
+    - test 
+    - development
