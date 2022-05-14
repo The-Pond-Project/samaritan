@@ -48,8 +48,12 @@ jobs:
           bundle exec rails db:drop RAILS_ENV=test
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load
-      # Add or replace test runners here
-      - name: Run tests
+      # Tests
+      - name: Run unit specs
+        env:
+            PG_USER: postgres
+            PG_PASSWORD: postgres
+            RAILS_ENV: test
         run: bundle exec rspec spec/models
 
   lint:
