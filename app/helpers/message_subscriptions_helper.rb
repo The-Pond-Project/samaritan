@@ -4,6 +4,7 @@ module MessageSubscriptionsHelper
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable  Metrics/AbcSize
   def create_response_body(params)
     parse_body = params[:Body]&.strip&.split(' ')
     command ||= parse_body&.first&.upcase
@@ -35,6 +36,7 @@ module MessageSubscriptionsHelper
                                                                     and UNSUBSCRIBE."
     end
   end
+  # rubocop:enable  Metrics/AbcSize
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/CyclomaticComplexity

@@ -25,7 +25,7 @@ class Release < ApplicationRecord
   friendly_id :name, use: :slugged
 
   # Associations
-  has_many :ponds
+  has_many :ponds, dependent: :destroy
   has_many :pond_batch_records, dependent: :destroy
   belongs_to :organization
 

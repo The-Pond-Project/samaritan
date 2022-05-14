@@ -16,8 +16,8 @@ RSpec.describe RipplesController, type: :routing do
     end
 
     it 'routes to #show' do
-      expect(get: "/ponds/P-ABC123/ripples/#{uuid}").to route_to('ripples#show', uuid: uuid,
-                                                                                 pond_key: 'P-ABC123')
+      expect(get: "/ponds/P-ABC123/ripples/#{uuid}") \
+        .to route_to('ripples#show', uuid: uuid, pond_key: 'P-ABC123')
     end
 
     it 'routes to #create' do

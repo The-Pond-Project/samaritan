@@ -2,6 +2,7 @@
 
 require 'uri'
 
+# rubocop:disable Rails/UniqueValidationWithoutIndex
 class Organization < ApplicationRecord
   extend FriendlyId
 
@@ -19,15 +20,15 @@ class Organization < ApplicationRecord
 
   # Validations
   validates :name, uniqueness: true
-  validates :name, :description, presence: true, uniqueness: true
+  validates :name, :description, presence: true
   validates :name, length: { in: 5..45 }
   validates :description, length: { in: 5..350 }
   validate :correct_image_type
   validate :url_format
 
   # Associations
-  has_many :tags
-  has_many :releases
+  has_many :tags, dependent: :destroy
+  has_many :releases, dependent: :destroy
   has_many :ponds, through: :releases
   has_many :ripples, through: :ponds
   has_one_attached :image
@@ -73,3 +74,4 @@ class Organization < ApplicationRecord
     errors.add(:website, 'invalid format. Example: https://kindnesspassedon.org ') unless uri&.host
   end
 end
+# rubocop:enable Rails/UniqueValidationWithoutIndex

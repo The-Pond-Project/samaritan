@@ -33,7 +33,7 @@ module PondRippleConcern
   end
 
   def convert_country_code
-    return if country.present? && country&.size > 3
+    return if country.present? && country&.size.try(:>, 3)
 
     self.country = ISO3166::Country.new(country).name if country.present?
   end

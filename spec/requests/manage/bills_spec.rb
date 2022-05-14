@@ -73,22 +73,22 @@ RSpec.describe '/bills', type: :request do
   end
 
   describe 'PATCH /update' do
+    let(:old_bill) { bills.last }
     before do
       bills
-      @old_bill = bills.last
     end
 
     context 'with valid parameters' do
       it 'updates the requested bill' do
-        patch manage_bill_url(@old_bill), params: { bill: bill.attributes }
-        @old_bill.reload
-        expect(@old_bill.name).to eq(bill.name)
+        patch manage_bill_url(old_bill), params: { bill: bill.attributes }
+        old_bill.reload
+        expect(old_bill.name).to eq(bill.name)
       end
 
       it 'redirects to the bill' do
-        patch manage_bill_url(@old_bill), params: { bill: bill.attributes }
-        @old_bill.reload
-        expect(response).to redirect_to(manage_bill_url(@old_bill))
+        patch manage_bill_url(old_bill), params: { bill: bill.attributes }
+        old_bill.reload
+        expect(response).to redirect_to(manage_bill_url(old_bill))
       end
     end
 

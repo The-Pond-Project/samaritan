@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'navbar' do
+  # rubocop:disable RSpec/MultipleExpectations
   describe 'navbar' do
     it 'displays links' do
       expect(page).to have_link('Home', href: '/')
@@ -59,4 +60,5 @@ RSpec.shared_examples 'navbar' do
       expect(page).to have_current_path('/users/sign_in')
     end
   end
+  # rubocop:enable RSpec/MultipleExpectations
 end

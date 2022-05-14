@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :routing do
+  describe 'routing' do
+    it 'is implemented but waiting' do
+      pending('add specs')
+    end
+  end
   # let(:user) { create(:user, :super_admin) }
 
   # before do
@@ -38,13 +43,13 @@ RSpec.describe OrganizationsController, type: :routing do
   #   end
 
   #   it 'routes to #update via PATCH' do
-  #     expect(patch: '/manage/organizations/kindnesspassedon').to route_to('organizations#update',
-  #                                                                  name: 'kindnesspassedon')
+  #     expect(patch: '/manage/organizations/kindnesspassedon') \
+  # .to route_to('organizations#update', name: 'kindnesspassedon')
   #   end
 
   #   it 'routes to #destroy' do
-  #     expect(delete: '/manage/organizations/kindnesspassedon').to route_to('organizations#destroy',
-  #                                                                   name: 'kindnesspassedon')
+  #     expect(delete: '/manage/organizations/kindnesspassedon') \
+  # .to route_to('organizations#destroy', name: 'kindnesspassedon')
   #   end
   # end
 end

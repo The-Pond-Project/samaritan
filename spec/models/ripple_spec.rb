@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Ripple, type: :model do
   subject { described_class.new }
 
@@ -57,11 +58,6 @@ RSpec.describe Ripple, type: :model do
       it 'converts nil postal_code to unknown' do
         described_class.create(pond: pond, user: user)
         expect(described_class.last.postal_code).to eq 'Unknown'
-      end
-
-      it 'validates tag limit of 3' do
-        described_class.create(pond: pond, user: user, tags: tags)
-        expect(described_class.count).to eq 0
       end
 
       it 'validates tag limit of 3' do
@@ -227,3 +223,4 @@ RSpec.describe Ripple, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

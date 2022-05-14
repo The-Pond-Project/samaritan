@@ -13,7 +13,6 @@ RSpec.describe Pond, type: :model do
       postal_code: Faker::Address.postcode,
     }
   end
-  let(:amount) { 3 }
   let(:release) { create(:release) }
   let(:pond) { create(:pond, country: 'US', release: release) }
   let(:ripples) { create_list(:ripple, 3, pond: pond, country: 'US') }
@@ -41,7 +40,7 @@ RSpec.describe Pond, type: :model do
 
     describe 'with invalid' do
       describe 'key' do
-        context 'length' do
+        context 'when length is invalid' do
           let(:pond) { create(:pond, key: 'akey', release: release) }
 
           it 'can NOT create a pond' do
@@ -49,7 +48,7 @@ RSpec.describe Pond, type: :model do
           end
         end
 
-        context 'start' do
+        context 'when start is invalid' do
           let(:pond) { create(:pond, key: 'H-ABC123', release: release) }
 
           it 'can NOT create a pond' do
@@ -57,7 +56,7 @@ RSpec.describe Pond, type: :model do
           end
         end
 
-        context 'type' do
+        context 'when type is invalid' do
           let(:pond) { create(:pond, key: 123, release: release) }
 
           it 'can NOT create a pond' do
@@ -67,7 +66,7 @@ RSpec.describe Pond, type: :model do
       end
 
       describe 'uuid' do
-        context 'spaces' do
+        context 'when there are no spaces' do
           let(:pond) { create(:pond, uuid: 'notlongenough', release: release) }
 
           it 'can NOT create a pond' do
@@ -75,7 +74,7 @@ RSpec.describe Pond, type: :model do
           end
         end
 
-        context 'length' do
+        context 'when length is invalid' do
           let(:pond) do
             create(:pond, uuid: '03729ea0r77a7t4596pa661u6148c8878b91', release: release)
           end
@@ -85,7 +84,7 @@ RSpec.describe Pond, type: :model do
           end
         end
 
-        context 'type' do
+        context 'when type is invalid' do
           let(:pond) { create(:pond, uuid: 123, release: release) }
 
           it 'can NOT create a pond' do

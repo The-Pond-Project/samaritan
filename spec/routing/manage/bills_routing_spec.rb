@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe Manage::BillsController, type: :routing do
+  describe 'routing' do
+    it 'is implemented but waiting' do
+      pending('add specs')
+    end
+  end
   # describe "routing" do
   #   it "routes to #index" do
   #     expect(get: "/bills").to route_to("bills#index")

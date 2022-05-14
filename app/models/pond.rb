@@ -34,7 +34,7 @@ class Pond < ApplicationRecord
   alias_attribute :pond_key, :key
 
   # Associations
-  has_many :ripples
+  has_many :ripples, dependent: :destroy
   belongs_to :release
   has_one :organization, through: :release
 

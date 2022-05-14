@@ -17,11 +17,12 @@ class TagsController < ApplicationController
 
   def create
     @tag = Tag.new(tag_params)
-    @tag.organization = Organization.find_by(name: MISSION_FOR_KINDNESS) # Tags default to Mission For Kindness
+    # Tags default to Mission For Kindness
+    @tag.organization = Organization.find_by(name: MISSION_FOR_KINDNESS)
 
     if @tag.save
-      redirect_to organization_tag_url(@tag.organization, @tag),
-                  notice: 'Tag was successfully submitted. Your tag will be reviewed and approved within 2 days.'
+      msg = 'Tag was successfully submitted. Your tag will be reviewed and approved within 2 days.'
+      redirect_to organization_tag_url(@tag.organization, @tag), notice: msg
 
     else
       render :new, status: :unprocessable_entity

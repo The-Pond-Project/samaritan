@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PondBatchCreator do
+  # rubocop:disable RSpec/MultipleExpectations
   let(:organization) { create(:organization) }
   let(:release) { create(:release, organization: organization) }
   let(:location) do
@@ -18,9 +19,8 @@ RSpec.describe PondBatchCreator do
       end
 
       it 'creates a pond batch record' do
-        expect { described_class.new(release_id: release.id).create_ponds }.to change {
-                                                                                 PondBatchRecord.count
-                                                                               }.by 1
+        expect { described_class.new(release_id: release.id).create_ponds } \
+          .to change { PondBatchRecord.count }.by 1
         expect(PondBatchRecord.last.csv_file.attached?).to eq(true)
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe PondBatchCreator do
     end
 
     context 'with the wrong params' do
-      context 'amount is too high' do
+      context 'when amount is too high' do
         it 'raises pond creation error' do
           creator = described_class.new(
             release_id: release.id,
@@ -95,7 +95,7 @@ RSpec.describe PondBatchCreator do
         end
       end
 
-      context 'amount is not greater than or equal to 1' do
+      context 'when amount is not greater than or equal to 1' do
         it 'raises pond creation error' do
           creator = described_class.new(
             release_id: release.id,
@@ -106,7 +106,7 @@ RSpec.describe PondBatchCreator do
         end
       end
 
-      context 'release_id is not an integer' do
+      context 'when release_id is not an integer' do
         it 'raises pond creation error' do
           creator = described_class.new(
             release_id: release.id.to_s,
@@ -117,7 +117,7 @@ RSpec.describe PondBatchCreator do
         end
       end
 
-      context 'release_id does not belong to a record in the database' do
+      context 'when release_id does not belong to a record in the database' do
         it 'raises pond creation error' do
           creator = described_class.new(
             release_id: 12_345_678_980
@@ -128,4 +128,5 @@ RSpec.describe PondBatchCreator do
       end
     end
   end
+  # rubocop:enable RSpec/MultipleExpectations
 end

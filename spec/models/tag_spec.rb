@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Tag, type: :model do
   subject { described_class.new }
 
@@ -36,7 +37,7 @@ RSpec.describe Tag, type: :model do
           end
         end
 
-        context 'spacing' do
+        context 'when spacing is invalid' do
           let(:tag) { create(:tag, name: '#Columbus is cool', organization: organization) }
 
           it 'can NOT create a tag' do
@@ -78,3 +79,4 @@ RSpec.describe Tag, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

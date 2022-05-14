@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'footer' do
+  # rubocop:disable RSpec/ExampleLength
+  # rubocop:disable RSpec/MultipleExpectations
   describe 'footer' do
     # before do
     #   @footer = page.find('#footer')
@@ -57,4 +59,6 @@ RSpec.shared_examples 'footer' do
       expect(page).to have_current_path('/stories/new')
     end
   end
+  # rubocop:enable RSpec/ExampleLength
+  # rubocop:enable RSpec/MultipleExpectations
 end

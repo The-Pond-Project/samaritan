@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Home features' do
+  # rubocop:disable Layout/LineLength
   let(:organization) { create(:organization) }
   let(:release) { create(:release, organization: organization) }
   let(:tags) { create_list(:tag, 3, organization: organization) }
@@ -52,4 +53,5 @@ RSpec.describe 'Home features' do
       expect(page).to have_content("Anyone and everyone can participate in this project. Businesses can partner with by buying KindCards and offering them to their employees, Non-profits can participate by coming alongside of us and promoting love in kindness in our communities, developers can participate by contributing there time and ideas to build the platform, individuals can participate by doing a selfless act and then passing on their KindCard. If you don\'t have a KindCard you can participate by practicing empathy, kindness, selfless, and generosity.")
     end
   end
+  # rubocop:enable Layout/LineLength
 end

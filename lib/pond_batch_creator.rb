@@ -3,6 +3,7 @@
 require 'csv'
 
 class PondBatchCreator
+  # rubocop:disable Metrics/AbcSize
   attr_reader :amount, :release_id, :unique_code, :ponds
 
   def initialize(release_id:, amount: 1, location: {}, unique_code: nil)
@@ -23,7 +24,7 @@ class PondBatchCreator
     ActiveRecord::Base.transaction do
       amount.times do
         pond = Pond.create(
-          key: unique_code.present? ? custom_hex_key(unique_code) : standard_hex_key,
+          key: pond_key,
           postal_code: location[:postal_code].presence,
           city: location[:city].presence,
           region: location[:region].presence,
@@ -81,6 +82,10 @@ class PondBatchCreator
 
   private
 
+  def pond_key
+    unique_code.present? ? custom_hex_key(unique_code) : standard_hex_key
+  end
+
   def csv_file_name
     org_name = Release.find(release_id).organization.name.downcase.chomp.gsub(' ', '_')
     date = Time.zone.now.strftime('%m%d%Y')
@@ -100,8 +105,9 @@ class PondBatchCreator
     "P-#{unique_code}".upcase + SecureRandom.hex(2).upcase
   end
 
-  def validate_generate_args(amount:, location:, release_id:, unique_pond_code: nil)
-    if unique_pond_code.present? && unique_pond_code&.size > 2
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def validate_generate_args(amount:, release_id:, unique_pond_code: nil)
+    if unique_pond_code.present? && unique_pond_code&.size.try(:>, 2)
       errors << 'Pond Code must be 2 characters'
     end
 
@@ -110,4 +116,6 @@ class PondBatchCreator
     errors << 'Amount can not be lower than 0' unless amount >= 0
     errors << 'Amount must be lower than 1000' unless amount <= 1000
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/AbcSize
 end
