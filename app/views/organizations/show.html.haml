@@ -1,24 +1,91 @@
-%p#notice= notice
+-# - byebug
+.container-fluid.mt-4
+  .d-xl-inline-flex
+    .col
+      .p-4.m-3
+        .row{ style: 'color: #edc06d'}
+          %span.material-symbols-outlined.material-icons.pt-3{ style: 'font-size: 2em'} domain
+          %h3.m-2= @organization.name
+        %p.m-2.text-muted
+          = @organization.address.try(:+, ' |')
+          = link_to "Visit #{@organization.name}'s website", @organization.website
+      .row.p-4.m-3
+        .media.col-md-4.px-1
+          %figure.pull-left
+            - if @organization.image.attached?
+              = image_tag(@organization.image, alt: "#{@organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
+            - else
+              = image_tag('logo_default', size: '350x250', alt: "#{@organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
+        .col-md-8.py-2.px-1
+          %p.list-group-item-text= @organization.description
+    -# Stats
+    .col
+      .p-4.m-3
+        .row{ style: 'color: #1484ac'}
+          %span.material-symbols-outlined.material-icons.pt-2{ style: 'font-size: 2em'} data_usage
+          %h3.m-2 STATS
+        %hr{ style: 'background-color: #1484ac'}
+        .row{ style: 'color: #1484ac'}
+          .col.text-center
+            %i.bi.bi-calendar3{ style: 'font-size: 2em'}
+            %p Releases
+            %p= @organization.releases.count
+          .col.text-center
+            %span.material-icons-outlined.material-icons{ style: 'font-size: 2em'} style
+            %p Active Ponds
+            %p= @organization.ponds.count
+          .col.text-center
+            %i.bi.bi-droplet-fill{ style: 'font-size: 2em'}
+            %p Ripples
+            %p= @organization.ripples.count
+      .p-4.m-3
+        .row{ style: 'color: #1484ac'}
+          .col.text-center
+            %i.bi.bi-flag-fill{ style: 'font-size: 2em'}
+            %p Domestic Ripples
+            %p= @organization.releases.count
+          .col.text-center
+            %span.material-symbols-outlined.material-icons{ style: 'font-size: 2em'} public
+            %p International Ripples
+            %p= @organization.ponds.count
+          .col.text-center
+            %span.material-symbols-outlined.material-icons{ style: 'font-size: 2em'} map
+            -# %p Last Ripple was
+            %p= @organization.last_ripple_was
 
-%p
-  %b Name:
-  = @organization.name
-%p
-  %b Description:
-  = @organization.description
-%p
-  %b Address:
-  = @organization.address
-%p
-  %b Website:
-  = @organization.website
-
-%p
-  %b Logo:
-  - if @organization.image.attached?
-    = image_tag @organization.image
-  - else
-    = image_tag asset_path('logo_default')
-
-
-= link_to 'Back', organizations_path
+      -# Tags
+      - if @organization.tags.present?
+        .impact-leaderboard.mt-2
+          .container
+            .h3.text-center.mb-4
+              Tags from
+              %strong
+                %span{ style: 'color: #1484ac '}= @organization.name
+            .col-md-12.col-sm-12.col-xs-12
+              .row
+                .col-md-12
+                  .widget-box
+                    .widget-header.bordered-bottom.bordered-themesecondary
+                    .widget-body
+                      .widget-main.no-padding
+                        .tickets-container
+                          %ul.tickets-list
+                            - @organization.tags.limit(3).each do |tag|
+                              %li.ticket-item
+                                .row
+                                  .ticket-user.col-md-6.col-sm-12
+                                    %span.tag-name= tag.name
+                                    %span.user-at by
+                                    %span.user-company= tag.organization.name
+                                  .ticket-time.col-md-4.col-sm-6.col-xs-12
+                                    .divider.hidden-md.hidden-sm.hidden-xs
+                                    %i.fa.fa-clock-o
+                                    - if tag.ripples.present?
+                                      %span.time= "Last used #{tag.ripples.last.pond.ripple_since}"
+                                    - else
+                                      %span.time Has not been used
+                                  .ticket-type.col-md-2.col-sm-6.col-xs-12
+                                    %span.divider.hidden-xs
+                                    %span.type 
+                                      %strong Total
+                                      = tag.ripples.count

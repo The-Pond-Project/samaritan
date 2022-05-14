@@ -58,6 +58,12 @@ class Tag < ApplicationRecord
     name
   end
 
+  def approval
+    return 'Pending' if approved.nil?
+    return 'Approved' if approved.eql?(true)
+    return 'Denied' if approved.eql?(false)
+  end
+
   private
 
   def validate_tag_name

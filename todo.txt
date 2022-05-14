@@ -1,6 +1,10 @@
-- Add csv blob to pond batch record
-- add validations to batch record 
-- finish pond creator to save batch records with csv
+- update home page with new graphics
+- add partners page
+- make fallback images
+- style organization show path
+- add new fallback image for organization path
 - add tests
-- add index view to see and download batch records
-- deleted unneeded code
+- get travis ci working
+- add styling to ponds ripples index
+- add in graphics
+- add stats to pond show page

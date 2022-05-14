@@ -15,6 +15,12 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  # Load SVG files on initialize
+  config.assets.precompile += %w( '.svg' )  
+
+  # Must include to get inline SVGs to work in deploy
+  config.assets.css_compressor = :sass
+
   # Do not eager load code on boot.
   config.eager_load = true
 
@@ -88,7 +94,7 @@ Rails.application.configure do
   config.reload_classes_only_on_change = false
 
   # ngrok hosting
-  config.hosts << /[a-z0-9-]+\.ngrok\.io/
+  config.hosts << /[a-z0-9-]+\.dev\.ngrok\.io/
   Rails.application.routes.default_url_options[:host] = 'micahbowie.ngrok.io'
   Rails.application.routes.default_url_options[:protocol] = 'https'
 end

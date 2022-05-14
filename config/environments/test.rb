@@ -67,7 +67,7 @@ Rails.application.configure do
   config.hosts << "www.example.com" 
 
   # ngrok hosting
-  config.hosts << /[a-z0-9-]+\.ngrok\.io/
+  config.hosts << /[a-z0-9-]+\.dev\.ngrok\.io/
   Rails.application.routes.default_url_options[:host] = 'micahbowie.ngrok.io'
   Rails.application.routes.default_url_options[:protocol] = 'https'
 end

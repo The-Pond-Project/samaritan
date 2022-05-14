@@ -1,20 +1,22 @@
 = form_for @tag do |f|
   - if @tag.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@tag.errors.count, "error")} prohibited this tag from being saved:"
-      %ul
-        - @tag.errors.full_messages.each do |message|
-          %li= message
+    .container
+      #error_explanation
+        %h2= "#{pluralize(@tag.errors.count, "error")} prohibited this tag from being saved:"
+        %ul
+          - @tag.errors.full_messages.each do |message|
+            %li= message
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :organization
-    = f.select :organization_id, @organizations.map { |org| [org.name, org.id] }
 
-  .actions
-    = f.submit 'Save'
+  .form-group
+    .container
+      %hr
+      .row.m-3 
+        .col-md-4.col-md-6.pt-4
+          = f.text_field :name, placeholder: '#missionforkindness', class: 'form-control'
+        .col-md-4.col-md-6.pt-4
+          = f.text_field :description, placeholder: 'A tag to support a mission for kindness', class: 'form-control'
+      .row.m-3
+        .actions.m-3
+          = f.submit 'Submit', class: 'btn btn-outline-primary'
+

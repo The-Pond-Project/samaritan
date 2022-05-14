@@ -5,6 +5,10 @@ class PagesController < ApplicationController
 
   def impact; end
 
+  def privacy_policy; end
+
+  def terms; end
+
   def donate
     @bills = Bill.all
   end
