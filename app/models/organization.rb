@@ -49,11 +49,11 @@ class Organization < ApplicationRecord
   # Returns when the time since the last was ripple recorded and now
   # Example: '3 weeks ago'
   def last_ripple_was
-    return 'No Ripples have been recorded yet' unless ripples.last.present?
+    return 'No Ripples have been recorded yet' if ripples.last.blank?
 
     created = ripples.last.created_at.to_time.to_i
     today = Time.now.to_time.to_i
-    "Last Ripple was " + (today - created).ago.to_words
+    "Last Ripple was #{(today - created).ago.to_words}"
   end
 
   private

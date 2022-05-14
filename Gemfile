@@ -31,18 +31,22 @@ gem 'twilio-ruby'
 gem 'webpacker', '~> 5.0'
 
 group :development, :test do
+  gem 'brakeman'
   gem 'bullet'
+  gem 'bundler-audit'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'html2haml', '~> 2.2'
+  gem 'pg', '~> 1.1'
   gem 'rspec-junklet'
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'ruby_audit'
   gem 'shoulda-matchers', '~> 5.0'
 end
 

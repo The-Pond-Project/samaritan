@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
-  MISSION_FOR_KINDNESS = 'Mission For Kindness'.freeze
+  MISSION_FOR_KINDNESS = 'Mission For Kindness'
 
   before_action :set_tag, only: %i[show]
 
