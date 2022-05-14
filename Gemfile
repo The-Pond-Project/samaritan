@@ -30,7 +30,7 @@ gem 'turbolinks',                     '~> 5'
 gem 'twilio-ruby'
 gem 'webpacker', '~> 5.0'
 
-group :development, :test do
+group :development, :test, :ci do
   gem 'brakeman'
   gem 'bullet'
   gem 'bundler-audit'
@@ -49,7 +49,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 5.0'
 end
 
-group :test do
+group :test, :ci do
   gem 'simplecov'
 end
 

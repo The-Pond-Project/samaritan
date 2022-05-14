@@ -45,8 +45,8 @@ jobs:
           PG_PASSWORD: postgres
           RAILS_ENV: ci
         run: | 
-          bundle exec rails db:drop RAILS_ENV=test
-          bundle exec rails db:create RAILS_ENV=test
+          bundle exec rails db:drop RAILS_ENV=ci
+          bundle exec rails db:create RAILS_ENV=ci
           bundle exec rails db:schema:load
       # Add or replace test runners here
       - name: Run tests
