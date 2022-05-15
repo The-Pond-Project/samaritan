@@ -20,7 +20,7 @@ RSpec.describe '/ripples', type: :request do
 
     it 'renders a all ripples' do
       get api_internal_ripples_url
-      expect(response.body).to match(expected_response)
+      expect(response.body).to include(expected_response)
     end
   end
 
