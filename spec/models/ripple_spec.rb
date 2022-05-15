@@ -94,7 +94,7 @@ RSpec.describe Ripple, type: :model do
     end
 
     it 'returns all ripples created after that instance that belong to the same pond' do
-      expect(ripple.descendants).to eq ripples
+      expect(ripple.descendants).to match_array(ripples)
     end
   end
 
@@ -105,7 +105,7 @@ RSpec.describe Ripple, type: :model do
     end
 
     it 'returns all ripples created before that instance that belong to the same pond' do
-      expect(ripple.ancestors).to eq ripples
+      expect(ripple.ancestors).to match_array(ripples)
     end
   end
 
