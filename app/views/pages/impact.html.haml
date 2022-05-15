@@ -63,47 +63,56 @@
                 %p.mt-3.mb-0.text-muted.text-sm
                   %span.mr-2
                     %i.fas.fa-arrow-up
-                    = link_to Organization.last.name, organization_path(Organization.last)
-                  %span.text-nowrap Recent Partner
+                    - if Organization.count > 0
+                      = link_to Organization.last.name, organization_path(Organization.last)
+                      %span.text-nowrap Recent Partner
+                    - else
+                      There are no recent partners
 
-.impact-leaderboard{'data-aos': 'fade-up'}
-  .container
-    .h1.text-center.mb-4
-      %strong
-        %span{ style: 'color: #1484ac '}= Tag.most_popular.name
-      is the most used tag
-    .col-md-12.col-sm-12.col-xs-12
-      .row
-        .col-md-12
-          .widget-box
-            .widget-header.bordered-bottom.bordered-themesecondary
-            .widget-body
-              .widget-main.no-padding
-                .tickets-container
-                  %ul.tickets-list
-                    - Tag.leaderboard.each do |tag|
-                      %li.ticket-item
-                        .row
-                          .ticket-user.col-md-6.col-sm-12
-                            %span.tag-name= tag.name
-                            %span.user-at by
-                            %span.user-company= tag.organization.name
-                          .ticket-time.col-md-4.col-sm-6.col-xs-12
-                            .divider.hidden-md.hidden-sm.hidden-xs
-                            %i.fa.fa-clock-o
-                            %span.time= "Last used #{tag.ripples.last.pond.ripple_since}"
-                          .ticket-type.col-md-2.col-sm-6.col-xs-12
-                            %span.divider.hidden-xs
-                            %span.type 
-                              %strong Total
-                              = tag.ripples.count
+- unless Tag.leaderboard.blank?
+  .impact-leaderboard{'data-aos': 'fade-up'}
+    .container
+      - if Tag.most_popular.present?
+        .h1.text-center.mb-4
+          %strong
+            %span{ style: 'color: #1484ac '}= Tag.most_popular.name
+          is the most used tag
+      .col-md-12.col-sm-12.col-xs-12
+        .row
+          .col-md-12
+            .widget-box
+              .widget-header.bordered-bottom.bordered-themesecondary
+              .widget-body
+                .widget-main.no-padding
+                  .tickets-container
+                    %ul.tickets-list
+                      - Tag.leaderboard.each do |tag|
+                        %li.ticket-item
+                          .row
+                            .ticket-user.col-md-6.col-sm-12
+                              %span.tag-name= tag.name
+                              %span.user-at by
+                              %span.user-company= tag.organization.name
+                            .ticket-time.col-md-4.col-sm-6.col-xs-12
+                              .divider.hidden-md.hidden-sm.hidden-xs
+                              %i.fa.fa-clock-o
+                              %span.time= "Last used #{tag.ripples.last.pond.ripple_since}"
+                            .ticket-type.col-md-2.col-sm-6.col-xs-12
+                              %span.divider.hidden-xs
+                              %span.type 
+                                %strong Total
+                                = tag.ripples.count
 
 .impact-time-since{'data-aos': 'fade-up'}
   .container
-    %h1.text-center.m-4
-      The last Ripple of Kindness was 
-      %strong
-        %span{ style: 'color: #1484ac '}= Ripple.ripple_since
+    - if Ripple.ripple_since.blank?
+      %h1.text-center.m-4
+        No Ripples have been recorded yet 
+    - else 
+      %h1.text-center.m-4
+        The last Ripple of Kindness was 
+        %strong
+          %span{ style: 'color: #1484ac '}= Ripple.ripple_since
 
 .container.ripple-stats.mt-4{'data-aos': 'fade-up'}
   %section#our-stats
@@ -125,9 +134,10 @@
           %h2.timer.count-title.count-number= Ripple.domestic.count
           %p.count-text Domestic Ripples
 
-.impact-last-location{'data-aos': 'fade-up'}
-  .container
-    %h1.text-center.m-4
-      The last Ripple Location
-      %strong
-        %span{ style: 'color: #1484ac '}= Ripple.last.full_location
+- if Ripple.count > 0
+  .impact-last-location{'data-aos': 'fade-up'}
+    .container
+      %h1.text-center.m-4
+        The last Ripple Location
+        %strong
+          %span{ style: 'color: #1484ac '}= Ripple.last.full_location

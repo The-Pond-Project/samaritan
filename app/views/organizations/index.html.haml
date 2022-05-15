@@ -6,22 +6,22 @@
         %p.fw-light.tron-text{ 'data-aos': 'fade-in', style: 'font-weight: 300; width: 60%; font-size: 16px;'} We welcome businesses or organizations to partner with us in our mission.
         = link_to 'Learn More', root_path, { 'data-aos': 'fade-in', class:'btn btn-primary'}
 
-
-.container.organizations
-  .row
-    .container
-      %h1.text-center.m-4{ style: 'color: #edc06d'} Partnered Organizations
-      .list-group
-      - @organizations.each do |organization|
-        .row.p-4.m-3.rounded{'data-aos': 'fade-up'}
-          .media.col-md-3
-            %figure.pull-left
-              - if organization.image.attached?
-                = image_tag(organization.image, alt: "#{organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
-              - else
-                = image_tag('logo_default', size: '350x250', alt: "#{organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
-          .col-md-6.pt-5.pb-5
-            %p.list-group-item-text= organization.description
-          .col-md-3.text-center.pt-5.pb-5
-            = link_to organization_path(organization) do
-              %button.btn.btn-default.btn-lg.btn-block{:type => "button"} Visit Page
+- if Organization.count > 0
+  .container.organizations
+    .row
+      .container
+        %h1.text-center.m-4{ style: 'color: #edc06d'} Partnered Organizations
+        .list-group
+        - @organizations.each do |organization|
+          .row.p-4.m-3.rounded{'data-aos': 'fade-up'}
+            .media.col-md-3
+              %figure.pull-left
+                - if organization.image.attached?
+                  = image_tag(organization.image, alt: "#{organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
+                - else
+                  = image_tag('logo_default', size: '350x250', alt: "#{organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
+            .col-md-6.pt-5.pb-5
+              %p.list-group-item-text= organization.description
+            .col-md-3.text-center.pt-5.pb-5
+              = link_to organization_path(organization) do
+                %button.btn.btn-default.btn-lg.btn-block{:type => "button"} Visit Page

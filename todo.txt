@@ -9,4 +9,5 @@
 - add in graphics
 - add stats to pond show page
 - fix cve
-
+- add a query/logic to iterate over all bills from the same year
+- add a message subscribe button to ponds

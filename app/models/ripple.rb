@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Rails/UniqueValidationWithoutIndex
 class Ripple < ApplicationRecord
   extend FriendlyId
   include PondRippleConcern
@@ -59,6 +58,8 @@ class Ripple < ApplicationRecord
   # Returns when the time since the last was ripple recorded and now
   # Example: '3 weeks ago'
   def self.ripple_since
+    return if last.blank?
+
     created = last.created_at.to_time.to_i
     today = Time.now.to_time.to_i
     (today - created).ago.to_words
@@ -150,4 +151,3 @@ class Ripple < ApplicationRecord
     errors.add(:tags, 'exceed limit of 3') if tags.size > 3
   end
 end
-# rubocop:enable Rails/UniqueValidationWithoutIndex

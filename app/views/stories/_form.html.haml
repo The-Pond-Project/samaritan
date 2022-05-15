@@ -11,15 +11,15 @@
     .container
       .row.m-3 
         .col
-          = f.text_field :title, placeholder: 'Title', class: 'form-control'
+          = f.text_field :title, placeholder: 'Title', class: 'form-control', require: true
       .row.m-3       
         .col
           = f.text_field :pond_key, placeholder: 'Pond Key (eg. P-ABC123)', class: 'form-control'
         .col
-          = f.text_field :pond_key, placeholder: 'Ripple Id (eg. ds123-efds234-fasd2)', class: 'form-control'
+          = f.text_field :ripple_uuid, placeholder: 'Ripple Id (eg. ds123-efds234-fasd2)', class: 'form-control'
       .row.m-3       
         .col
-          = f.text_area :body, placeholder: 'Tell your story...', class: 'form-control', size: '30x20'
+          = f.text_area :body, placeholder: 'Tell your story...', class: 'form-control', size: '30x20', require: true
       .row.m-3 
         .actions.m-3  
           = f.submit 'Send', class: 'btn btn-outline-primary'

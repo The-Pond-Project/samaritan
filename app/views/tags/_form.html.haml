@@ -13,9 +13,9 @@
       %hr
       .row.m-3 
         .col-md-4.col-md-6.pt-4
-          = f.text_field :name, placeholder: '#missionforkindness', class: 'form-control'
+          = f.text_field :name, placeholder: '#missionforkindness', class: 'form-control', required: true
         .col-md-4.col-md-6.pt-4
-          = f.text_field :description, placeholder: 'A tag to support a mission for kindness', class: 'form-control'
+          = f.text_field :description, placeholder: 'A tag to support a mission for kindness', class: 'form-control', required: true
       .row.m-3
         .actions.m-3
           = f.submit 'Submit', class: 'btn btn-outline-primary'

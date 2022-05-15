@@ -2,7 +2,6 @@
 
 require 'uri'
 
-# rubocop:disable Rails/UniqueValidationWithoutIndex
 class Organization < ApplicationRecord
   extend FriendlyId
 
@@ -77,4 +76,3 @@ class Organization < ApplicationRecord
     errors.add(:website, 'invalid format. Example: https://kindnesspassedon.org ') unless uri&.host
   end
 end
-# rubocop:enable Rails/UniqueValidationWithoutIndex
