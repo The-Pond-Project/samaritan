@@ -8,7 +8,6 @@ class Story < ApplicationRecord
   # title               :string
   # body                :text         not null
   # pond_key            :string
-  # uuid                :string       not null
   # ripple_uuid         :string
   # created_at          :datetime     not null
   # updated_at          :datetime     not null

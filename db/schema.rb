@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
     t.index ["deleted_at"], name: "index_organizations_on_deleted_at"
-    t.index ["name"], name: "index_organizations_on_name"
+    t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
 
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.index ["pond_id"], name: "index_ripples_on_pond_id"
     t.index ["slug"], name: "index_ripples_on_slug", unique: true
     t.index ["user_id"], name: "index_ripples_on_user_id"
+    t.index ["uuid"], name: "index_ripples_on_uuid", unique: true
   end
 
   create_table "ripples_tags", force: :cascade do |t|

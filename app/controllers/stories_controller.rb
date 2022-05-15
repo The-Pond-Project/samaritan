@@ -9,7 +9,7 @@ class StoriesController < ApplicationController
     @story = Story.new(story_params)
 
     if @story.save
-      redirect_to root_url, notice: 'Story was successfully created.'
+      redirect_to root_url, notice: 'Story was successfully submitted.'
     else
       render :new, status: :unprocessable_entity
     end

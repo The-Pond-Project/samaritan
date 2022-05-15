@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Rails/UniqueValidationWithoutIndex
 class Ripple < ApplicationRecord
   extend FriendlyId
   include PondRippleConcern
@@ -152,4 +151,3 @@ class Ripple < ApplicationRecord
     errors.add(:tags, 'exceed limit of 3') if tags.size > 3
   end
 end
-# rubocop:enable Rails/UniqueValidationWithoutIndex

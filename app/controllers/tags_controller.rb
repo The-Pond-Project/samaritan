@@ -22,7 +22,7 @@ class TagsController < ApplicationController
 
     if @tag.save
       msg = 'Tag was successfully submitted. Your tag will be reviewed and approved within 2 days.'
-      redirect_to organization_tag_url(@tag.organization, @tag), notice: msg
+      redirect_to tags_url, notice: msg
 
     else
       render :new, status: :unprocessable_entity
