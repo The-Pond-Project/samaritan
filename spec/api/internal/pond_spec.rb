@@ -19,7 +19,7 @@ RSpec.describe '/ponds', type: :request do
 
     it 'renders a all ponds' do
       get api_internal_ponds_url
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to match(expected_response)
     end
   end
 
