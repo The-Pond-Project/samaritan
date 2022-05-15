@@ -4,10 +4,11 @@ require 'rails_helper'
 require 'api_helper'
 
 RSpec.describe '/ponds', type: :request do
-  let!(:ponds) { create_list(:pond, 2) }
+  let!(:ponds) { build_list(:pond, 2) }
   let(:pond) { create(:pond) }
 
   before do
+    ponds.map(&:save)
     authorize_request
   end
 
