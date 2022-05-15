@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'api_helper'
 
 RSpec.describe '/ponds', type: :request do
-  let!(:ponds) { create_list(:pond, 2) }
+  let(:ponds) { create_list(:pond, 2) }
   let(:pond) { create(:pond) }
 
   before do
@@ -36,7 +36,7 @@ RSpec.describe '/ponds', type: :request do
   end
 
   def expected_response
-    ponds.map do |pond|
+    Pond.all.map do |pond|
       ::Internal::PondSerializer.new(pond)
     end.to_json
   end

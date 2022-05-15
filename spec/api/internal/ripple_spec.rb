@@ -37,7 +37,7 @@ RSpec.describe '/ripples', type: :request do
   end
 
   def expected_response
-    ripples.map do |ripple|
+    Ripple.all.map do |ripple|
       ::Internal::RippleSerializer.new(ripple)
     end.to_json
   end
