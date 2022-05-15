@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show]
 
   def index
-    @organizations = Organization.all
+    @organizations = Organization.all.with_attached_image
   end
 
   def show; end

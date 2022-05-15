@@ -38,6 +38,9 @@ class Organization < ApplicationRecord
   acts_as_paranoid
   friendly_id :name, use: :slugged
 
+  # Scope
+  scope :with_attached_image, -> { includes(image_attachment: :blob) }
+
   # For rails routing
   # Override id as default route param
   def to_param

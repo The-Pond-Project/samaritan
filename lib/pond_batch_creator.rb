@@ -15,7 +15,6 @@ class PondBatchCreator
     validate_generate_args(
       amount: @amount,
       release_id: @release_id,
-      location: @location,
       unique_pond_code: @unique_code.presence
     )
   end

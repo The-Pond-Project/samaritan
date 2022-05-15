@@ -22,6 +22,8 @@ RSpec.shared_examples 'footer' do
       expect(page).to have_link('Story of Kindness', href: '/stories/new')
       expect(page).to have_link('Email', href: 'mailto:kindnesspassedon@gmail.com')
       expect(page).to have_link('Report a bug', href: '#')
+      expect(page).to have_link('Privacy Policy', href: '/privacy')
+      expect(page).to have_link('Terms of Use', href: '/terms')
     end
 
     it 'can navigate to organizations' do
@@ -57,6 +59,16 @@ RSpec.shared_examples 'footer' do
     it 'can navigate to Story of Kindness' do
       click_link('Story of Kindness', match: :first)
       expect(page).to have_current_path('/stories/new')
+    end
+
+    it 'can navigate to privacy policy' do
+      click_link('Privacy Policy')
+      expect(page).to have_current_path('/privacy')
+    end
+
+    it 'can navigate to terms of use' do
+      click_link('Terms of Use')
+      expect(page).to have_current_path('/terms')
     end
   end
   # rubocop:enable RSpec/ExampleLength

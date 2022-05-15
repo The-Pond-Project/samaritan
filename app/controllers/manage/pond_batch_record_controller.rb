@@ -21,7 +21,8 @@ module Manage
     private
 
     def set_release
-      @release = Release.friendly.find_by!(slug: params[:release_id])
+      # @release = Release.friendly.find_by!(slug: params[:release_id])
+      @release = Release.friendly.find_by!(id: params[:release_id])
     end
 
     def set_organization
