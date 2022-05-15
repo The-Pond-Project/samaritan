@@ -41,6 +41,14 @@ jobs:
           bundle exec rails db:drop RAILS_ENV=test
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load
+      - name: Setup Webpacker
+        env:
+          PG_USER: postgres
+          PG_PASSWORD: postgres
+          RAILS_ENV: test
+        run: | 
+          bundle exec rails webpacker:install
+          yarn install
       # Tests
       - name: Run unit tests
         run: bundle exec rspec spec/requests
