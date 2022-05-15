@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Tag, type: :model do
   subject { described_class.new }
 
@@ -36,7 +37,7 @@ RSpec.describe Tag, type: :model do
           end
         end
 
-        context 'spacing' do
+        context 'when spacing is invalid' do
           let(:tag) { create(:tag, name: '#Columbus is cool', organization: organization) }
 
           it 'can NOT create a tag' do
@@ -49,7 +50,7 @@ RSpec.describe Tag, type: :model do
 
   describe '#ripples' do
     it 'returns all of its ripples' do
-      tag.ripples << ripples
+      tag.update(ripples: ripples)
       expect(tag.ripples).to eq ripples
     end
   end
@@ -77,4 +78,75 @@ RSpec.describe Tag, type: :model do
       expect(tag.to_param).to eq tag.name
     end
   end
+
+  describe '#approval' do
+    context 'when approved is nil' do
+      let(:tag) { create(:tag, organization: organization, approved: nil) }
+      it 'returns pending' do
+        expect(tag.approval).to eq 'Pending'
+      end
+    end
+
+    context 'when approved is false' do
+      let(:tag) { create(:tag, organization: organization, approved: false) }
+      it 'returns denied' do
+        expect(tag.approval).to eq 'Denied'
+      end
+    end
+
+    context 'when approved is true' do
+      let(:tag) { create(:tag, organization: organization, approved: true) }
+      it 'returns approved' do
+        expect(tag.approval).to eq 'Approved'
+      end
+    end
+  end
+
+  describe '#most_popular' do
+    context 'when there are no tags' do
+      it 'returns nothing' do
+        expect(described_class.most_popular).to eq nil
+      end
+    end
+
+    context 'when there tags' do
+      let(:popular_tag) { create(:tag, ripples: ripples) }
+      let(:second_popular_tag) { create(:tag, ripples: [ripples.first]) }
+
+      before do
+        tag
+        popular_tag
+        second_popular_tag
+      end
+
+      it 'returns that tag that has the most associated ripples' do
+        expect(described_class.most_popular).to eq popular_tag
+      end
+    end
+  end
+
+  describe '#leaderboard' do
+    context 'when there are tags' do
+      let(:popular_tag) { create(:tag, ripples: ripples) }
+      let(:second_popular_tag) { create(:tag, ripples: [ripples.first]) }
+
+      before do
+        tag
+        popular_tag
+        second_popular_tag
+      end
+
+      it 'returns the tags in most used to least used order' do
+        expect(described_class.leaderboard.to_a) \
+          .to eq([popular_tag, second_popular_tag])
+      end
+    end
+
+    context 'when there are no tags' do
+      it 'returns an empty array' do
+        expect(described_class.leaderboard).to eq([])
+      end
+    end
+  end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

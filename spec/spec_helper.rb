@@ -7,7 +7,10 @@ require 'capybara/rspec'
 include Capybara::DSL
 
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do 
+  enable_coverage :branch
+  primary_coverage :branch
+end
 
 # Load support files and shared examples
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }

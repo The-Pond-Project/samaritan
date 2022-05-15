@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Impact features' do
+  # rubocop:disable Layout/LineLength
   let(:organization) { create(:organization) }
   let(:release) { create(:release, organization: organization) }
   let(:tags) { create_list(:tag, 3, organization: organization) }
@@ -49,4 +50,5 @@ RSpec.describe 'Impact features' do
       expect(page).to have_content('The last Ripple Location')
     end
   end
+  # rubocop:enable Layout/LineLength
 end

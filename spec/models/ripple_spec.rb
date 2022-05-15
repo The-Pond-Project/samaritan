@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Ripple, type: :model do
   subject { described_class.new }
 
@@ -60,11 +61,6 @@ RSpec.describe Ripple, type: :model do
       end
 
       it 'validates tag limit of 3' do
-        described_class.create(pond: pond, user: user, tags: tags)
-        expect(described_class.count).to eq 0
-      end
-
-      it 'validates tag limit of 3' do
         ripple = described_class.create(pond: pond, user: user)
         ripple.update(tags: tags)
         expect(ripple.update(tags: tags)).to eq false
@@ -92,18 +88,24 @@ RSpec.describe Ripple, type: :model do
   end
 
   describe '#descendants' do
-    it 'returns all ripples created after that instance that belong to the same pond' do
+    before do
       ripple
       ripples
-      expect(ripple.descendants).to eq ripples
+    end
+
+    it 'returns all ripples created after that instance that belong to the same pond' do
+      expect(ripple.descendants).to match_array(ripples)
     end
   end
 
   describe '#ancestors' do
-    it 'returns all ripples created before that instance that belong to the same pond' do
+    before do
       ripples
       ripple
-      expect(ripple.ancestors).to eq ripples
+    end
+
+    it 'returns all ripples created before that instance that belong to the same pond' do
+      expect(ripple.ancestors).to match_array(ripples)
     end
   end
 
@@ -227,3 +229,4 @@ RSpec.describe Ripple, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

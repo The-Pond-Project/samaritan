@@ -58,8 +58,16 @@ class RipplesController < ApplicationController
   end
 
   def ripple_params
-    params.require(:ripple).permit(:uuid, :postal_code, :city, :country, :region, :latitude, :longitude, :user_id,
-                                   :pond_id)
+    params.require(:ripple) \
+          .permit(:uuid,
+                  :postal_code,
+                  :city,
+                  :country,
+                  :region,
+                  :latitude,
+                  :longitude,
+                  :user_id,
+                  :pond_id)
   end
 
   def tags_hash

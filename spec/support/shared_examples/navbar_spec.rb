@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'navbar' do
+  # rubocop:disable RSpec/MultipleExpectations
   describe 'navbar' do
     it 'displays links' do
       expect(page).to have_link('Home', href: '/')
@@ -10,7 +11,7 @@ RSpec.shared_examples 'navbar' do
       expect(page).to have_link('Donate', href: '/donate')
       expect(page).to have_link('Partner with us', href: '/')
       expect(page).to have_link('Contribute', href: '/contribute')
-      expect(page).to have_link('Tags', href: '/')
+      expect(page).to have_link('Tags', href: '/tags')
       expect(page).to have_link('Login', href: '/users/sign_in')
     end
 
@@ -51,7 +52,7 @@ RSpec.shared_examples 'navbar' do
 
     it 'can navigate to tags' do
       click_link('Tags', match: :first)
-      expect(page).to have_current_path('/')
+      expect(page).to have_current_path('/tags')
     end
 
     it 'can navigate to login' do
@@ -59,4 +60,5 @@ RSpec.shared_examples 'navbar' do
       expect(page).to have_current_path('/users/sign_in')
     end
   end
+  # rubocop:enable RSpec/MultipleExpectations
 end

@@ -11,6 +11,6 @@ class CreateOrganizations < ActiveRecord::Migration[6.1]
     end
 
     add_index :organizations, :deleted_at
-    add_index :organizations, :name
+    add_index :organizations, :name, unique: true
   end
 end

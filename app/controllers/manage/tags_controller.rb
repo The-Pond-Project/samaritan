@@ -5,7 +5,7 @@ module Manage
     before_action :admin_logged_in?
     before_action :set_tag, only: %i[show edit update destroy]
     before_action :set_organizations, only: %i[new edit create]
-    before_action :set_organization, only: %i[index show delete]
+    before_action :set_organization, only: %i[index show destroy]
 
     def tags
       @tags = Tag.all.includes([:organization])

@@ -39,7 +39,7 @@ yarn-debug.log*
 .rspec
 
 # Rubocop
-.rubocop.yml
+# .rubocop.yml
 
 # SimpleCov
 coverage/

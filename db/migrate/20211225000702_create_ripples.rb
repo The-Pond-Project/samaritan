@@ -1,7 +1,7 @@
 class CreateRipples < ActiveRecord::Migration[6.1]
   def change
     create_table :ripples do |t|
-      t.string :uuid
+      t.string :uuid, index: { unique: true }
       t.string :postal_code
       t.string :city
       t.string :country

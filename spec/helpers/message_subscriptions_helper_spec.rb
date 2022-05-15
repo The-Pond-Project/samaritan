@@ -8,7 +8,7 @@ RSpec.describe MessageSubscriptionsHelper, type: :helper do
   let(:subscription_params) { { Body: "SUBSCRIBE #{ripple.uuid}", From: '+12345671890' } }
   let(:unusubscription_params) { { Body: 'UNSUBSCRIBE', From: message_sub.phone_number.to_s } }
   let(:junk_params) { { Body: 'junk', From: '+12345671890' } }
-  let(:message_sub) { create(:message_subscription) }
+  let(:message_sub) { create(:message_subscription, phone_number: '+161423456789') }
 
   describe '#create_response_body' do
     it 'creates a subscription' do

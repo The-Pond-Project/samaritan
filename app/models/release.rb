@@ -25,7 +25,7 @@ class Release < ApplicationRecord
   friendly_id :name, use: :slugged
 
   # Associations
-  has_many :ponds
+  has_many :ponds, dependent: :destroy
   has_many :pond_batch_records, dependent: :destroy
   belongs_to :organization
 
@@ -35,12 +35,11 @@ class Release < ApplicationRecord
   # Returns the dividen of the total releases
   #
   def self.average_release_size
-    releases = Release.count
     # since every pond has to belong to a release
     # we can just use the count of all ponds
     ponds = Pond.count
-    return 0 if releases.zero? || ponds.zero?
+    return 0 if ponds.zero?
 
-    ponds / releases
+    ponds / count # count here is the activerecord count method for release
   end
 end

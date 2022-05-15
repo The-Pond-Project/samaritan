@@ -78,8 +78,17 @@ module Manage
     end
 
     def ripple_params
-      params.require(:ripple).permit(:uuid, :postal_code, :city, :country, :region, :latitude, :longitude, :user_id,
-                                     :pond_id, tags: [])
+      params.require(:ripple) \
+            .permit(:uuid,
+                    :postal_code,
+                    :city,
+                    :country,
+                    :region,
+                    :latitude,
+                    :longitude,
+                    :user_id,
+                    :pond_id,
+                    tags: [])
     end
 
     def tags_hash

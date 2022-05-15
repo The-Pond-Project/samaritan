@@ -20,7 +20,7 @@ RSpec.describe '/ripples', type: :request do
 
     it 'renders a all ripples' do
       get api_internal_ripples_url
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include(expected_response)
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe '/ripples', type: :request do
   end
 
   def expected_response
-    ripples.map do |ripple|
+    Ripple.all.map do |ripple|
       ::Internal::RippleSerializer.new(ripple)
     end.to_json
   end

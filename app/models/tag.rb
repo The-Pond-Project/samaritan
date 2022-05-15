@@ -39,6 +39,8 @@ class Tag < ApplicationRecord
   # Return the most popular tag
   #
   def self.most_popular
+    return unless RipplesTag.count.positive?
+
     tags_hash = joins(:ripples_tags).group(:tag_id).count
     tag_id = tags_hash.max_by { |_k, v| v }[0]
     find_by(id: tag_id)
@@ -60,8 +62,8 @@ class Tag < ApplicationRecord
 
   def approval
     return 'Pending' if approved.nil?
-    return 'Approved' if approved.eql?(true)
     return 'Denied' if approved.eql?(false)
+    return 'Approved' if approved.eql?(true)
   end
 
   private

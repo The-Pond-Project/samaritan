@@ -32,7 +32,7 @@ class User < ApplicationRecord
   validates :role, presence: true
 
   # Associations
-  has_many :ripples
+  # has_many :ripples
 
   # Gem Configurations
   has_paper_trail
