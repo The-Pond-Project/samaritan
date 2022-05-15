@@ -68,10 +68,11 @@
 
 .impact-leaderboard{'data-aos': 'fade-up'}
   .container
-    .h1.text-center.mb-4
-      %strong
-        %span{ style: 'color: #1484ac '}= Tag.most_popular.name
-      is the most used tag
+    - if Tag.most_popular.present?
+      .h1.text-center.mb-4
+        %strong
+          %span{ style: 'color: #1484ac '}= Tag.most_popular.name
+        is the most used tag
     .col-md-12.col-sm-12.col-xs-12
       .row
         .col-md-12
@@ -100,10 +101,14 @@
 
 .impact-time-since{'data-aos': 'fade-up'}
   .container
-    %h1.text-center.m-4
-      The last Ripple of Kindness was 
-      %strong
-        %span{ style: 'color: #1484ac '}= Ripple.ripple_since
+    - if Ripple.ripple_since.blank?
+      %h1.text-center.m-4
+        No Ripples have been recorded yet 
+    - else 
+      %h1.text-center.m-4
+        The last Ripple of Kindness was 
+        %strong
+          %span{ style: 'color: #1484ac '}= Ripple.ripple_since
 
 .container.ripple-stats.mt-4{'data-aos': 'fade-up'}
   %section#our-stats
@@ -125,9 +130,10 @@
           %h2.timer.count-title.count-number= Ripple.domestic.count
           %p.count-text Domestic Ripples
 
-.impact-last-location{'data-aos': 'fade-up'}
-  .container
-    %h1.text-center.m-4
-      The last Ripple Location
-      %strong
-        %span{ style: 'color: #1484ac '}= Ripple.last.full_location
+- if Ripple.count > 0
+  .impact-last-location{'data-aos': 'fade-up'}
+    .container
+      %h1.text-center.m-4
+        The last Ripple Location
+        %strong
+          %span{ style: 'color: #1484ac '}= Ripple.last.full_location

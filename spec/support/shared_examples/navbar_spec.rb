@@ -4,7 +4,6 @@ RSpec.shared_examples 'navbar' do
   # rubocop:disable RSpec/MultipleExpectations
   describe 'navbar' do
     it 'displays links' do
-      expect(page).to have_link('Home', href: '/')
       expect(page).to have_link('Impact', href: '/impact')
       expect(page).to have_link('Ponds', href: '/ponds')
       expect(page).to have_link('Partners', href: '/organizations')
@@ -13,11 +12,6 @@ RSpec.shared_examples 'navbar' do
       expect(page).to have_link('Contribute', href: '/contribute')
       expect(page).to have_link('Tags', href: '/tags')
       expect(page).to have_link('Login', href: '/users/sign_in')
-    end
-
-    it 'can navigate to home' do
-      click_link('Home')
-      expect(page).to have_current_path('/')
     end
 
     it 'can navigate to impact' do
