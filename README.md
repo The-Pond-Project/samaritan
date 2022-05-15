@@ -1,3 +1,5 @@
+[![ThePondProject CI](https://github.com/The-Pond-Project/samaritan/actions/workflows/ci_build.yml/badge.svg)](https://github.com/The-Pond-Project/samaritan/actions/workflows/ci_build.yml)
+
 # The Pond Project
 
   The Pond Project is simply kindness passed on. Samaritan is the name of the backend application that runs [thepondproject.org](https://thepondproject.org ).
