@@ -3,7 +3,7 @@
 module Api
   class BaseController < ActionController::API
     before_action :authorize
-    API_KEY = Rails.application.credentials[:internal_api_key]
+    API_KEY = Credentials[:internal_api_key]
 
     private
 

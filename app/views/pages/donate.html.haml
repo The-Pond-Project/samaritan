@@ -1,29 +1,72 @@
-.donate-jumbotron
-  .container
-    .row.custom-section.d-flex.align-items-start
-      .col-12.col-lg-10
-        %h1.fw-bol.tron-text{ 'data-aos': 'fade-in', style: 'font-weight: bold; font-size: 65px'} Donate. Participate through giving
-        = link_to 'Donate to MissionForKindness', root_path, class:'btn btn-primary'
+.donate-page
+  .donate-jumbotron
+    .container
+      .row.custom-section.d-flex.align-items-start
+        .col-12.col-lg-10
+          %h1.fw-bol.tron-text{ 'data-aos': 'fade-in', style: 'font-weight: bold; font-size: 65px'} Donate. Participate through giving
+          = link_to 'Donate to MissionForKindness', '#donate', class:'btn btn-primary'
 
-.container.p-5
-  .text-center
-    %p.m-2{ 'data-aos': 'fade-in', style: 'font-size: 21px; line-height: 1.5em; color: grey;'} We are transparent about <strong>all</strong> donations and the use of those donations. All money given using this page will go to MissionForKindness and the costs of running/maintaing the platform. These funds will not go to any of our partnered organizations, to find out more on how to give to a partnedred organization go here. 
-    %br
-    %p.m-2{ style: 'font-size: 21px; line-height: 1.5em; color: #1484ac'}Below you will find a list of all of our bills and a ledger that displays use of funds. This is our transparent and collaborative way to show how exactly your donation does to help our mission.
+  .m-3.p-4.d-flex.flex-sm-row.flex-column.align-items-center
+    .svg-container.h-50
+      = show_svg('donate.svg')
+      %h2.mt-2.text-center{ style: 'color: #1484ac'} Give
+      %p.text-center.text-muted Any amount is appreciated and will help us continue our mission.
+      .row.mt-4
+        .col
+          .container.pb-5
+            #donate
+              %form
+                .row
+                  .col-md-6.mt-2
+                    %input{name:"email", placeholder: "youremail@imsogenerous.com", type:"email", id: 'donor-email', class: 'form-control'}
+                  .col-md-4.mt-2
+                    %input{name:"amount", placeholder: "20.00", type:"number", step: 'any', id: 'don-amount', class: 'form-control'}
+                  .col-md-2.mt-2.text-center
+                    = link_to "Donate", donations_path, method: 'post', remote: true, class: "btn btn-primary", id: 'donate-action'
+                    :javascript
+                      const amountInput = document.getElementById('don-amount');
+                      const donateDiv = document.getElementById('donate-action');
+                      let amount = '0.00';
 
-.container.pb-5
-  %hr
-  .row
-    .col-12.m-3
-      %h1 Costs and Receipts
-      %h4.text-secondary.pt-5 2022
-    - @bills.each do |bill|
-      .col-12.col-sm-6.col-md-4
-        .card
-          .card-body.d-flex.align-items-center
-            .pl-3.data
-              %h5= link_to(bill.name, bill.document, download: '')
-              %p.m-0
-                = bill.description
+                      amountInput.addEventListener('input', updateAmount);
 
-    
+                      function updateAmount(e) {
+                        amount = e.target.value;
+                        donateDiv.href = `/donations?amount=${amount}`
+                        console.log(amount)
+                      }
+
+                      const emailInput = document.getElementById('donor-email');
+                      let email = '';
+
+                      emailInput.addEventListener('input', updateEmail);
+
+                      function updateEmail(e) {
+                        email = e.target.value;
+                        console.log(email)
+                      }
+    .mx-3
+      .col
+        .container.p-5
+          %p.m-2{ style: 'font-size: 21px; line-height: 1.5em; color: grey;'} We are transparent about <strong>all</strong> donations and the use of those donations. All money given using this page will go to MissionForKindness and the costs of running/maintaing the platform. These funds will not go to any of our partnered charities, to find out more on how to give to a partnedred charity go here. 
+          %br
+          %p.m-2{ style: 'font-size: 21px; line-height: 1.5em; color: #1484ac'}Below you will find a list of all of our costs and reciepts. This is our transparent and collaborative way to show what exactly your donation does to help our mission.
+          %hr
+          .row
+            .col-12.m-3
+              %h2 Costs & Receipts
+              %h4.text-secondary.pt-5= Time.current.year
+            - @bills.each do |bill|
+              .col-12
+                .card.m-3
+                  .card-body.d-flex.align-items-center
+                    .pl-3.data
+                      %h4
+                        = " #{bill.name} |"
+                        %span.text-muted= "#{bill.cost}"
+
+                      %p.m-0.text-muted
+                        = bill.description
+                      .row
+                        = link_to "Donate #{bill.cost}", donations_path(amount: bill.amount), method: 'post', remote: true, class: "btn btn-primary m-2"
+                        = link_to 'View Bill', bill.document, target: 'blank', class: "btn btn-secondary m-2", style: 'background-color: #edc06d !important; border-color: #edc06d !important; ' if bill.document.attached?

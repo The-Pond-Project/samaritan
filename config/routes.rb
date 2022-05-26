@@ -81,6 +81,10 @@ Rails.application.routes.draw do
   get '/contribute', to: 'pages#contribute'
   get '/privacy', to: 'pages#privacy_policy'
   get '/terms', to: 'pages#terms'
+  get '/thank-you', to: 'pages#thank_you'
+
+  # Donations
+  resources :donations, only: [:create]
 
   # Ponds and Ripples
   resources :ponds, param: :key, only: [:index, :show] do

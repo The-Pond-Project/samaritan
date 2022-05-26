@@ -39,5 +39,9 @@ module ThePondProject
 
     # Auto loader to fix active storage upload error
     # config.autoloader = :classic
+
+    # Helpful shorthand methods
+    ::Credentials = Rails.application.credentials # Credentials.dig(:super_secre_key)
+    ::Routes = Rails.application.routes.url_helpers # Routes.root_url
   end
 end

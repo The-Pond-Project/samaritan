@@ -37,11 +37,23 @@ class Bill < ApplicationRecord
   acts_as_paranoid
   friendly_id :name, use: :slugged
 
+  # Scope Methods
+  scope :this_year, -> { where('extract(year from created_at) = ?', Time.zone.now.year) }
+
   # For rails routing
   # Override id as default route param
   # def to_param
   #   name
   # end
+
+  # Public Instance Method
+  # Returns amount as a String
+  # Example: '$60.00'
+  def cost
+    cents_amount = (amount.to_f * 100).round
+    cost = Money.new(cents_amount, 'USD')
+    cost.format
+  end
 
   private
 
