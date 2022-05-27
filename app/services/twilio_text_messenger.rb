@@ -4,6 +4,7 @@ class TwilioTextMessenger
   attr_reader :message, :to
 
   def initialize(message, to)
+    byebug
     @to = to
     @message = message
   end

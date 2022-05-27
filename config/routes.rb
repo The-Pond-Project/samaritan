@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   unauthenticated do
     root 'pages#home'
@@ -25,6 +26,8 @@ Rails.application.routes.draw do
 
   # Super Admin User
   authenticated :user, ->(u) { u.super_admin? } do
+    # Sidekiq
+    mount Sidekiq::Web => '/sidekiq'
     root 'manage/manage#dashboard', as: :manager_root
 
     devise_scope :user do

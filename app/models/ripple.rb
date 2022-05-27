@@ -24,6 +24,7 @@ class Ripple < ApplicationRecord
   before_create :convert_country_code
   before_validation :set_location_unknown
   after_validation :geocode
+  after_create :notify_text_subscribers
 
   # Validations
   validate :validate_uuid
@@ -137,6 +138,10 @@ class Ripple < ApplicationRecord
   end
 
   private
+
+  def notify_text_subscribers
+    Publishers::RippleCreated.call(self)
+  end
 
   #
   # Private Method#
