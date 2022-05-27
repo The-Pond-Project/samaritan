@@ -4,6 +4,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'wisper/rspec/matchers'
 include Capybara::DSL
 
 require 'simplecov'
@@ -115,4 +116,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :routing
+
+  # Wisper
+  config.include(Wisper::RSpec::BroadcastMatcher)
 end

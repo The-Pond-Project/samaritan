@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Publishers
   include Wisper::Publisher
   class Base
@@ -5,4 +7,4 @@ module Publishers
       new(*args).call
     end
   end
-end 
+end

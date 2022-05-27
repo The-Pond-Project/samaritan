@@ -15,7 +15,7 @@ RSpec.describe Ripple, type: :model do
   let(:tags) { create_list(:tag, 4, approved: true, organization: organization) }
 
   describe '#create' do
-    describe 'with valid data' do
+    context 'with valid data' do
       it { is_expected.to validate_presence_of(:uuid) }
       it { is_expected.to validate_presence_of(:pond_id) }
       it { is_expected.to validate_length_of(:uuid).is_equal_to(36) }
@@ -67,7 +67,7 @@ RSpec.describe Ripple, type: :model do
       end
     end
 
-    describe 'with invalid' do
+    context 'with invalid' do
       describe 'uuid' do
         it 'length can NOT create a ripple' do
           described_class.create(uuid: 'notlongenough')
@@ -226,6 +226,15 @@ RSpec.describe Ripple, type: :model do
       pond
       pond_two
       expect(described_class.largest_pond).to eq pond.ripples.count
+    end
+  end
+
+  describe '#notify_text_subscribers' do
+    let(:ripple) { build(:ripple, pond: pond) }
+
+    it 'calls publisher' do
+      expect(Publishers::RippleCreated).to receive(:call).with(ripple)
+      ripple.save
     end
   end
 end

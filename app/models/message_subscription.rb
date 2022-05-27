@@ -18,6 +18,7 @@ class MessageSubscription < ApplicationRecord
   def self.for(ripples)
     @ripples = Array.wrap(ripples)
     return if @ripples.blank?
-    MessageSubscription.where({ripple_uuid: @ripples})
+
+    MessageSubscription.where({ ripple_uuid: @ripples })
   end
 end
