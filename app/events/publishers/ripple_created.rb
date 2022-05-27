@@ -10,8 +10,13 @@ module Publishers
 
     def call
       return unless ripple.present?
-      return if ripple.ancestors.empty? # Return if this is the first ripple and there are no ancestors to send notifications to.
-      broadcast(:alert_ripple_ancestors, ripple)
+
+      @ancestors = ripple.ancestors
+      return if @ancestors.empty? # Return if this is the first ripple and there are no ancestors to send notifications to.
+      @ancestors.each do |ripple|
+        subscription = MessageSubscription.for(ripple.uuid).first
+        broadcast(:alert_subscriber, subscription) if subscription.present?
+      end 
     end
   end
 end

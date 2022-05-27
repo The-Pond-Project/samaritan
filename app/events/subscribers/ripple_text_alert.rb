@@ -1,18 +1,10 @@
 module Subscribers
   class RippleTextAlert
     class << self
-      def alert_ripple_ancestors(ripple)
-        ancestors_uuids = ripple.ancestors.pluck(:uuid)
-        alert_ancestors(ancestors_uuids)
-      end
-
-      def alert_ancestors(ancestors)
-        subscriptions = MessageSubscription.for(ancestors)
-        subscriptions.each do |subscription|
-          ripple = Ripple.find_by(uuid: subscription.ripple_uuid)
-          message = message(ripple)
-          TwilioTextMessenger.message(message: message, to: subscription.phone_number)
-        end
+      def alert_subscriber(subscription)
+        ripple = Ripple.find_by(uuid: subscription.ripple_uuid)
+        message = message(ripple)
+        TwilioTextMessenger.message(message: message, to: subscription.phone_number)
       end
   
       def message(ripple)
