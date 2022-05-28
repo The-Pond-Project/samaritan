@@ -43,5 +43,8 @@ module ThePondProject
     # Helpful shorthand methods
     ::Credentials = Rails.application.credentials # Credentials.dig(:super_secre_key)
     ::Routes = Rails.application.routes.url_helpers # Routes.root_url
+
+    # Sidekiq
+    config.active_job.queue_adapter = :sidekiq
   end
 end

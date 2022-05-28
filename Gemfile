@@ -25,12 +25,16 @@ gem 'rails',                          '~> 7.0', '>= 7.0.3'
 gem 'rails_best_practices'
 gem 'redis',                          '~> 4.0'
 gem 'sass-rails',                     '>= 6'
+gem 'sidekiq',                        '~> 5.2', '>= 5.2.8'
+gem 'sidekiq-failures',               '~> 1.0', '>= 1.0.1'
 gem 'stripe'
 gem 'stripe_event'
 gem 'time-lord',                      '~> 1.0'
 gem 'turbolinks',                     '~> 5'
 gem 'twilio-ruby'
-gem 'webpacker', '~> 5.0'
+gem 'webpacker',                      '~> 5.0'
+gem 'wisper',                         '~> 2.0', '>= 2.0.1'
+gem 'wisper-sidekiq',                 '~> 1.3'
 
 group :development, :test do
   gem 'brakeman'
@@ -49,6 +53,7 @@ group :development, :test do
   gem 'rubocop-rspec'
   gem 'ruby_audit'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'wisper-rspec',     '~> 1.1'
 end
 
 group :test do

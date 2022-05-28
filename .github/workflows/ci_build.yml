@@ -49,6 +49,10 @@ jobs:
         run: | 
           bundle exec rails webpacker:install
           yarn install
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.4.0
+        with:
+          redis-version: ${{ matrix.redis-version }}
       # Tests
       - name: Run unit tests
         run: bundle exec rspec

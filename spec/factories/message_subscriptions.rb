@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :message_subscription do
-    phone_number { Faker::PhoneNumber.cell_phone_in_e164 }
+    phone_number { "+1#{rand.to_s[2..11]}" }
     ripple_uuid { SecureRandom.uuid }
 
     before(:create) do |message_sub|
