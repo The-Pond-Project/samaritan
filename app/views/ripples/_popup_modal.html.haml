@@ -1,0 +1,28 @@
+:javascript
+  window.addEventListener("load", () => {
+    $("#ripplemodal").modal('toggle')
+  })
+
+#ripplemodal.modal.fade{'aria-hidden': 'true', role: 'dialog', tabindex: '-1'}
+  .modal-dialog.modal-dialog-centered{role: 'document'}
+    .modal-content.p-3
+      .svg-container.h-25
+        = show_svg('kindness_modal.svg')
+      .modal-body
+        %p.text-center
+          Select
+          %strong Record a Ripple if you have done an act of kindness
+          and you are ready to add it to the pond.
+          Chose
+          %strong View the latest Ripple if you just recieved this card
+          and want to see details about this act of kindness.
+        .container.text-center.pt-2
+          %button.btn.btn-primary.btn-close.m-1{'data-bs-dismiss': 'modal'} Record a Ripple
+          - if @pond.ripples.present?
+            = link_to pond_ripple_path(@pond.pond_key, @pond.last_ripple) do
+              %button.btn.btn-warning.m-1 View the latest Ripple
+          -else
+            = link_to pond_path(@pond.pond_key) do
+              %button.btn.btn-warning.m-1 View the latest Ripple
+          = link_to explained_path do
+            %button.btn.btn-secondary.m-1 What is the ThePondProject?

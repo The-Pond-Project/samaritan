@@ -35,7 +35,7 @@ module PondRippleConcern
   def convert_country_code
     return if country.present? && country&.size.try(:>, 3)
 
-    self.country = ISO3166::Country.new(country).iso_short_name if country.present?
+    self.country = ISO3166::Country.new(country).name if country.present?
   end
 
   def set_location_unknown
