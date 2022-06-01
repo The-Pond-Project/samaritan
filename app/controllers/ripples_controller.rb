@@ -24,7 +24,7 @@ class RipplesController < ApplicationController
 
     if @ripple.save
       redirect_to pond_ripple_url(@ripple.pond_key, @ripple.uuid),
-                  notice: 'Ripple was successfully created.'
+                  notice: 'Ripple was successfully recorded.'
     else
       render :new, status: :unprocessable_entity
     end

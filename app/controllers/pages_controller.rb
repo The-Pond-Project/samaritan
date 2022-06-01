@@ -11,11 +11,13 @@ class PagesController < ApplicationController
 
   def thank_you; end
 
+  def explained; end
+
+  def contribute; end
+
   def donate
     @bills = Bill.this_year
   end
-
-  def contribute; end
 
   def ripples
     @ripples = Ripple.all.includes([:pond])

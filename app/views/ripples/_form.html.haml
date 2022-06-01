@@ -8,13 +8,37 @@
 
   .field
     = f.hidden_field :pond_id, value: @pond.id
-  %p Select up to three tags for your act of kindness
-  - @tags.each do |tag| 
-    %input{type: "checkbox", name: 'ripple[tags][]', value: tag.id}
-    =tag.name
-  .actions
-    = f.submit 'Save'
 
+  %h5.mb-1 
+    Select up to
+    %strong 3
+    tags to record with your act of kindness. 
+  %p.text-muted.p-0
+    The current time will be reccorded as when then the act took place and the current city you are in will be recorded as the location. 
+    %strong Disable your VPN if one is enabled for accurate recording.
+
+  %hr
+  .mt-5.tags-form
+    %ul.tags.mt-4
+      - @tags.each do |tag| 
+        %li.mx-3
+          %label
+            %input{type: "checkbox", name: 'ripple[tags][]', class: 'custom-tag-checkbox', value: tag.id, hidden: true }
+            %span.tag_style
+              =tag.name
+              %span.blue-span
+    .row.m-3 
+      .actions  
+        = f.submit 'Record', class: 'btn btn-outline-primary p-1'
+
+
+  %h5.pt-5 
+    We want to hear your
+    = link_to new_story_path do
+      %em{ style: 'color: #1484ac'} StoryOfKindness 
   %p 
     We would love to hear from you. Share a story about how you recieved kindness or how you passed it on. Write a
     = link_to 'Story of Kindness', new_story_path
+
+
+.push-footer.mb-5

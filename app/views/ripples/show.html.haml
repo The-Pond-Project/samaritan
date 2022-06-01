@@ -1,16 +1,85 @@
-%p
-  %b Pond:
-  = link_to @ripple.pond_key, pond_path(@ripple.pond_key)
+.pond.m-5.p-2
+  .container
+    .container.text-center
+      %h1 Ripple
+      %p.text-muted= @ripple.uuid
+    %hr/
+    .row
+      .col-sm-8
+        %iframe{:allowfullscreen => "", :frameborder => "0", :height => "540", :src => "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11880.492291371422!2d12.4922309!3d41.8902102!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x28f1c82e908503c4!2sColosseo!5e0!3m2!1sit!2sit!4v1524815927977", :style => "border:0", :width => "100%"}
+      #contact2.col-sm-4
+        %h3 About This Ripple
+        %hr{:align => "left", :width => "50%"}/
+        - unless @ripple.city.blank? || @ripple.region.blank? || @ripple.country.blank? 
+          %h4.pt-2{ style: 'color: #1484ac' } Location
+          %p= @ripple.full_location
+        %br/
+        %h4.pt-2{ style: 'color: #1484ac' } Impact
+        %p
+          %b Ripples Before:
+          = @ripple.ancestors.count
+        %p
+          %b Ripples Since:
+          = @ripple.descendants.count
+        %p
+          %b Domestic Impact:
+          = @ripple.domestic_impact
+        %p
+          %b International Impact:
+          = @ripple.international_impact
+        %br/
+        - if @ripple.tags.present?
+          %h4.pt-2{ style: 'color: #1484ac' } Tags
+          .mt-2.tags-show
+            %ul.tags.mt-3
+              - @ripple.tags.each do |tag| 
+                = link_to tag_path(tag) do  
+                  %li.ml-1.mr-3
+                    %button.tag_style   
+                      = tag.name
+                      %span
+                        %p.tag_count
+                          = tag.ripples.count
+        %br/
+        %h4.pt-2{ style: 'color: #1484ac' } Details
+        %p
+          %b Organization:
+          = link_to @ripple.organization.name, organization_path(@ripple.organization)
+        %p
+          %b Release:
+          = link_to @ripple.release.name, organization_release_path(@ripple.organization, @ripple.release)
+        %p
+          %b ID:
+          = @ripple.uuid
+        %p
+          %b Recorded:
+          = local_time_ago(@ripple.created_at)
+        %br/
 
-- unless @ripple.tags.blank?
-  %p 
-    %b Tags: 
-    - @ripple.tags&.each do |tag|
-      = tag.name
 
-%image{src: "https://maps.googleapis.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@ripple.latitude}%2C#{@ripple.longitude}&key=#{Credentials.dig(:google, :static_maps_api_key)}", onerror: "this.onerror=null;this.src=#{asset_path('default_map.png')};"}
-
-%p{ style: 'color: grey'}="#{@ripple.address}"
-%p{ style: 'color: grey'}=local_time_ago(@ripple.created_at)
-\|
-= link_to 'Back', pond_ripples_path
+  - if @ripple.descendants.present?
+    .container
+      .row
+        .col-6
+          %h3.mb-3 Ripples Since
+        .col-6.text-right
+          %a.btn.btn-primary.mb-3.mr-1{"data-slide" => "prev", :href => "#carouselExampleIndicators2", :role => "button"}
+            %i.bi.bi-chevron-left
+          %a.btn.btn-primary.mb-3{"data-slide" => "next", :href => "#carouselExampleIndicators2", :role => "button"}     
+            %i.bi.bi-chevron-right
+        .col-12
+          #carouselExampleIndicators2.carousel.slide{"data-ride" => "carousel"}
+            .carousel-inner
+              - @ripple.descendants.each_slice(3).to_a.each_with_index do |group, index|
+                .carousel-item{ class: "#{ index == 0 ? 'active' : '' }"}
+                  .row
+                    - group.each do |ripple|
+                      .col-md-4.mb-3.d-flex.align-items-stretch
+                        .card
+                          = image_tag('default_map.png', class: 'img-fluid', alt: 'map' )
+                          .card-body
+                            = link_to pond_ripple_path(ripple.pond, ripple), class: 'ripple-pond-a' do
+                              %h4.card-title= "#{ripple.city}, #{ripple.region}"
+                              %p.card-text
+                                %b Recorded:
+                                = local_time_ago(ripple.created_at)

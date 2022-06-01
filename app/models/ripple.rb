@@ -36,6 +36,8 @@ class Ripple < ApplicationRecord
   # Associations
   belongs_to :user, optional: true
   belongs_to :pond, touch: true
+  has_one :organization, through: :pond
+  has_one :release, through: :pond
   has_and_belongs_to_many :tags, touch: true
 
   # Gem Configurations

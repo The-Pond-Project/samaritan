@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   get '/privacy', to: 'pages#privacy_policy'
   get '/terms', to: 'pages#terms'
   get '/thank-you', to: 'pages#thank_you'
+  get '/explained', to: 'pages#explained'
 
   # Donations
   resources :donations, only: [:create]
