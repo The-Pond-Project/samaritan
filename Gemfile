@@ -44,6 +44,10 @@ group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'capistrano', '~> 3.17'
+  gem 'capistrano-asdf', '~> 1.0'
+  gem 'capistrano-db-tasks', '~> 0.6'
+  gem 'capistrano-rails', '~> 1.6', '>= 1.6.2'
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'faker'

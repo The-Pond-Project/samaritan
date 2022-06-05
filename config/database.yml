@@ -92,5 +92,5 @@ test:
 production:
   <<: *default
   database: the_pond_project_production
-  username: the_pond_project
-  password: <%= ENV['THE_POND_PROJECT_DATABASE_PASSWORD'] %>
+  username: postgres
+  password: postgres
