@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_11_015251) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_06_04_225150) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,7 +19,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -33,7 +32,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -51,21 +50,56 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.integer "expense_type"
     t.float "amount", null: false
     t.boolean "paid", null: false
-    t.datetime "due_at", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "due_at", precision: nil, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_bills_on_name"
     t.index ["slug"], name: "index_bills_on_slug"
+  end
+
+  create_table "flipper_features", force: :cascade do |t|
+    t.string "key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_flipper_features_on_key", unique: true
+  end
+
+  create_table "flipper_gates", force: :cascade do |t|
+    t.string "feature_key", null: false
+    t.string "key", null: false
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
   end
 
   create_table "message_subscriptions", force: :cascade do |t|
     t.string "phone_number", null: false
     t.string "ripple_uuid", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["phone_number"], name: "index_message_subscriptions_on_phone_number"
     t.index ["ripple_uuid"], name: "index_message_subscriptions_on_ripple_uuid"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "amount", null: false
+    t.string "email"
+    t.string "address1", null: false
+    t.string "address2"
+    t.string "city", null: false
+    t.string "postal_code", null: false
+    t.string "region", null: false
+    t.string "country", null: false
+    t.string "phone"
+    t.string "uuid", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.boolean "shipped", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uuid"], name: "index_orders_on_uuid", unique: true
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -73,9 +107,9 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.text "description"
     t.string "address"
     t.string "website"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "slug"
     t.index ["deleted_at"], name: "index_organizations_on_deleted_at"
     t.index ["name"], name: "index_organizations_on_name", unique: true
@@ -85,9 +119,9 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
   create_table "pond_batch_records", force: :cascade do |t|
     t.bigint "release_id", null: false
     t.integer "amount", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["release_id"], name: "index_pond_batch_records_on_release_id"
   end
 
@@ -98,9 +132,9 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "city"
     t.string "region"
     t.string "country"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.string "slug"
     t.integer "release_id"
     t.index ["deleted_at"], name: "index_ponds_on_deleted_at"
@@ -113,9 +147,9 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "name"
     t.text "description"
     t.bigint "organization_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.string "slug"
     t.index ["deleted_at"], name: "index_releases_on_deleted_at"
     t.index ["organization_id"], name: "index_releases_on_organization_id"
@@ -130,9 +164,9 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "region"
     t.bigint "user_id"
     t.bigint "pond_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.float "latitude"
     t.float "longitude"
     t.string "slug"
@@ -146,8 +180,8 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
   create_table "ripples_tags", force: :cascade do |t|
     t.bigint "ripple_id", null: false
     t.bigint "tag_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["ripple_id"], name: "index_ripples_tags_on_ripple_id"
     t.index ["tag_id"], name: "index_ripples_tags_on_tag_id"
   end
@@ -157,8 +191,8 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.text "body", null: false
     t.string "pond_key"
     t.string "ripple_uuid"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "uuid"
   end
 
@@ -166,9 +200,9 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "name"
     t.text "description"
     t.boolean "approved"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.string "slug"
     t.integer "organization_id"
     t.index ["deleted_at"], name: "index_tags_on_deleted_at"
@@ -180,16 +214,16 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.integer "role"
     t.string "invitation_token"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
+    t.datetime "invitation_created_at", precision: nil
+    t.datetime "invitation_sent_at", precision: nil
+    t.datetime "invitation_accepted_at", precision: nil
     t.integer "invitation_limit"
     t.string "invited_by_type"
     t.bigint "invited_by_id"
@@ -208,7 +242,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_015251) do
     t.string "event", null: false
     t.string "whodunnit"
     t.text "object"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 

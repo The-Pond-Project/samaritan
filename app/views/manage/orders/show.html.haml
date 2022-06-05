@@ -1,0 +1,37 @@
+%p
+  %b Amount:
+  = @order.amount
+%p
+  %b Email:
+  = @order.email
+%p
+  %b Address1:
+  = @order.address1
+%p
+  %b Address2:
+  = @order.address2
+%p
+  %b Postal code:
+  = @order.postal_code
+%p
+  %b Region:
+  = @order.region
+%p
+  %b Country:
+  = @order.country
+%p
+  %b Phone:
+  = @order.phone
+%p
+  %b Uuid:
+  = @order.uuid
+%p
+  %b First name:
+  = @order.first_name
+%p
+  %b Last name:
+  = @order.last_name
+
+= link_to 'Edit', edit_manage_order_path(@order)
+\|
+= link_to 'Back', manage_orders_path

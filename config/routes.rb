@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   authenticated :user, ->(u) { u.super_admin? } do
     # Sidekiq
     mount Sidekiq::Web => '/sidekiq'
+    mount Flipper::UI.app(Flipper) => '/flipper'
     root 'manage/manage#dashboard', as: :manager_root
 
     devise_scope :user do
@@ -50,6 +51,7 @@ Rails.application.routes.draw do
 
       resources :tags, param: :name
       resources :stories, param: :uuid
+      resources :orders, param: :uuid
       resources :bills
       resources :organizations, param: :name do 
         resources :releases do 
@@ -68,6 +70,7 @@ Rails.application.routes.draw do
         resources :ripples, param: :uuid
       end
 
+      resources :orders, param: :uuid
       resources :tags, param: :name
       resources :stories, param: :uuid
       resources :organizations, param: :name do 
@@ -86,6 +89,9 @@ Rails.application.routes.draw do
   get '/terms', to: 'pages#terms'
   get '/thank-you', to: 'pages#thank_you'
   get '/explained', to: 'pages#explained'
+
+  # Orders
+  resources :orders, param: :uuid, only: %i[show new create]
 
   # Donations
   resources :donations, only: [:create]
