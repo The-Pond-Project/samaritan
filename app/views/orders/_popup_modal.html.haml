@@ -1,0 +1,20 @@
+:javascript
+  window.addEventListener("load", () => {
+    $("#donatemodal").modal('toggle')
+  })
+
+#donatemodal.modal.fade{'aria-hidden': 'true', role: 'dialog', tabindex: '-1'}
+  .modal-dialog.modal-dialog-centered{role: 'document'}
+    .modal-content.p-3
+      .svg-container.h-25
+        = show_svg('donate.svg')
+      .modal-body
+        %h5.text-center
+          Give an
+          %strong optional
+          donation to help cover the production and shipping of your
+          %em KindCard
+        .container.text-center.pt-2
+          = link_to donate_path do
+            %button.btn.btn-primary.m-1 Donate
+          %button.btn.btn-secondary.btn-close.m-1{'data-bs-dismiss': 'modal'} Nah, I'm good

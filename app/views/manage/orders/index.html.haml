@@ -1,0 +1,43 @@
+.manage-table.pt-5
+  .container
+    %h1.mb-1
+      Bills |
+      = link_to new_manage_order_path do
+        %i.bi.bi-pencil-square
+    .row.col-md-6.col-md-offset-2.custyle
+    %table.table.table-striped.custab
+      %tr
+        %th Name
+        %th Email
+        %th Phone
+        %th Amount
+        %th Address
+        %th Uuid
+        %th Shipped
+        %th
+        %th
+        -# %th
+      %tbody
+        - @orders.each do |order|
+          %tr
+            %td= order.fullname
+            %td= order.email
+            %td= order.phone
+            %td= order.amount
+            %td= order.full_address
+            %td= order.uuid
+            %td= order.shipped
+            %td= link_to 'Show', manage_order_path(order)
+            %td= link_to 'Edit', edit_manage_order_path(order)
+            -# %td= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' }
+
+
+-# %h1 Listing orders
+
+-# %table
+-#   %thead
+
+
+-# %br
+
+-# = link_to 'New Order', new_manage_order_path

@@ -1,0 +1,47 @@
+= form_for @order, url: manage_order_path(@order) do |f|
+  - if @order.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
+      %ul
+        - @order.errors.full_messages.each do |message|
+          %li= message
+
+  .form-group
+    .container
+      .row.my-3.mx-4.px-2
+        %h5 About you:
+      .row.m-3 
+        .col-md-6.my-2
+          = f.text_field :first_name, placeholder: 'First Name', class: 'form-control', required: true
+        .col-md-6.my-2
+          = f.text_field :last_name, placeholder: 'Last Name', class: 'form-control', required: true
+      .row.m-3
+        .col-md-6.my-2
+          = f.text_field :phone, placeholder: '+16147862315', class: 'form-control' 
+        .col-md-6.my-2
+          = f.text_field :email, placeholder: 'myemail@probablygmail.com', class: 'form-control'
+    .container.pt-3
+      .row.my-3.mx-4.px-2
+        %h5 About your order:
+      .row.m-3 
+        .col-sm-2
+          = f.number_field :amount, placeholder: 'Card Amount', class: 'form-control', min: '1', max: '20', step: '1', required: true
+      .row.m-3
+        .col-md-6.my-2
+          = f.text_field :address1, placeholder: '456 not maint st', class: 'form-control', required: true
+        .col-md-6.my-2
+          = f.text_field :address2, placeholder: 'APT 789', class: 'form-control'
+      .row.m-3 
+        .col-sm-3.my-2
+          = f.text_field :city, placeholder: 'Columbus', class: 'form-control', required: true
+        .col-sm-3.my-2
+          = f.text_field :region,  placeholder: 'Ohio', class: 'form-control', required: true
+        .col-sm-3.my-2
+          = f.text_field :postal_code, placeholder: '43235', class: 'form-control', required: true 
+        .col-sm-3.my-2
+          = f.text_field :country, placeholder: 'United States of America', class: 'form-control', required: true
+      .row.m-3 
+        .actions.m-3
+          = f.submit 'Update', class: 'btn btn-outline-primary'
+
+.push-footer.mb-5

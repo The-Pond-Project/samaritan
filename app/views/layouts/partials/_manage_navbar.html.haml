@@ -22,6 +22,14 @@
         = link_to 'Tags', manage_tags_path, class: 'nav-link'
         %span.d-inline-block.d-lg-none.icon-width>
           %i.far.fa-user
+      %li.nav-item.px-lg-2
+        = link_to 'Orders', manage_orders_path, class: 'nav-link'
+        %span.d-inline-block.d-lg-none.icon-width>
+          %i.far.fa-user
+      %li.nav-item.px-lg-2
+        = link_to 'Flipper', '/flipper/features', class: 'nav-link'
+        %span.d-inline-block.d-lg-none.icon-width>
+          %i.far.fa-user
     %ul.navbar-nav.ml-auto.mt-3.mt-lg-0
       - if user_signed_in?
         %li.nav-item.px-lg-2

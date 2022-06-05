@@ -1,0 +1,19 @@
+= render 'popup_modal'
+.container.pt-5 
+  .w-25.mx-auto
+    = image_tag asset_path('logo alternate square'), class: 'w-100'
+  %h3.text-center{ style: 'color: #1484ac'} Order Confirmation
+  %p.text-muted.text-center
+    Please be patient with us. Your order will be sent out within the next 7 calendar days.
+  .contianer
+    .card.border-primary
+      .card-body.p-5
+        %h4
+          %b="We are sending #{@order.amount} KindCards to:" 
+        %h5.pt-3= @order.fullname
+        %p.text-muted
+          = "#{@order.email} | #{@order.phone}"
+        %p= @order.full_address
+
+.push-footer.mb-5
+

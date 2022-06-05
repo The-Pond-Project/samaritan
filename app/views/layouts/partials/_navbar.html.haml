@@ -12,6 +12,9 @@
         = link_to 'Partners', organizations_path, class: 'nav-link'
       %li.nav-item.px-lg-2
         = link_to 'Donate', donate_path, class: 'nav-link'
+      - if Flipper.enabled?(:kindcard_orderable)
+        %li.nav-item.px-lg-2
+          = link_to 'Order KindCards', new_order_path, class: 'nav-link'
       %li.nav-item.px-lg-2.dropdown.d-menu
         %a#dropdown01.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", :href => "#"}
           %span.d-inline-block.d-lg-none.icon-width>
