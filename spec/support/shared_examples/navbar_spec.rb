@@ -8,7 +8,7 @@ RSpec.shared_examples 'navbar' do
       expect(page).to have_link('Ponds', href: '/ponds')
       expect(page).to have_link('Partners', href: '/organizations')
       expect(page).to have_link('Donate', href: '/donate')
-      expect(page).to have_link('Partner with us', href: '/')
+      # expect(page).to have_link('Partner with us', href: '/')
       expect(page).to have_link('Contribute', href: '/contribute')
       expect(page).to have_link('Tags', href: '/tags')
       expect(page).to have_link('Login', href: '/users/sign_in')
@@ -34,10 +34,10 @@ RSpec.shared_examples 'navbar' do
       expect(page).to have_current_path('/donate')
     end
 
-    it 'can navigate to partner with us' do
-      click_link('Partner with us')
-      expect(page).to have_current_path('/')
-    end
+    # it 'can navigate to partner with us' do
+    #   click_link('Partner with us')
+    #   expect(page).to have_current_path('/')
+    # end
 
     it 'can navigate to contribute' do
       click_link('Contribute', match: :first)

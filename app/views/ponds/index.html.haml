@@ -30,7 +30,7 @@
   .container
     .jumbotron
       %h1{ style: 'color: #1484ac'}= "#{Pond.count} Ponds"
-      %h5{ style: 'color: #edc06d'}= "#{Ripple.count} Ripples of Kindness and counting!"
+      %h5= "#{Ripple.count} Ripples of Kindness and counting!"
       %p{ style: 'color: #7f8285'} Each Pond represents a single KindCard. The ripples represent every act of kindness that was done as that KindCard is being passed around. Click on a Pond to get stats and history about it and its ripples.
 
 .container
@@ -49,31 +49,12 @@
                   %span Ripples
                 %th
                   %span Last active 
-                %th  
             %tbody
               - @ponds.each do |pond|
-                = link_to pond_path(pond.key) do
-                  %tr
-                    %td
-                      %p.user-link= link_to pond.key, pond_path(pond.key)
-                    %td.text-center
-                      = local_time_ago(pond.created_at)
-                    %td.text-center= pond.ripples.count 
-                    %td=pond.ripple_since
-        %ul.pagination.pull-right
-          %li
-            %a{:href => "#"}
-              %i.fa.fa-chevron-left
-          %li
-            %a{:href => "#"} 1
-          %li
-            %a{:href => "#"} 2
-          %li
-            %a{:href => "#"} 3
-          %li
-            %a{:href => "#"} 4
-          %li
-            %a{:href => "#"} 5
-          %li
-            %a{:href => "#"}
-              %i.fa.fa-chevron-right
+                %tr
+                  %td
+                    %p.user-link= link_to pond.key, pond_path(pond.key)
+                  %td.text-center
+                    = local_time_ago(pond.created_at)
+                  %td.text-center= pond.ripples.count 
+                  %td=pond.ripple_since
