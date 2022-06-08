@@ -77,6 +77,54 @@ class Ripple < ApplicationRecord
     group(:pond_id).count.values.max || 0
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  def self.average_time_between_ripples
+    differences = []
+    # 1. get created at for all ripples
+    ripples_created_at = all.pluck(:created_at)
+
+    return '0 hour average between Ripples of Kindness' if ripples_created_at.empty?
+
+    # 2. get difference between each ripple
+    prev_time = nil
+    ripples_created_at.each do |time|
+      if prev_time.nil?
+        prev_time = time
+        next
+      end
+      difference = time - prev_time
+      differences.push(difference)
+      prev_time = time
+    end
+    # 3. add differences
+    average_seconds = differences.sum / ripples_created_at.count
+    # 4. divide by the number of differences
+    average_hours = (average_seconds / 3600).round(1) # 3600 seconds in a hour
+    average_days = (average_seconds / 86_400).round(1) # 86400 seconds in a day
+
+    if average_hours <= 23
+      "#{average_hours} hour average between Ripples of Kindness"
+    else
+      "#{average_days} day average between Ripples of Kindness"
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
+
+  def self.most_popular_city
+    # Query for number of ripples in each zipcode
+    postal_code_counts = group(:postal_code).count.reject { |k| k == 'Unknown' }
+    return 'Unknown' if postal_code_counts.empty?
+
+    # get zipcode with the most ripples
+    result = postal_code_counts.max_by { |_k, v| v }
+    # look up zipcode with geocode
+    city = Geocoder.search(result[0]).first
+    # return result
+    city.display_name
+  end
+
   # For rails routing
   # Override id as default route param
   def to_param

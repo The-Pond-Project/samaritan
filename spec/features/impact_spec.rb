@@ -21,13 +21,13 @@ RSpec.describe 'Impact features' do
   describe 'header' do
     it 'displays content' do
       expect(page).to have_content('Impact Stats')
-      expect(page).to have_content('These are the stats since the first release of KindCards in March 2022.')
-      expect(page).to have_content('Active Ponds')
-      expect(page).to have_content('Total Ponds')
-      expect(page).to have_content('Ripples')
-      expect(page).to have_content('In the last 30 days')
+      expect(page).to have_content('See the affect of KindCards and a detailed breakdown on Ripples of Kindness.')
+      expect(page).to have_content('Active KindCards')
+      expect(page).to have_content('Total KindCards')
+      expect(page).to have_content('Ripples of Kindness')
+      expect(page).to have_content('Recorded in the last 30 days')
       expect(page).to have_content('Releases')
-      expect(page).to have_content('Average Release Size')
+      expect(page).to have_content('Average KindCard amount per release')
       expect(page).to have_content('Partnered organizations')
       expect(page).to have_content('Recent Partner')
     end
@@ -43,8 +43,8 @@ RSpec.describe 'Impact features' do
   describe 'more stats' do
     it 'displays content' do
       expect(page).to have_content('More Stats')
-      expect(page).to have_content('Detailed look at ripples and ponds')
-      expect(page).to have_content('Largest Pond size')
+      expect(page).to have_content('Detailed look at Ripples and Ponds (KindCards)')
+      expect(page).to have_content('Largest Pond (KindCard) size')
       expect(page).to have_content('International Ripples')
       expect(page).to have_content('Domestic Ripples')
       expect(page).to have_content('The last Ripple Location')
