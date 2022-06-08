@@ -10,26 +10,26 @@ RSpec.shared_examples 'footer' do
 
     it 'displays content' do
       expect(page).to have_content('Impact')
-      expect(page).to have_link('Organizations', href: '/organizations')
+      expect(page).to have_link('Our Impact', href: '/impact')
       expect(page).to have_link('Tags', href: '/tags')
       expect(page).to have_link('Ponds', href: '/ponds')
       expect(page).to have_link('Ripples', href: '/ripples')
       expect(page).to have_content('Get Involved')
       expect(page).to have_link('Donate', href: '/donate')
-      expect(page).to have_link('Contribute', href: 'https://github.com/The-Pond-Project/samaritan')
-      expect(page).to have_link('Partner', href: '#')
+      expect(page).to have_link('Contribute', href: '/contribute')
+      # expect(page).to have_link('Partner', href: '#')
       expect(page).to have_content('Connect')
       expect(page).to have_link('Story of Kindness', href: '/stories/new')
       expect(page).to have_link('Email', href: 'mailto:kindnesspassedon@gmail.com')
-      expect(page).to have_link('Report a bug', href: '#')
+      # expect(page).to have_link('Report a bug', href: '#')
       expect(page).to have_link('Privacy Policy', href: '/privacy')
       expect(page).to have_link('Terms of Use', href: '/terms')
     end
 
-    it 'can navigate to organizations' do
-      click_link('Organizations')
-      expect(page).to have_current_path('/organizations')
-    end
+    # it 'can navigate to organizations' do
+    #   click_link('Organizations')
+    #   expect(page).to have_current_path('/organizations')
+    # end
 
     # it 'can navigate to tags' do
     #   click_link('Tags', match: :first)

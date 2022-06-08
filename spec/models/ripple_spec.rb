@@ -229,6 +229,61 @@ RSpec.describe Ripple, type: :model do
     end
   end
 
+  describe '#average_time_between_ripples' do
+    context 'when average is hours' do
+      before do
+        4.times do |i|
+          tomorrow = Time.zone.parse(DateTime.tomorrow.to_s)
+          create(:ripple, pond: pond, created_at: tomorrow + i.days)
+        end
+      end
+
+      it 'returns correct average' do
+        expected_response = '18.0 hour average between Ripples of Kindness'
+        expect(described_class.average_time_between_ripples).to eq expected_response
+      end
+    end
+
+    context 'when average is days' do
+      before do
+        4.times do |i|
+          tomorrow = Time.zone.parse(DateTime.tomorrow.to_s)
+          create(:ripple, pond: pond, created_at: tomorrow + (i.days * 2))
+        end
+      end
+
+      it 'returns correct average' do
+        expected_response = '1.5 day average between Ripples of Kindness'
+        expect(described_class.average_time_between_ripples).to eq expected_response
+      end
+    end
+
+    context 'when there are no ripples' do
+      it 'returns correct average' do
+        expected_response = '0 hour average between Ripples of Kindness'
+        expect(described_class.average_time_between_ripples).to eq expected_response
+      end
+    end
+  end
+
+  describe '#most_popular_city' do
+    let(:westerville) { create_list(:ripple, 2, pond: pond, country: 'US', postal_code: '43081') }
+    let(:columbus) { create_list(:ripple, 3, pond: pond, country: 'US', postal_code: '43205') }
+
+    it 'returns name of city with the most ripples' do
+      westerville
+      columbus
+      expected_response = 'Columbus, Franklin County, Ohio, 43205, United States'
+      expect(described_class.most_popular_city).to eq expected_response
+    end
+
+    context 'when no ripples have been reccorded' do
+      it 'returns unknown' do
+        expect(described_class.most_popular_city).to eq 'Unknown'
+      end
+    end
+  end
+
   describe '#notify_text_subscribers' do
     let(:ripple) { build(:ripple, pond: pond) }
 

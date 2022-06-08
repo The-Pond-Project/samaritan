@@ -2,7 +2,7 @@
   .header.bg-gradient-primary.pb-8.pt-5.pt-md-8
     .container-fluid
       %h1.text-white Impact Stats
-      %p.mb-5.text-white These are the stats since the first release of KindCards in March 2022.
+      %p.mb-5.text-white See the affect of KindCards and a detailed breakdown on Ripples of Kindness.
       .header-body
         .row
           .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
@@ -10,7 +10,7 @@
               .card-body
                 .row
                   .col
-                    %h5.card-title.text-uppercase.text-muted.mb-0 Active Ponds
+                    %h5.card-title.text-uppercase.text-muted.mb-0 Active KindCards
                     %span.h2.font-weight-bold.mb-0= Pond.active.count
                   .col-auto
                     .icon.icon-shape.bg-pond-blue.text-white.rounded-circle.shadow
@@ -19,13 +19,13 @@
                   %span.mr-2
                     %i.fa.fa-arrow-up
                     = Pond.count
-                  %span.text-nowrap Total Ponds
+                  %span.text-nowrap Total KindCards
           .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
             .card.card-stats.mb-4.mb-xl-0
               .card-body
                 .row
                   .col
-                    %h5.card-title.text-uppercase.text-muted.mb-0 Ripples
+                    %h5.card-title.text-uppercase.text-muted.mb-0 Ripples of Kindness
                     %span.h2.font-weight-bold.mb-0= Ripple.count
                   .col-auto
                     .icon.icon-shape.bg-primary.text-white.rounded-circle.shadow
@@ -34,7 +34,7 @@
                   %span.text-success.mr-2
                     %i.fas.fa-arrow-down
                     = Ripple.last_thirty_days.count
-                  %span.text-nowrap In the last 30 days
+                  %span.text-nowrap Recorded in the last 30 days
           .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
             .card.card-stats.mb-4.mb-xl-0
               .card-body
@@ -49,7 +49,7 @@
                   %span.text-primary.mr-2
                     %i.fas.fa-arrow-down
                     = Release.average_release_size
-                  %span.text-nowrap Average Release Size
+                  %span.text-nowrap Average KindCard amount per release
           .col-xl-3.col-lg-6{'data-aos': 'fade-left'}
             .card.card-stats.mb-4.mb-xl-0
               .card-body
@@ -119,12 +119,12 @@
     .row.mb-5
       .col.text-center
         %h2.text-green.h1.text-center More Stats
-        %p.text-uppercase.font-italic.font-weight-light Detailed look at ripples and ponds
+        %p.text-uppercase.font-italic.font-weight-light Detailed look at Ripples and Ponds (KindCards)
     .row.text-center.mb-2
       .col-md-4
         .counter
           %h2.timer.count-title.count-number= Ripple.largest_pond
-          %p.count-text Largest Pond size
+          %p.count-text Largest Pond (KindCard) size
       .col-md-4
         .counter
           %h2.timer.count-title.count-number= Ripple.international.count

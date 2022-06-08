@@ -7,7 +7,7 @@
           %li.nav-item
             %span.footer-title Impact
           %li.nav-item
-            = link_to 'Organizations', organizations_path, class: 'nav-link'
+            = link_to 'Our Impact', impact_path, class: 'nav-link'
           %li.nav-item
             = link_to 'Tags', tags_path, class: 'nav-link'
           %li.nav-item
@@ -21,22 +21,22 @@
           %li.nav-item
             = link_to 'Donate', donate_path, class: 'nav-link'
           %li.nav-item
-            %a.nav-link{href: "https://github.com/The-Pond-Project/samaritan"} Contribute
-          %li.nav-item
-            %a.nav-link{:href => "#"} Partner
+            = link_to 'Contribute', contribute_path, class: 'nav-link'
+          -# %li.nav-item
+          -#   %a.nav-link{:href => "#"} Partner
       .col-md-4.footer-column
         %ul.nav.flex-column
           %li.nav-item
             %span.footer-title Connect
           %li.nav-item
-            %span.nav-link
-              +47 45 80 80 80
+            -# %span.nav-link
+            -#   +47 45 80 80 80
           %li.nav-item
             = link_to 'Story of Kindness', new_story_path, class: 'nav-link'
           %li.nav-item
             = mail_to "kindnesspassedon@gmail.com", 'Email'
-          %li.nav-item
-            %a.nav-link{:href => "#"} Report a bug
+          -# %li.nav-item
+          -#   %a.nav-link{:href => "#"} Report a bug
     .text-center
       %i.fas.fa-ellipsis-h
     .row.text-center
