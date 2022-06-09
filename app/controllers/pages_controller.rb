@@ -15,6 +15,8 @@ class PagesController < ApplicationController
 
   def contribute; end
 
+  def partner; end
+
   def donate
     @bills = Bill.this_year
   end
