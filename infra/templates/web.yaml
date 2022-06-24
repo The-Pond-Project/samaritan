@@ -32,7 +32,7 @@ Resources:
         - EC2
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
-          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}:latest'
+          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}-${RegionShortName}:latest'
           Essential: true
           PortMappings:
             - Protocol: tcp

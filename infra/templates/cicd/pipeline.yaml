@@ -138,8 +138,10 @@ Resources:
         EnvironmentVariables:
           - Name: AWS_ACCOUNT_ID
             Value: !Ref AWS::AccountId
-          - Name: 'PROJECT_NAME'
+          - Name: PROJECT_NAME
             Value: !Ref ProjectName
+          - Name: REGION_SHORT_NAME
+            Value: !Ref RegionShortName
       Source:
         BuildSpec: 'buildspec.yml'
         Type: 'CODEPIPELINE'
