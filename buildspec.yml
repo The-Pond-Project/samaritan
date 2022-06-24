@@ -8,14 +8,18 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build -t $PROJECT_NAME:latest .
-      - docker tag $PROJECT_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME-$REGION_SHORT_NAME:latest
+      - echo Building samaritan docker image...
+      - docker build -t $PROJECT_NAME:samaritan-latest .
+      - docker tag $PROJECT_NAME:samaritan-latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME-$REGION_SHORT_NAME:samaritan-latest
+      - echo Pulling postgres docker image...
+      - docker pull postgres:14-alpine
+      - docker tag postgres:14-alpine $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME-$REGION_SHORT_NAME:postgres-latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME-$REGION_SHORT_NAME:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME-$REGION_SHORT_NAME:samaritan-latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME-$REGION_SHORT_NAME:postgres-latest
 
 artifacts:
   files:

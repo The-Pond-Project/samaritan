@@ -12,6 +12,9 @@ Parameters:
     Type: String
   PrivateSubnets:
     Type: String
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id'
 
 Resources:
   ECSCluster:
@@ -25,12 +28,6 @@ Resources:
           Value: !Ref ProjectName
         - Key: environment
           Value: !Ref Environment
-
-  ECSLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub /ecs/${ProjectName}-${Environment}-${RegionShortName}
-      RetentionInDays: 30
 
   ECSExecutionRole:
     Type: AWS::IAM::Role
@@ -74,17 +71,9 @@ Resources:
       AutoScalingGroupName: !Sub sg-${ProjectName}-${Environment}-${RegionShortName}
       LaunchConfigurationName: !Ref EC2LaunchConfiguration
       MinSize: 0
-      MaxSize: 1
+      MaxSize: 4
       VPCZoneIdentifier: !Split [ ',', !Ref PrivateSubnets ]
       NewInstancesProtectedFromScaleIn: true
-#        DesiredCapacity: String
-#        DesiredCapacityType: String
-#        LaunchTemplate:
-#          LaunchTemplateSpecification
-#        LoadBalancerNames: ??
-#          - String
-#        TargetGroupARNs:
-#          - String
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -96,12 +85,11 @@ Resources:
   EC2LaunchConfiguration:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
-      ImageId: ami-0b8da17c3b532bbcb
+      ImageId: !Ref LatestAmiId
       SecurityGroups:
         - !Ref ECSSecurityGroup
-      InstanceType: t3.small
+      InstanceType: t3.medium
       IamInstanceProfile: !Ref EC2InstanceProfile
-#      KeyName: !Ref KeyName
       UserData:
         Fn::Base64:
           !Sub |
@@ -109,8 +97,6 @@ Resources:
             useradd test
             echo "test:test" | chpasswd
             echo "ECS_CLUSTER=${ProjectName}-${Environment}-${RegionShortName}" >> /etc/ecs/ecs.config
-#            yum install -y aws-cfn-bootstrap
-#            /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2AutoScalingGroup --region ${AWS::Region}
 
   ECSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -127,6 +113,10 @@ Resources:
           IpProtocol: tcp
           FromPort: 22
           ToPort: 22
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -136,9 +126,9 @@ Resources:
   EC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
-      Path: /
       Roles:
         - !Ref EC2Role
+
   EC2Role:
     Type: AWS::IAM::Role
     Properties:
@@ -150,24 +140,8 @@ Resources:
             Principal:
               Service:
                 - ec2.amazonaws.com
-      Path: /
-      Policies:
-        - PolicyName: ecs-service
-          PolicyDocument:
-            Statement:
-              - Effect: Allow
-                Resource: '*'
-                Action:
-                  - ecs:CreateCluster
-                  - ecs:DeregisterContainerInstance
-                  - ecs:DiscoverPollEndpoint
-                  - ecs:Poll
-                  - ecs:RegisterContainerInstance
-                  - ecs:StartTelemetrySession
-                  - ecs:Submit*
-                  - ecs:UpdateContainerInstancesState
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
 
 Outputs:
   ECSClusterArn:

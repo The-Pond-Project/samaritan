@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  Environment:
+    Type: String
+  RegionShortName:
+    Type: String
+
+  VpcId:
+    Type: String
+  PrivateSubnets:
+    Type: String
+  PrivateSubnetsCidr:
+    Type: String
+  PublicSubnets:
+    Type: String
+  ECSClusterArn:
+    Type: String
+  ECSExecutionRoleArn:
+    Type: String
+  EC2CapacityProviderName:
+    Type: String
+
+Resources:
+  DBTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
+      ExecutionRoleArn: !Ref ECSExecutionRoleArn
+      TaskRoleArn: !Ref DBServiceRole
+      RequiresCompatibilities:
+        - EC2
+      NetworkMode: awsvpc
+      Memory: 3072
+      Cpu: 2048
+      ContainerDefinitions:
+        - Name: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
+          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}-${RegionShortName}:postgres-latest'
+          Essential: true
+          PortMappings:
+            - Protocol: tcp
+              ContainerPort: 5432
+          Environment:
+#            - Name: PGUSER
+#              Value: samaritan
+#            - Name: PGPASSWORD
+#              Value: 80
+            - Name: POSTGRES_PASSWORD
+              Value: postgres
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Sub /ecs/${ProjectName}-db-${Environment}-${RegionShortName}
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: ecs
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  DBLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${ProjectName}-db-${Environment}-${RegionShortName}
+      RetentionInDays: 30
+
+  DBServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  DBService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSClusterArn
+      DesiredCount: 1
+      CapacityProviderStrategy:
+        - CapacityProvider: !Ref EC2CapacityProviderName
+          Weight: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          SecurityGroups:
+            - !GetAtt DBSecurityGroup.GroupId
+          Subnets: !Split [ ',', !Ref PrivateSubnets ]
+      TaskDefinition: !Ref DBTaskDefinition
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
+      GroupDescription: Security group for db
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment

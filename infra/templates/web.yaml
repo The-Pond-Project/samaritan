@@ -30,30 +30,38 @@ Resources:
       TaskRoleArn: !Ref WebServiceRole
       RequiresCompatibilities:
         - EC2
+      NetworkMode: awsvpc
+      Memory: 3072
+      Cpu: 2048
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
-          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}-${RegionShortName}:latest'
-          Essential: true
+          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}-${RegionShortName}:samaritan-latest'
+          Essential: false
           PortMappings:
             - Protocol: tcp
-              ContainerPort: 3000
+              ContainerPort: 80
           Environment:
             - Name: ENVIRONMENT
               Value: !Ref Environment
+            - Name: PORT
+              Value: 80
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: !Sub /ecs/${ProjectName}-${Environment}-${RegionShortName}
+              awslogs-group: !Sub /ecs/${ProjectName}-web-${Environment}-${RegionShortName}
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: ecs
-      NetworkMode: awsvpc
-      Memory: 1024
-      Cpu: 512
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
         - Key: environment
           Value: !Ref Environment
+
+  WebLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${ProjectName}-web-${Environment}-${RegionShortName}
+      RetentionInDays: 30
 
   WebServiceRole:
     Type: AWS::IAM::Role
@@ -68,15 +76,6 @@ Resources:
                 - ecs-tasks.amazonaws.com
             Action:
               - sts:AssumeRole
-#      Policies:
-#        - PolicyName: WebServiceRolePolicy
-#          PolicyDocument:
-#            Version: 2012-10-17
-#            Statement:
-#              - Effect: Allow
-#                Resource: !Sub 'arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:*'
-#                Action:
-#                  - sqs:ListQueues
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -92,7 +91,7 @@ Resources:
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroup
           ContainerName: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
-          ContainerPort: 3000
+          ContainerPort: 80
       CapacityProviderStrategy:
         - CapacityProvider: !Ref EC2CapacityProviderName
           Weight: 1
@@ -114,7 +113,7 @@ Resources:
     Properties:
       LoadBalancerArn: !Ref LoadBalancer
       Protocol: HTTP
-      Port: 3000
+      Port: 80
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref TargetGroup
@@ -136,10 +135,9 @@ Resources:
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: !Sub ${ProjectName}-${Environment}
       TargetType: ip
       Protocol: HTTP
-      Port: 3000
+      Port: 80
       VpcId: !Ref VpcId
       HealthCheckPath: /health_check
       Tags:
@@ -157,8 +155,8 @@ Resources:
       SecurityGroupIngress:
         - SourceSecurityGroupId: !GetAtt LoadBalancerSecurityGroup.GroupId
           IpProtocol: tcp
-          FromPort: 3000
-          ToPort: 3000
+          FromPort: 80
+          ToPort: 80
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -174,8 +172,8 @@ Resources:
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
           IpProtocol: tcp
-          FromPort: 3000
-          ToPort: 3000
+          FromPort: 80
+          ToPort: 80
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
