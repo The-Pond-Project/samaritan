@@ -1,0 +1,2 @@
+project_code: '{{ var.ProjectName }}'
+region: '{{ var.RegionFullName }}'

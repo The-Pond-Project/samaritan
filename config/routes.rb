@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     root 'pages#home'
   end 
 
+  get '/health_check', to: proc { [200, {}, ['success']] }
+
   # Service Workers
   get '/service-worker.js', to: 'service_workers/workers#index'
   get '/manifest.json', to: 'service_workers/manifests#index'

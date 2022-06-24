@@ -1,0 +1,17 @@
+template_path: network/vpc.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+
+  VpcCidr: '{{ var.VpcCidr }}'
+  PrivateSubnetsCidr: '{{ var.PrivateSubnetsCidr }}'
+
+  PrivateSubnetACidr: '{{ var.PrivateSubnetACidr }}'
+  PrivateSubnetBCidr: '{{ var.PrivateSubnetBCidr }}'
+  PrivateSubnetCCidr: '{{ var.PrivateSubnetCCidr }}'
+  PublicSubnetACidr: '{{ var.PublicSubnetACidr }}'
+  PublicSubnetBCidr: '{{ var.PublicSubnetBCidr }}'
+  PublicSubnetCCidr: '{{ var.PublicSubnetCCidr }}'
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

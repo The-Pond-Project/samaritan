@@ -1,0 +1,13 @@
+template_path: ecs.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  Environment: '{{ var.ProdEnvName }}'
+  RegionShortName: '{{ var.RegionShortName }}'
+
+  VpcId: !stack_output network/vpc.yaml::VpcId
+  PrivateSubnets: !stack_output network/vpc.yaml::PrivateSubnets
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'
+  environment: '{{ var.ProdEnvName }}'

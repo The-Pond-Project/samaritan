@@ -1,0 +1,8 @@
+template_path: cicd/ecr.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  RegionShortName: '{{ var.RegionShortName }}'
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

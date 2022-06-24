@@ -1,0 +1,17 @@
+template_path: web.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  Environment: '{{ var.ProdEnvName }}'
+  RegionShortName: '{{ var.RegionShortName }}'
+
+  VpcId: !stack_output network/vpc.yaml::VpcId
+  PrivateSubnets: !stack_output network/vpc.yaml::PrivateSubnets
+  PublicSubnets: !stack_output network/vpc.yaml::PublicSubnets
+  ECSClusterArn: !stack_output prod/ecs.yaml::ECSClusterArn
+  ECSExecutionRoleArn: !stack_output prod/ecs.yaml::ECSExecutionRoleArn
+  EC2CapacityProviderName: !stack_output prod/ecs.yaml::EC2CapacityProviderName
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'
+  environment: '{{ var.ProdEnvName }}'
