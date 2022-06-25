@@ -88,6 +88,17 @@ Resources:
       VpcId: !Ref VpcId
       SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
 
+  SecretManagerVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.secretsmanager'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
   VPCEndpointSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:

@@ -46,7 +46,7 @@ Resources:
               ContainerPort: 5432
           Secrets:
             - Name: POSTGRES_PASSWORD
-              ValueFrom: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${ProjectName}-${RegionShortName}-ItMupp:secret:dbPassword::'
+              ValueFrom: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${ProjectName}-${RegionShortName}-ItMupp:dbPassword::'
           LogConfiguration:
             LogDriver: awslogs
             Options:
