@@ -1,5 +1,0 @@
-FROM postgres:14-alpine
-
-
-
-CMD ["postgres"]

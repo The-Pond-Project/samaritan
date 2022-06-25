@@ -163,6 +163,15 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnetC
 
+  PrivateDnsNamespace:
+    Type: AWS::ServiceDiscovery::PrivateDnsNamespace
+    Properties:
+      Name: !Sub ${ProjectName}.local
+      Vpc: !Ref VPC
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
 Outputs:
   VpcId:
     Value: !Ref VPC
@@ -172,3 +181,5 @@ Outputs:
     Value: !Ref PrivateRouteTable
   PublicSubnets:
     Value: !Join [ ',', [ !Ref PublicSubnetA, !Ref PublicSubnetB, !Ref PublicSubnetC ] ]
+  PrivateDnsNamespaceArn:
+    Value: !Ref PrivateDnsNamespace

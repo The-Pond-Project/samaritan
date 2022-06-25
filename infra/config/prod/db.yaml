@@ -12,6 +12,7 @@ parameters:
   ECSClusterArn: !stack_output prod/ecs.yaml::ECSClusterArn
   ECSExecutionRoleArn: !stack_output prod/ecs.yaml::ECSExecutionRoleArn
   EC2CapacityProviderName: !stack_output prod/ecs.yaml::EC2CapacityProviderName
+  PrivateDnsNamespaceArn: !stack_output network/vpc.yaml::PrivateDnsNamespaceArn
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'

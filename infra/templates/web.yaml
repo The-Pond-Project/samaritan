@@ -36,15 +36,25 @@ Resources:
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
           Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}-${RegionShortName}:samaritan-latest'
-          Essential: false
+          Essential: true
           PortMappings:
             - Protocol: tcp
               ContainerPort: 80
           Environment:
             - Name: ENVIRONMENT
               Value: !Ref Environment
-            - Name: PORT
-              Value: 80
+#            - Name: RAILS_ENV
+#              Value: production
+#            - Name: NODE_ENV
+#              Value: production
+            - Name: DB_HOST
+              Value: db.samaritan.local
+            - Name: DB_NAME
+              Value: samaritan
+            - Name: DB_USERNAME
+              Value: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:dbUsername}}'] ]
+            - Name: DB_PASSWORD
+              Value: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:dbPassword}}'] ]
           LogConfiguration:
             LogDriver: awslogs
             Options:
