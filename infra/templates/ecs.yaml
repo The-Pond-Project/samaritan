@@ -44,6 +44,16 @@ Resources:
               - sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Policies:
+        - PolicyName: ECSExecutionRolePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: '*'
+                Action:
+                  - secretsmanager:GetSecretValue
+
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -94,8 +104,11 @@ Resources:
         Fn::Base64:
           !Sub |
             #!/bin/bash -xe
+            sudo yum -y update
             useradd test
             echo "test:test" | chpasswd
+            echo "test ALL=(ALL) ALL" >> /etc/sudoers
+            usermod -aG wheel test
             echo "ECS_CLUSTER=${ProjectName}-${Environment}-${RegionShortName}" >> /etc/ecs/ecs.config
 
   ECSSecurityGroup:

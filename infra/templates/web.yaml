@@ -47,14 +47,13 @@ Resources:
 #              Value: production
 #            - Name: NODE_ENV
 #              Value: production
+            - Name: PORT
+              Value: 80
             - Name: DB_HOST
               Value: db.samaritan.local
-            - Name: DB_NAME
-              Value: samaritan
-            - Name: DB_USERNAME
-              Value: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:dbUsername}}'] ]
+          Secrets:
             - Name: DB_PASSWORD
-              Value: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:dbPassword}}'] ]
+              ValueFrom: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${ProjectName}-${RegionShortName}-ItMupp:secret:dbPassword::'
           LogConfiguration:
             LogDriver: awslogs
             Options:

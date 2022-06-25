@@ -44,13 +44,9 @@ Resources:
           PortMappings:
             - Protocol: tcp
               ContainerPort: 5432
-          Environment:
-            - Name: POSTGRES_DB
-              Value: samaritan
-            - Name: POSTGRES_USER
-              Value: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:dbUsername}}'] ]
+          Secrets:
             - Name: POSTGRES_PASSWORD
-              Value: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:dbPassword}}'] ]
+              ValueFrom: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${ProjectName}-${RegionShortName}-ItMupp:secret:dbPassword::'
           LogConfiguration:
             LogDriver: awslogs
             Options:
