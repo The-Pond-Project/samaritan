@@ -49,4 +49,4 @@ Resources:
 
 Outputs:
   ECRRepoArn:
-    Value: !Ref Repository
+    Value: !GetAtt Repository.Arn
