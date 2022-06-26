@@ -99,6 +99,17 @@ Resources:
       VpcId: !Ref VpcId
       SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
 
+  RDSVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.rds'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
   VPCEndpointSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:

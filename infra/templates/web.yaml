@@ -5,8 +5,6 @@ Parameters:
     Type: String
   Environment:
     Type: String
-  RegionShortName:
-    Type: String
 
   VpcId:
     Type: String
@@ -20,12 +18,18 @@ Parameters:
     Type: String
   EC2CapacityProviderName:
     Type: String
+  ECRRepoArn:
+    Type: String
+  SecretArn:
+    Type: String
+  RDSInstanceEndpoint:
+    Type: String
 
 Resources:
   WebTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
+      Family: !Sub ${ProjectName}-web-${Environment}
       ExecutionRoleArn: !Ref ECSExecutionRoleArn
       TaskRoleArn: !Ref WebServiceRole
       RequiresCompatibilities:
@@ -34,8 +38,8 @@ Resources:
       Memory: 3072
       Cpu: 2048
       ContainerDefinitions:
-        - Name: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
-          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}-${RegionShortName}:samaritan-latest'
+        - Name: !Sub ${ProjectName}-web-${Environment}
+          Image: !Sub '${ECRRepoArn}:samaritan-latest'
           Essential: true
           PortMappings:
             - Protocol: tcp
@@ -50,14 +54,16 @@ Resources:
             - Name: PORT
               Value: 80
             - Name: DB_HOST
-              Value: db.samaritan.local
+              Value: !Ref RDSInstanceEndpoint
           Secrets:
+            - Name: DB_USERNAME
+              ValueFrom: !Sub '${SecretArn}:dbUsername::'
             - Name: DB_PASSWORD
-              ValueFrom: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${ProjectName}-${RegionShortName}-ItMupp:dbPassword::'
+              ValueFrom: !Sub '${SecretArn}:dbPassword::'
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: !Sub /ecs/${ProjectName}-web-${Environment}-${RegionShortName}
+              awslogs-group: !Sub /ecs/${ProjectName}-web-${Environment}
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: ecs
       Tags:
@@ -69,13 +75,13 @@ Resources:
   WebLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /ecs/${ProjectName}-web-${Environment}-${RegionShortName}
+      LogGroupName: !Sub /ecs/${ProjectName}-web-${Environment}
       RetentionInDays: 30
 
   WebServiceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
+      RoleName: !Sub ${ProjectName}-web-${Environment}
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -99,7 +105,7 @@ Resources:
       DesiredCount: 1
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroup
-          ContainerName: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
+          ContainerName: !Sub ${ProjectName}-web-${Environment}
           ContainerPort: 80
       CapacityProviderStrategy:
         - CapacityProvider: !Ref EC2CapacityProviderName
@@ -158,7 +164,7 @@ Resources:
   WebSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: !Sub ${ProjectName}-web-${Environment}-${RegionShortName}
+      GroupName: !Sub ${ProjectName}-web-${Environment}
       GroupDescription: Security group for web app
       VpcId: !Ref VpcId
       SecurityGroupIngress:
@@ -175,7 +181,7 @@ Resources:
   LoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: !Sub ${ProjectName}-alb-${Environment}-${RegionShortName}
+      GroupName: !Sub ${ProjectName}-alb-${Environment}
       GroupDescription: Security group for application load balancer
       VpcId: !Ref VpcId
       SecurityGroupIngress:

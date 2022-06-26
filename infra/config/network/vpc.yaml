@@ -8,10 +8,8 @@ parameters:
 
   PrivateSubnetACidr: '{{ var.PrivateSubnetACidr }}'
   PrivateSubnetBCidr: '{{ var.PrivateSubnetBCidr }}'
-  PrivateSubnetCCidr: '{{ var.PrivateSubnetCCidr }}'
   PublicSubnetACidr: '{{ var.PublicSubnetACidr }}'
   PublicSubnetBCidr: '{{ var.PublicSubnetBCidr }}'
-  PublicSubnetCCidr: '{{ var.PublicSubnetCCidr }}'
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'

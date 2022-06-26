@@ -5,8 +5,6 @@ Parameters:
     Type: String
   Environment:
     Type: String
-  RegionShortName:
-    Type: String
 
   VpcId:
     Type: String
@@ -24,12 +22,16 @@ Parameters:
     Type: String
   PrivateDnsNamespaceArn:
     Type: String
+  ECRRepoArn:
+    Type: String
+  SecretArn:
+    Type: String
 
 Resources:
   DBTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
+      Family: !Sub ${ProjectName}-db-${Environment}
       ExecutionRoleArn: !Ref ECSExecutionRoleArn
       TaskRoleArn: !Ref DBServiceRole
       RequiresCompatibilities:
@@ -37,20 +39,35 @@ Resources:
       NetworkMode: awsvpc
       Memory: 3072
       Cpu: 2048
+      PlacementConstraints:
+        - Type: memberOf
+          Expression: !Join [ '', [ 'attribute:ecs.availability-zone==', !Select [ 0, !GetAZs ]] ]
+      Volumes:
+        - Name: !Sub ${ProjectName}-${Environment}
+          DockerVolumeConfiguration:
+            Scope: shared
+            Autoprovision: true
+            Driver: rexray/ebs
+            DriverOpts:
+              Volumetype: gp3
+              Size: 50
       ContainerDefinitions:
-        - Name: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
-          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}-${RegionShortName}:postgres-latest'
+        - Name: !Sub ${ProjectName}-db-${Environment}
+          Image: !Sub '${ECRRepoArn}:postgres-latest'
           Essential: true
           PortMappings:
             - Protocol: tcp
               ContainerPort: 5432
+          MountPoints:
+            - SourceVolume: !Sub ${ProjectName}-${Environment}
+              ContainerPath: '/var/lib/postgresql/data'
           Secrets:
             - Name: POSTGRES_PASSWORD
-              ValueFrom: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${ProjectName}-${RegionShortName}-ItMupp:dbPassword::'
+              ValueFrom: !Sub '${SecretArn}:dbPassword::'
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: !Sub /ecs/${ProjectName}-db-${Environment}-${RegionShortName}
+              awslogs-group: !Sub /ecs/${ProjectName}-db-${Environment}
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: ecs
       Tags:
@@ -62,13 +79,13 @@ Resources:
   DBLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /ecs/${ProjectName}-db-${Environment}-${RegionShortName}
+      LogGroupName: !Sub /ecs/${ProjectName}-db-${Environment}
       RetentionInDays: 30
 
   DBServiceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
+      RoleName: !Sub ${ProjectName}-db-${Environment}
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -126,7 +143,7 @@ Resources:
   DBSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: !Sub ${ProjectName}-db-${Environment}-${RegionShortName}
+      GroupName: !Sub ${ProjectName}-db-${Environment}
       GroupDescription: Security group for db
       VpcId: !Ref VpcId
       SecurityGroupIngress:
@@ -139,3 +156,15 @@ Resources:
           Value: !Ref ProjectName
         - Key: environment
           Value: !Ref Environment
+
+#    DBVolume:
+#      Type: AWS::EC2::Volume
+#      Properties:
+#        AvailabilityZone: !Select [ 0, !GetAZs ]
+#        VolumeType: gp3
+#        Size: 50
+#        Tags:
+#          - Key: project-name
+#            Value: !Ref ProjectName
+#          - Key: environment
+#            Value: !Ref Environment

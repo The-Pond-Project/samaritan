@@ -3,14 +3,12 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   ProjectName:
     Type: String
-  RegionShortName:
-    Type: String
 
 Resources:
   Repository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: !Sub '${ProjectName}-${RegionShortName}'
+      RepositoryName: !Ref ProjectName
       LifecyclePolicy:
         LifecyclePolicyText: |
           {
@@ -48,3 +46,7 @@ Resources:
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
+
+Outputs:
+  ECRRepoArn:
+    Value: !Ref Repository

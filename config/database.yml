@@ -87,4 +87,4 @@ test:
 #
 production:
   <<: *default
-  database: the_pond_project_production
+  database: the_pond_project_prod

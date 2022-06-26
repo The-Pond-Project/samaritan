@@ -25,7 +25,7 @@ Resources:
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: !Sub ${ProjectName}-${RegionShortName}
+      Name: !Sub ${ProjectName}
       ArtifactStore:
         Type: S3
         Location: !Ref PipelineArtifactsBucket
@@ -48,7 +48,7 @@ Resources:
                 Branch: !Ref GitHubBranch
                 PollForSourceChanges: false
                 Owner: !Ref GitHubOwner
-                OAuthToken: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:githubToken}}'] ]
+                OAuthToken: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-secret', ':SecretString:githubToken}}'] ]
               RunOrder: 1
         - Name: Build
           Actions:
@@ -89,10 +89,10 @@ Resources:
     Properties:
       Authentication: GITHUB_HMAC
       AuthenticationConfiguration:
-        SecretToken: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-${RegionShortName}', ':SecretString:githubToken}}'] ]
+        SecretToken: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-secret', ':SecretString:githubToken}}'] ]
       RegisterWithThirdParty: 'true'
       Filters:
-        - JsonPath: "$.ref"
+        - JsonPath: '$.ref'
           MatchEquals: refs/heads/{Branch}
       TargetPipeline: !Ref CodePipeline
       TargetAction: Source
@@ -101,7 +101,7 @@ Resources:
   CodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub ${ProjectName}-cicd-${RegionShortName}
+      RoleName: !Sub ${ProjectName}-cicd
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -121,7 +121,7 @@ Resources:
   CodeBuild:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: !Sub ${ProjectName}-build-${RegionShortName}
+      Name: !Sub ${ProjectName}-build
       ServiceRole: !Ref CodePipelineRole
       Artifacts:
         ArtifactIdentifier: !Sub '${ProjectName}-aws-resources'
@@ -140,8 +140,6 @@ Resources:
             Value: !Ref AWS::AccountId
           - Name: PROJECT_NAME
             Value: !Ref ProjectName
-          - Name: REGION_SHORT_NAME
-            Value: !Ref RegionShortName
       Source:
         BuildSpec: 'buildspec.yml'
         Type: 'CODEPIPELINE'
@@ -153,7 +151,7 @@ Resources:
   ProdDeploy:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: !Sub ${ProjectName}-prod-deploy-${RegionShortName}
+      Name: !Sub ${ProjectName}-prod-deploy
       ServiceRole: !Ref CodePipelineRole
       Artifacts:
         Name: appbuild

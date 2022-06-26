@@ -10,13 +10,9 @@ Parameters:
     Type: String
   PrivateSubnetBCidr:
     Type: String
-  PrivateSubnetCCidr:
-    Type: String
   PublicSubnetACidr:
     Type: String
   PublicSubnetBCidr:
-    Type: String
-  PublicSubnetCCidr:
     Type: String
 
   PrivateSubnetsCidr:
@@ -60,16 +56,6 @@ Resources:
         - Key: Name
           Value: !Sub '${ProjectName}-private-b'
 
-  PrivateSubnetC:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      CidrBlock: !Ref PrivateSubnetCCidr
-      AvailabilityZone: !Select [ 2, !GetAZs ]
-      Tags:
-        - Key: Name
-          Value: !Sub '${ProjectName}-private-c'
-
   PublicSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -92,17 +78,6 @@ Resources:
         - Key: Name
           Value: !Sub '${ProjectName}-public-b'
 
-  PublicSubnetC:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      CidrBlock: !Ref PublicSubnetCCidr
-      AvailabilityZone: !Select [ 2, !GetAZs ]
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: !Sub '${ProjectName}-public-c'
-
   PrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -122,12 +97,6 @@ Resources:
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       SubnetId: !Ref PrivateSubnetB
-
-  PrivateSubnetCRouteTableAssociation:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable
-      SubnetId: !Ref PrivateSubnetC
 
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
@@ -156,12 +125,6 @@ Resources:
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnetB
-  
-  PublicSubnetCRouteTableAssociation:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref PublicRouteTable
-      SubnetId: !Ref PublicSubnetC
 
   PrivateDnsNamespace:
     Type: AWS::ServiceDiscovery::PrivateDnsNamespace
@@ -176,10 +139,10 @@ Outputs:
   VpcId:
     Value: !Ref VPC
   PrivateSubnets:
-    Value: !Join [ ',', [ !Ref PrivateSubnetA, !Ref PrivateSubnetB, !Ref PrivateSubnetC ] ]
+    Value: !Join [ ',', [ !Ref PrivateSubnetA, !Ref PrivateSubnetB ] ]
   PrivateRouteTable:
     Value: !Ref PrivateRouteTable
   PublicSubnets:
-    Value: !Join [ ',', [ !Ref PublicSubnetA, !Ref PublicSubnetB, !Ref PublicSubnetC ] ]
+    Value: !Join [ ',', [ !Ref PublicSubnetA, !Ref PublicSubnetB ] ]
   PrivateDnsNamespaceArn:
     Value: !Ref PrivateDnsNamespace
