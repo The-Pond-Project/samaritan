@@ -18,7 +18,7 @@ Parameters:
     Type: String
   EC2CapacityProviderName:
     Type: String
-  ECRRepoArn:
+  ECRRepoUrl:
     Type: String
   SecretArn:
     Type: String
@@ -39,7 +39,7 @@ Resources:
       Cpu: 2048
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}
-          Image: !Sub '${ECRRepoArn}:samaritan-latest'
+          Image: !Sub '${ECRRepoUrl}:samaritan-latest'
           Essential: true
           PortMappings:
             - Protocol: tcp

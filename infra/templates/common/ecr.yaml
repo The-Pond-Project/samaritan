@@ -48,5 +48,5 @@ Resources:
           Value: !Ref ProjectName
 
 Outputs:
-  ECRRepoArn:
-    Value: !GetAtt Repository.Arn
+  ECRRepoUrl:
+    Value: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ProjectName}"
