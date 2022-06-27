@@ -59,9 +59,11 @@ Resources:
               Value: 80
             - Name: DB_HOST
               Value: !Ref RDSInstanceEndpoint
+            - Name: RAILS_SERVE_STATIC_FILES
+              Value: true
           Secrets:
-            - Name: DB_USERNAME
-              ValueFrom: !Sub '${SecretArn}:dbUsername::'
+            - Name: SECRET_KEY_BASE
+              ValueFrom: !Sub '${SecretArn}:secretKey::'
             - Name: DB_PASSWORD
               ValueFrom: !Sub '${SecretArn}:dbPassword::'
           LogConfiguration:
@@ -95,6 +97,16 @@ Resources:
                 - ecs-tasks.amazonaws.com
             Action:
               - sts:AssumeRole
+      Policies:
+        - PolicyName: WebServiceRolePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: '*'
+                Action:
+                  - rds:*
+                  - rds-db:*
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
