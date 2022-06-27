@@ -64,6 +64,8 @@ Resources:
           Secrets:
             - Name: SECRET_KEY_BASE
               ValueFrom: !Sub '${SecretArn}:secretKey::'
+            - Name: DB_USERNAME
+              ValueFrom: !Sub '${SecretArn}:dbUsername::'
             - Name: DB_PASSWORD
               ValueFrom: !Sub '${SecretArn}:dbPassword::'
           LogConfiguration:
