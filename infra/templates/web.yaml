@@ -5,6 +5,8 @@ Parameters:
     Type: String
   Environment:
     Type: String
+  EnvironmentFullName:
+    Type: String
 
   VpcId:
     Type: String
@@ -47,10 +49,12 @@ Resources:
           Environment:
             - Name: ENVIRONMENT
               Value: !Ref Environment
-#            - Name: RAILS_ENV
-#              Value: production
-#            - Name: NODE_ENV
-#              Value: production
+            - Name: RAILS_ENV
+              Value: !Ref EnvironmentFullName
+            - Name: RACK_ENV
+              Value: !Ref EnvironmentFullName
+            - Name: NODE_ENV
+              Value: !Ref EnvironmentFullName
             - Name: PORT
               Value: 80
             - Name: DB_HOST

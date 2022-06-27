@@ -3,6 +3,7 @@ template_path: web.yaml
 parameters:
   ProjectName: '{{ var.ProjectName }}'
   Environment: '{{ var.ProdEnvName }}'
+  EnvironmentFullName: '{{ var.ProdEnvFullName }}'
 
   VpcId: !stack_output network/vpc.yaml::VpcId
   PrivateSubnets: !stack_output network/vpc.yaml::PrivateSubnets

@@ -6,8 +6,11 @@ GitHubOwner: "The-Pond-Project"
 GitHubRepo: "samaritan"
 GitHubBranch: "aws-deploy"
 
-QaEnvName: "qa"
+TestEnvName: "test"
+TestEnvFullName: "test"
+
 ProdEnvName: "prod"
+ProdEnvFullName: "production"
 
 VpcCidr: "10.0.0.0/16"
 PrivateSubnetACidr: "10.0.1.0/24"
