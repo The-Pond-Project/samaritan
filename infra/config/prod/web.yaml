@@ -14,6 +14,8 @@ parameters:
   ECRRepoUrl: !stack_output common/ecr.yaml::ECRRepoUrl
   SecretArn: !stack_output common/secret.yaml::SecretArn
   RDSInstanceEndpoint: !stack_output prod/rds.yaml::RDSInstanceEndpoint
+  DNSHostedZoneId: !stack_output network/dns.yaml::DNSHostedZoneId
+  ProjectDNSName: '{{ var.ProjectDNSName }}'
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'

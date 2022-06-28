@@ -1,6 +1,8 @@
 template_path: network/endpoints.yaml
 
 parameters:
+  ProjectName: '{{ var.ProjectName }}'
+
   VpcId: !stack_output network/vpc.yaml::VpcId
   PrivateSubnetsCidr: '{{ var.PrivateSubnetsCidr }}'
   PrivateSubnets: !stack_output network/vpc.yaml::PrivateSubnets

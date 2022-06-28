@@ -1,0 +1,8 @@
+template_path: network/dns.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  ProjectDNSName: '{{ var.ProjectDNSName }}'
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

@@ -96,7 +96,7 @@ Resources:
       ImageId: !Ref LatestAmiId
       SecurityGroups:
         - !Ref ECSSecurityGroup
-      InstanceType: t3.medium
+      InstanceType: t3.small
       IamInstanceProfile: !Ref EC2InstanceProfile
       UserData:
         Fn::Base64:
@@ -124,8 +124,8 @@ Resources:
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0 #todo restrict
           IpProtocol: tcp
-          FromPort: 3000
-          ToPort: 3000
+          FromPort: 80
+          ToPort: 80
       Tags:
         - Key: project-name
           Value: !Ref ProjectName

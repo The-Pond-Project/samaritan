@@ -1,6 +1,9 @@
 AWSTemplateFormatVersion: 2010-09-09
 
 Parameters:
+  ProjectName:
+    Type: String
+
   VpcId:
     Type: String
   PrivateSubnetsCidr:
@@ -113,6 +116,7 @@ Resources:
   VPCEndpointSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupName: !Sub ${ProjectName}-vpc-endpoints
       GroupDescription: Security group for vpc endpoints
       VpcId: !Ref VpcId
       SecurityGroupIngress:

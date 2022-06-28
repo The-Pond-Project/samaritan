@@ -22,7 +22,7 @@ Resources:
       DBInstanceClass: db.t3.small
       AllocatedStorage: 30
       MaxAllocatedStorage: 500
-      BackupRetentionPeriod: 1
+      BackupRetentionPeriod: 3
       DeleteAutomatedBackups: false
       DeletionProtection: true
       EnableCloudwatchLogsExports:

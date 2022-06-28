@@ -3,6 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
     config.hosts << /.*elb\.amazonaws\.com/
     config.hosts << 'thepondproject.org'
+    config.hosts << IPAddr.new("10.0.0.0/16")
 
   # Settings specified here will take precedence over those in config/application.rb.
 

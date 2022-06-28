@@ -26,6 +26,10 @@ Parameters:
     Type: String
   RDSInstanceEndpoint:
     Type: String
+  DNSHostedZoneId:
+    Type: String
+  ProjectDNSName:
+    Type: String
 
 Resources:
   WebTaskDefinition:
@@ -37,7 +41,7 @@ Resources:
       RequiresCompatibilities:
         - EC2
       NetworkMode: awsvpc
-      Memory: 3072
+      Memory: 1536
       Cpu: 2048
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}
@@ -108,7 +112,6 @@ Resources:
                 Resource: '*'
                 Action:
                   - rds:*
-                  - rds-db:*
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -165,6 +168,17 @@ Resources:
         - Key: environment
           Value: !Ref Environment
 
+  ALBDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Type: A
+      Name: !Ref ProjectDNSName
+      HostedZoneId: !Ref DNSHostedZoneId
+      AliasTarget:
+        DNSName: !GetAtt LoadBalancer.DNSName
+        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+        EvaluateTargetHealth: true
+
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -173,6 +187,9 @@ Resources:
       Port: 80
       VpcId: !Ref VpcId
       HealthCheckPath: /health_check
+      HealthCheckPort: 80
+      HealthCheckIntervalSeconds: 60
+      HealthCheckTimeoutSeconds: 10
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
