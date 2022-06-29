@@ -262,4 +262,8 @@ Outputs:
         - !Ref EC2CapacityProvider
         - ''
   ECSInstancePrivateDnsName:
-    Value: !GetAtt ESCInstance.PrivateDnsName
+    Value:
+      !If
+      - IsProd
+      - ''
+      - !GetAtt ESCInstance.PrivateDnsName
