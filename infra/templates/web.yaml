@@ -176,16 +176,16 @@ Resources:
         - Key: environment
           Value: !Ref Environment
 
-#  ALBDNSRecord:
-#    Type: AWS::Route53::RecordSet
-#    Properties:
-#      Type: A
-#      Name: !Ref ProjectDNSName
-#      HostedZoneId: !Ref DNSHostedZoneId
-#      AliasTarget:
-#        DNSName: !GetAtt LoadBalancer.DNSName
-#        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
-#        EvaluateTargetHealth: true
+  ALBDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Type: A
+      Name: !Ref ProjectDNSName
+      HostedZoneId: !Ref DNSHostedZoneId
+      AliasTarget:
+        DNSName: !GetAtt LoadBalancer.DNSName
+        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+        EvaluateTargetHealth: true
 
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
