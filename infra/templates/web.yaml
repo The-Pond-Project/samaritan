@@ -50,7 +50,7 @@ Resources:
       Cpu: !If [IsProd, 2048, 1024]
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}
-          Image: !Sub '${ECRRepoUrl}:samaritan-latest-tag'
+          Image: !Sub '${ECRRepoUrl}:samaritan-tag'
           Essential: true
           PortMappings:
             - Protocol: tcp
