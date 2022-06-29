@@ -12,14 +12,14 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building samaritan docker image...
-#      - docker build -t $REPO_URI:latest .
-#      - docker tag $REPO_URI:samaritan-latest $REPO_URI:$IMAGE_TAG
+      - docker build -t $REPO_URI:latest .
+      - docker tag $REPO_URI:samaritan-latest $REPO_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-#      - docker push $REPO_URI:latest
-#      - docker push $REPO_URI:$IMAGE_TAG
+      - docker push $REPO_URI:latest
+      - docker push $REPO_URI:$IMAGE_TAG
       - sed -i "s/:samaritan-latest-tag/:$IMAGE_TAG/" ./infra/templates/web.yaml
 
 artifacts:
