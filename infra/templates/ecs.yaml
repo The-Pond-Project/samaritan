@@ -21,6 +21,8 @@ Parameters:
     Type: String
   BucketName:
     Type: String
+  DBVolume:
+    Type: String
 
 Conditions:
   IsProd: !Equals [!Ref Environment, 'prod']
@@ -201,6 +203,9 @@ Resources:
       SecurityGroupIds:
         - !Ref ECSSecurityGroup
       SubnetId: !Select [ 0, !Split [ ',', !Ref PrivateSubnets ] ]
+      Volumes:
+        - Device: /dev/sdf
+          VolumeId: !Ref DBVolume
       UserData:
         Fn::Base64:
           !Sub |
@@ -214,6 +219,10 @@ Resources:
           usermod -aG wheel samaritan
           
           echo "ECS_CLUSTER=${ProjectName}-${Environment}" >> /etc/ecs/ecs.config
+
+          mkdir -p /var/lib/pgsql/14/data
+          echo "UUID=14de1dc7-5149-47ae-be5b-5402ba7d1d1e  /var/lib/pgsql/14/data  xfs  defaults,nofail  0  2" >> /etc/fstab
+          mount -a
           
           cat << EOF > /etc/yum.repos.d/samaritan-repo.repo
           [samaritan-repo]
@@ -222,22 +231,15 @@ Resources:
           gpgcheck=0
           enabled=1
           EOF
-          
+
           yum update -y && yum install -y postgresql14 postgresql14-server postgresql14-libs
-          /usr/pgsql-14/bin/postgresql-14-setup initdb
-          echo "listen_addresses = '*'" >> /var/lib/pgsql/14/data/postgresql.conf
-          echo "host    all     all     ${PrivateSubnetsCidr}     md5" >> /var/lib/pgsql/14/data/pg_hba.conf
+          chown -R postgres:postgres /var/lib/pgsql 
           systemctl enable --now postgresql-14
-          
+
           su - postgres <<'EOpostgres'
           dbMasterPass=$(aws secretsmanager get-secret-value --region ${AWS::Region} --secret-id ${ProjectName}-secret --query SecretString --output text | jq -r .dbMasterPassword)
-          dbPass=$(aws secretsmanager get-secret-value --region ${AWS::Region} --secret-id ${ProjectName}-secret --query SecretString --output text | jq -r .dbPassword)
-          
-          echo "test $dbMasterPass"
+          dbPass=$(aws secretsmanager get-secret-value --region ${AWS::Region} --secret-id ${ProjectName}-secret --query SecretString --output text | jq -r .dbPassword)          
           psql -U postgres -c "alter user postgres with password '$dbMasterPass';"
-          psql -U postgres -c "create role samaritan with password '$dbPass' login;"
-          psql -U postgres -c "create database the_pond_project_${Environment};"
-          psql -U postgres -c "grant all privileges on database the_pond_project_${Environment} to samaritan;"            
           EOpostgres
 
       Tags:
