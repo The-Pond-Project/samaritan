@@ -1,0 +1,9 @@
+template_path: common/s3.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  RegionShortName: '{{ var.RegionShortName }}'
+  S3VPCEndpoint: !stack_output network/endpoints.yaml::S3VPCEndpoint
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

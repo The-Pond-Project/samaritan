@@ -12,6 +12,8 @@ Parameters:
     Type: String
   PrivateSubnets:
     Type: String
+  PrivateSubnetsCidr:
+    Type: String
   PublicSubnets:
     Type: String
   ECSClusterArn:
@@ -24,13 +26,16 @@ Parameters:
     Type: String
   SecretArn:
     Type: String
-  RDSInstanceEndpoint:
+  DBHost:
     Type: String
   DNSHostedZoneId:
     Type: String
   ProjectDNSName:
     Type: String
 
+Conditions:
+  IsProd: !Equals [!Ref Environment, 'prod']
+  IsNotProd: !Not [Condition: IsProd]
 Resources:
   WebTaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -41,11 +46,11 @@ Resources:
       RequiresCompatibilities:
         - EC2
       NetworkMode: awsvpc
-      Memory: 1536
-      Cpu: 2048
+      Memory: !If [IsProd, 1536, 1024]
+      Cpu: !If [IsProd, 2048, 1024]
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}
-          Image: !Sub '${ECRRepoUrl}:samaritan-latest'
+          Image: !Sub '${ECRRepoUrl}:samaritan-${Environment}-latest'
           Essential: true
           PortMappings:
             - Protocol: tcp
@@ -62,7 +67,7 @@ Resources:
             - Name: PORT
               Value: 80
             - Name: DB_HOST
-              Value: !Ref RDSInstanceEndpoint
+              Value: !Ref DBHost
             - Name: RAILS_SERVE_STATIC_FILES
               Value: true
           Secrets:
@@ -123,14 +128,17 @@ Resources:
     DependsOn: LoadBalancerListener
     Properties:
       Cluster: !Ref ECSClusterArn
-      DesiredCount: 1
+      DesiredCount: !If [IsProd, 2, 1]
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroup
           ContainerName: !Sub ${ProjectName}-web-${Environment}
           ContainerPort: 80
       CapacityProviderStrategy:
-        - CapacityProvider: !Ref EC2CapacityProviderName
-          Weight: 1
+        - !If
+          - IsProd
+          - CapacityProvider: !Ref EC2CapacityProviderName
+            Weight: 1
+          - !Ref AWS::NoValue
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: DISABLED
@@ -168,16 +176,16 @@ Resources:
         - Key: environment
           Value: !Ref Environment
 
-  ALBDNSRecord:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      Type: A
-      Name: !Ref ProjectDNSName
-      HostedZoneId: !Ref DNSHostedZoneId
-      AliasTarget:
-        DNSName: !GetAtt LoadBalancer.DNSName
-        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
-        EvaluateTargetHealth: true
+#  ALBDNSRecord:
+#    Type: AWS::Route53::RecordSet
+#    Properties:
+#      Type: A
+#      Name: !Ref ProjectDNSName
+#      HostedZoneId: !Ref DNSHostedZoneId
+#      AliasTarget:
+#        DNSName: !GetAtt LoadBalancer.DNSName
+#        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+#        EvaluateTargetHealth: true
 
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -207,6 +215,13 @@ Resources:
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80
+        - !If
+          - IsNotProd
+          - CidrIp: !Ref PrivateSubnetsCidr
+            IpProtocol: tcp
+            FromPort: 5432
+            ToPort: 5432
+          - !Ref AWS::NoValue
       Tags:
         - Key: project-name
           Value: !Ref ProjectName

@@ -9,13 +9,13 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building samaritan docker image...
-      - docker build -t $PROJECT_NAME:samaritan-latest .
-      - docker tag $PROJECT_NAME:samaritan-latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME:samaritan-latest
+      - docker build -t $PROJECT_NAME:samaritan-test-latest .
+      - docker tag $PROJECT_NAME:samaritan-test-latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME:samaritan-test-latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME:samaritan-latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME:samaritan-test-latest
 
 artifacts:
   files:

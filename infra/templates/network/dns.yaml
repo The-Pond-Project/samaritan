@@ -3,7 +3,8 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   ProjectName:
     Type: String
-
+  VpcId:
+    Type: String
   ProjectDNSName:
     Type: String
 

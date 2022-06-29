@@ -124,3 +124,7 @@ Resources:
           IpProtocol: tcp
           FromPort: 443
           ToPort: 443
+
+Outputs:
+  S3VPCEndpoint:
+    Value: !Ref S3VPCEndpoint

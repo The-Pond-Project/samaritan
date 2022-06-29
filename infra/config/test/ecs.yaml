@@ -2,7 +2,7 @@ template_path: ecs.yaml
 
 parameters:
   ProjectName: '{{ var.ProjectName }}'
-  Environment: '{{ var.ProdEnvName }}'
+  Environment: '{{ var.TestEnvName }}'
 
   VpcId: !stack_output network/vpc.yaml::VpcId
   PrivateSubnets: !stack_output network/vpc.yaml::PrivateSubnets
@@ -13,4 +13,4 @@ parameters:
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'
-  environment: '{{ var.ProdEnvName }}'
+  environment: '{{ var.TestEnvName }}'

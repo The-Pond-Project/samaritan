@@ -179,6 +179,7 @@ Resources:
               commands:
                 - cd ./infra
                 - sceptre --var-file variables.yaml launch -y network
+                - sceptre --var-file variables.yaml launch -y common
                 - sceptre --var-file variables.yaml launch -y $ENV_NAME
         Type: 'CODEPIPELINE'
       TimeoutInMinutes: 10

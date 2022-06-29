@@ -3,7 +3,8 @@ RegionFullName: "us-east-2"
 RegionShortName: "use2"
 
 DNSHostedZoneId: "Z031479023L109RQ0VX1W"
-ProjectDNSName: "www.thepondproject.org"
+TestProjectDNSName: "www.test.thepondproject.org"
+ProdProjectDNSName: "www.thepondproject.org"
 
 GitHubOwner: "The-Pond-Project"
 GitHubRepo: "samaritan"

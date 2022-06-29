@@ -1,0 +1,176 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  Environment:
+    Type: String
+
+  VpcId:
+    Type: String
+  PrivateSubnets:
+    Type: String
+  PrivateSubnetsCidr:
+    Type: String
+  SecretArn:
+    Type: String
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id'
+  BucketArn:
+    Type: String
+  BucketName:
+    Type: String
+
+Resources:
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub ${ProjectName}-${Environment}
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  ESCInstance:
+    Type: AWS::EC2::Instance
+    DependsOn: ECSCluster
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t3.small
+      PropagateTagsToVolumeOnCreation: true
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      SecurityGroupIds:
+        - !Ref ECSInstanceSecurityGroup
+      SubnetId: !Select [ 0, !Split [ ',', !Ref PrivateSubnets ] ]
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash
+            yum update -y && yum install -y awscli jq
+          
+            userPass=$(aws secretsmanager get-secret-value --region ${AWS::Region} --secret-id ${ProjectName}-secret --query SecretString --output text | jq -r .defaultEC2Password)
+      
+            useradd samaritan
+            echo "samaritan:$userPass" | chpasswd
+            usermod -aG wheel samaritan
+          
+            echo "ECS_CLUSTER=${ProjectName}-${Environment}" >> /etc/ecs/ecs.config
+          
+            cat << EOF > /etc/yum.repos.d/samaritan-repo.repo
+            [samaritan-repo]
+            name=samaritan-repo
+            baseurl=https://${BucketName}.s3.${AWS::Region}.amazonaws.com/samaritan-repo/
+            gpgcheck=0
+            enabled=1
+            EOF
+          
+            yum update -y && yum install -y postgresql14 postgresql14-server postgresql14-libs
+            /usr/pgsql-14/bin/postgresql-14-setup initdb
+            systemctl enable --now postgresql-14
+                    
+            su - postgres <<'EOpostgres'
+            dbMasterPass=$(aws secretsmanager get-secret-value --region ${AWS::Region} --secret-id ${ProjectName}-secret --query SecretString --output text | jq -r .dbMasterPassword)
+            dbPass=$(aws secretsmanager get-secret-value --region ${AWS::Region} --secret-id ${ProjectName}-secret --query SecretString --output text | jq -r .dbPassword)
+          
+            echo "test $dbMasterPass"
+            psql -U postgres -c "alter user postgres with password '$dbMasterPass';"
+            psql -U postgres -c "create role samaritan with password '$dbPass' login;"
+            psql -U postgres -c "create database the_pond_project_${Environment};"
+            psql -U postgres -c "grant all privileges on database the_pond_project_${Environment} to samaritan;"            
+            EOpostgres
+
+      Tags:
+        - Key: Name
+          Value: !Sub '${ProjectName}-ecs-${Environment}'
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  ECSExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${ProjectName}-ecs-${Environment}
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: ECSExecutionRolePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: !Ref SecretArn
+                Action:
+                  - secretsmanager:GetSecretValue
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref EC2Role
+
+  EC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+      Policies:
+        - PolicyName: ECSExecutionRolePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: !Ref SecretArn
+                Action:
+                  - secretsmanager:GetSecretValue
+              - Effect: Allow
+                Resource: !Ref BucketArn
+                Action:
+                  - s3:Get*
+                  - s3:List*
+
+  ECSInstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-ecs-${Environment}
+      GroupDescription: Security group for ecs instance
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+        - CidrIp: 0.0.0.0/0 #todo restrict
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+Outputs:
+  ECSClusterArn:
+    Value: !GetAtt ECSCluster.Arn
+  ECSExecutionRoleArn:
+    Value: !GetAtt ECSExecutionRole.Arn
+  ECSInstancePrivateDnsName:
+    Value: !GetAtt ESCInstance.PrivateDnsName

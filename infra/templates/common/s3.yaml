@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  RegionShortName:
+    Type: String
+  S3VPCEndpoint:
+    Type: String
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${ProjectName}-${RegionShortName}
+      AccessControl: Private
+      WebsiteConfiguration:
+        IndexDocument: index.html
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Id: BucketPolicy
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Resource:
+              - !Sub 'arn:aws:s3:::${Bucket}'
+              - !Sub 'arn:aws:s3:::${Bucket}/*'
+            Principal: '*'
+            Action:
+              - 's3:*'
+            Condition:
+              StringEquals:
+                aws:SourceVpce:
+                  - !Ref S3VPCEndpoint
+Outputs:
+  BucketArn:
+    Value: !GetAtt Bucket.Arn
+  BucketName:
+    Value: !Ref Bucket
