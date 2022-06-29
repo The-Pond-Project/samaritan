@@ -65,7 +65,7 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuild
               RunOrder: 2
-        - Name: ProdDeploy
+        - Name: TestDeploy
           Actions:
             - Name: Build
               InputArtifacts:
@@ -76,10 +76,25 @@ Resources:
                 Provider: CodeBuild
                 Version: 1
               OutputArtifacts:
-                - Name: appdeploy
+                - Name: testdeploy
               Configuration:
-                ProjectName: !Ref ProdDeploy
+                ProjectName: !Ref TestDeploy
               RunOrder: 3
+#        - Name: ProdDeploy
+#          Actions:
+#            - Name: Build
+#              InputArtifacts:
+#                - Name: appbuild
+#              ActionTypeId:
+#                Category: Build
+#                Owner: AWS
+#                Provider: CodeBuild
+#                Version: 1
+#              OutputArtifacts:
+#                - Name: appdeploy
+#              Configuration:
+#                ProjectName: !Ref ProdDeploy
+#              RunOrder: 3
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -142,6 +157,45 @@ Resources:
             Value: !Ref ProjectName
       Source:
         BuildSpec: 'buildspec.yml'
+        Type: 'CODEPIPELINE'
+      TimeoutInMinutes: 10
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  TestDeploy:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${ProjectName}-test-deploy
+      ServiceRole: !Ref CodePipelineRole
+      Artifacts:
+        Name: appbuild
+        Type: 'CODEPIPELINE'
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: 'AWS_ACCOUNT_ID'
+            Value: !Ref AWS::AccountId
+          - Name: 'PROJECT_NAME'
+            Value: !Ref ProjectName
+          - Name: 'ENV_NAME'
+            Value: 'test'
+      Source:
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - pip install sceptre
+            build:
+              commands:
+                - cd ./infra
+                - sceptre --var-file variables.yaml launch -y network
+                - sceptre --var-file variables.yaml launch -y common
+                - sceptre --var-file variables.yaml launch -y $ENV_NAME
         Type: 'CODEPIPELINE'
       TimeoutInMinutes: 10
       Tags:
