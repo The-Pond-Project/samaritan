@@ -24,7 +24,9 @@ Parameters:
     Type: String
   SecretArn:
     Type: String
-  ALBTargetGroup:
+  ALBTargetGroupArn:
+    Type: String
+  ALBSecurityGroupId:
     Type: String
 #  CDNUri:
 #    Type: String
@@ -157,7 +159,7 @@ Resources:
       GroupDescription: Security group for web app
       VpcId: !Ref VpcId
       SecurityGroupIngress:
-        - SourceSecurityGroupId: !GetAtt LoadBalancerSecurityGroup.GroupId
+        - SourceSecurityGroupId: !Ref ALBSecurityGroupId
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80

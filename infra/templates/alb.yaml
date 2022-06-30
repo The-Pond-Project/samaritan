@@ -90,7 +90,9 @@ Resources:
           Value: !Ref Environment
 
 Outputs:
-  ALBTargetGroup:
+  ALBTargetGroupArn:
     Value: !Ref TargetGroup
+  ALBSecurityGroupId:
+    Value: !GetAtt LoadBalancerSecurityGroup.GroupId
   ALBUri:
     Value: !GetAtt LoadBalancer.DNSName

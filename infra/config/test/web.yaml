@@ -13,7 +13,8 @@ parameters:
   EC2CapacityProviderName: ''
   ECRRepoUrl: !stack_output common/ecr.yaml::ECRRepoUrl
   SecretArn: !stack_output common/secret.yaml::SecretArn
-  ALBTargetGroup: !stack_output test/alb.yaml::ALBTargetGroup
+  ALBTargetGroupArn: !stack_output test/alb.yaml::ALBTargetGroupArn
+  ALBSecurityGroupId: !stack_output test/alb.yaml::ALBSecurityGroupId
 #  CDNUri: !stack_output prod/cdn.yaml::CDNUri
 
 stack_tags:
