@@ -16,7 +16,7 @@ parameters:
   DBHost: !stack_output prod/rds.yaml::RDSInstanceEndpoint
   ALBTargetGroupArn: !stack_output prod/alb.yaml::ALBTargetGroupArn
   ALBSecurityGroupId: !stack_output prod/alb.yaml::ALBSecurityGroupId
-#  CDNUri: !stack_output prod/cdn.yaml::CDNUri
+  CDNUri: !stack_output prod/cdn.yaml::CDNUri
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'

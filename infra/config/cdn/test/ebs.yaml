@@ -1,9 +1,0 @@
-template_path: ebs.yaml
-
-parameters:
-  ProjectName: '{{ var.ProjectName }}'
-  Environment: '{{ var.TestEnvName }}'
-
-stack_tags:
-  project-name: '{{ var.ProjectName }}'
-  environment: '{{ var.TestEnvName }}'

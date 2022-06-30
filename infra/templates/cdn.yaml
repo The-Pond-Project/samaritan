@@ -41,26 +41,6 @@ Resources:
           ViewerProtocolPolicy: allow-all
           MinTTL: 100
           SmoothStreaming: true
-#        CacheBehaviors:
-#          - AllowedMethods:
-#              - DELETE
-#              - GET
-#              - HEAD
-#              - OPTIONS
-#              - PATCH
-#              - POST
-#              - PUT
-#            TargetOriginId: ALBOrigin
-#            ForwardedValues:
-#              QueryString: true
-#              Cookies:
-#                Forward: none
-##            TrustedSigners:
-##              - 1234567890EX
-##              - 1234567891EX
-#            ViewerProtocolPolicy: allow-all
-#            MinTTL: 50
-#            PathPattern: images1/*.jpg
         CustomErrorResponses:
           - ErrorCode: 404
             ResponsePagePath: /public/404.html
