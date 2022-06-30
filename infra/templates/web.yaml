@@ -26,8 +26,8 @@ Parameters:
     Type: String
   ALBTargetGroup:
     Type: String
-  CDNUri:
-    Type: String
+#  CDNUri:
+#    Type: String
 
 Conditions:
   IsProd: !Equals [!Ref Environment, 'prod']
