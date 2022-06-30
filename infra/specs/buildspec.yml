@@ -20,7 +20,7 @@ phases:
       - echo Pushing the Docker image...
       - docker push $REPO_URI:samaritan-latest
       - docker push $REPO_URI:$IMAGE_TAG
-      - sed -i "s/:samaritan-tag/:$IMAGE_TAG/" ./infra/templates/web.yaml
+      - sed -i "s/:samaritan-latest/:$IMAGE_TAG/" ./infra/templates/web.yaml
 
 artifacts:
   files:

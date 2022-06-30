@@ -14,8 +14,6 @@ Parameters:
     Type: String
   PrivateSubnetsCidr:
     Type: String
-  PublicSubnets:
-    Type: String
   ECSClusterArn:
     Type: String
   ECSExecutionRoleArn:
@@ -26,16 +24,15 @@ Parameters:
     Type: String
   SecretArn:
     Type: String
-  DBHost:
+  ALBTargetGroup:
     Type: String
-  DNSHostedZoneId:
-    Type: String
-  ProjectDNSName:
+  CDNUri:
     Type: String
 
 Conditions:
   IsProd: !Equals [!Ref Environment, 'prod']
   IsNotProd: !Not [Condition: IsProd]
+
 Resources:
   WebTaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -50,7 +47,7 @@ Resources:
       Cpu: !If [IsProd, 2048, 1024]
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}
-          Image: !Sub '${ECRRepoUrl}:samaritan-tag'
+          Image: !Sub '${ECRRepoUrl}:samaritan-latest'
           Essential: true
           PortMappings:
             - Protocol: tcp
@@ -68,6 +65,8 @@ Resources:
               Value: 80
             - Name: DB_HOST
               Value: !Ref DBHost
+#            - Name: CDN_HOST
+#              Value: !Ref CDNUri
             - Name: RAILS_SERVE_STATIC_FILES
               Value: true
           Secrets:
@@ -125,12 +124,11 @@ Resources:
 
   WebService:
     Type: AWS::ECS::Service
-    DependsOn: LoadBalancerListener
     Properties:
       Cluster: !Ref ECSClusterArn
       DesiredCount: !If [IsProd, 2, 1]
       LoadBalancers:
-        - TargetGroupArn: !Ref TargetGroup
+        - TargetGroupArn: !Ref ALBTargetGroup
           ContainerName: !Sub ${ProjectName}-web-${Environment}
           ContainerPort: 80
       CapacityProviderStrategy:
@@ -146,58 +144,6 @@ Resources:
             - !GetAtt WebSecurityGroup.GroupId
           Subnets: !Split [ ',', !Ref PrivateSubnets ]
       TaskDefinition: !Ref WebTaskDefinition
-      Tags:
-        - Key: project-name
-          Value: !Ref ProjectName
-        - Key: environment
-          Value: !Ref Environment
-
-  LoadBalancerListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      LoadBalancerArn: !Ref LoadBalancer
-      Protocol: HTTP
-      Port: 80
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref TargetGroup
-
-  LoadBalancer:
-    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties:
-      Type: application
-      Scheme: internet-facing
-      SecurityGroups:
-        - !GetAtt LoadBalancerSecurityGroup.GroupId
-      Subnets: !Split [ ',', !Ref PublicSubnets ]
-      Tags:
-        - Key: project-name
-          Value: !Ref ProjectName
-        - Key: environment
-          Value: !Ref Environment
-
-  ALBDNSRecord:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      Type: A
-      Name: !Ref ProjectDNSName
-      HostedZoneId: !Ref DNSHostedZoneId
-      AliasTarget:
-        DNSName: !GetAtt LoadBalancer.DNSName
-        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
-        EvaluateTargetHealth: true
-
-  TargetGroup:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      TargetType: ip
-      Protocol: HTTP
-      Port: 80
-      VpcId: !Ref VpcId
-      HealthCheckPath: /health_check
-      HealthCheckPort: 80
-      HealthCheckIntervalSeconds: 60
-      HealthCheckTimeoutSeconds: 10
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
@@ -222,23 +168,6 @@ Resources:
             FromPort: 5432
             ToPort: 5432
           - !Ref AWS::NoValue
-      Tags:
-        - Key: project-name
-          Value: !Ref ProjectName
-        - Key: environment
-          Value: !Ref Environment
-
-  LoadBalancerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupName: !Sub ${ProjectName}-alb-${Environment}
-      GroupDescription: Security group for application load balancer
-      VpcId: !Ref VpcId
-      SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0
-          IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
       Tags:
         - Key: project-name
           Value: !Ref ProjectName

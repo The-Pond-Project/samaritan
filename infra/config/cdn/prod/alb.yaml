@@ -1,0 +1,14 @@
+template_path: alb.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  Environment: '{{ var.ProdEnvName }}'
+
+  VpcId: !stack_output network/vpc.yaml::VpcId
+  PublicSubnets: !stack_output network/vpc.yaml::PublicSubnets
+  DNSHostedZoneId: !stack_output network/dns.yaml::DNSHostedZoneId
+  ProjectDNSName: '{{ var.ProdProjectDNSName }}'
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'
+  environment: '{{ var.ProdEnvName }}'

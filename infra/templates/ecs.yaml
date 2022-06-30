@@ -8,6 +8,8 @@ Parameters:
 
   VpcId:
     Type: String
+  VpcCidr:
+    Type: String
   PrivateSubnets:
     Type: String
   PrivateSubnetsCidr:
@@ -140,7 +142,7 @@ Resources:
       GroupDescription: Security group for ec2 instances in ecs cluster
       VpcId: !Ref VpcId
       SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0 #todo restrict
+        - CidrIp: !Ref VpcCidr
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80

@@ -1,0 +1,11 @@
+template_path: cdn.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  Environment: '{{ var.TestEnvName }}'
+  ALBUri: !stack_output test/alb.yaml::ALBUri
+  ProjectDNSName: '{{ var.TestProjectDNSName }}'
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'
+  environment: '{{ var.TestEnvName }}'

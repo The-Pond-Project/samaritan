@@ -14,13 +14,12 @@ Resources:
           {
             "rules": [
             {
-              "description": "Expire untagged images older than 1 day",
+              "description": "Expire old images",
               "rulePriority": 1,
               "selection": {
-                "tagStatus": "untagged",
-                "countType": "sinceImagePushed",
-                "countUnit": "days",
-                "countNumber": 1
+                "tagStatus": "any",
+                "countType": "imageCountMoreThan",
+                "countNumber": 5
               },
               "action": { 
                 "type": "expire" 

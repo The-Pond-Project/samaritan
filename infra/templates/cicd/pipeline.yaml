@@ -144,7 +144,7 @@ Resources:
       ServiceRole: !Ref CodePipelineRole
       Artifacts:
         ArtifactIdentifier: !Sub '${ProjectName}-aws-resources'
-        Type: 'CODEPIPELINE'
+        Type: CODEPIPELINE
         OverrideArtifactName: true
       Cache:
         Type: S3
@@ -152,7 +152,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
         PrivilegedMode: true
         EnvironmentVariables:
           - Name: AWS_ACCOUNT_ID
@@ -160,8 +160,8 @@ Resources:
           - Name: PROJECT_NAME
             Value: !Ref ProjectName
       Source:
-        BuildSpec: 'buildspec.yml'
-        Type: 'CODEPIPELINE'
+        BuildSpec: './infra/specs/buildspec.yml'
+        Type: CODEPIPELINE
       TimeoutInMinutes: 10
       Tags:
         - Key: project-name
@@ -174,19 +174,19 @@ Resources:
       ServiceRole: !Ref CodePipelineRole
       Artifacts:
         Name: appbuild
-        Type: 'CODEPIPELINE'
+        Type: CODEPIPELINE
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
         PrivilegedMode: true
         EnvironmentVariables:
-          - Name: 'AWS_ACCOUNT_ID'
+          - Name: AWS_ACCOUNT_ID
             Value: !Ref AWS::AccountId
-          - Name: 'PROJECT_NAME'
+          - Name: PROJECT_NAME
             Value: !Ref ProjectName
-          - Name: 'ENV_NAME'
-            Value: 'test'
+          - Name: ENV_NAME
+            Value: test
       Source:
         BuildSpec: |
           version: 0.2
@@ -200,7 +200,7 @@ Resources:
                 - sceptre --var-file variables.yaml launch -y network
                 - sceptre --var-file variables.yaml launch -y common
                 - sceptre --var-file variables.yaml launch -y $ENV_NAME
-        Type: 'CODEPIPELINE'
+        Type: CODEPIPELINE
       TimeoutInMinutes: 10
       Tags:
         - Key: project-name
@@ -213,19 +213,19 @@ Resources:
       ServiceRole: !Ref CodePipelineRole
       Artifacts:
         Name: appbuild
-        Type: 'CODEPIPELINE'
+        Type: CODEPIPELINE
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
         PrivilegedMode: true
         EnvironmentVariables:
-          - Name: 'AWS_ACCOUNT_ID'
+          - Name: AWS_ACCOUNT_ID
             Value: !Ref AWS::AccountId
-          - Name: 'PROJECT_NAME'
+          - Name: PROJECT_NAME
             Value: !Ref ProjectName
-          - Name: 'ENV_NAME'
-            Value: 'prod'
+          - Name: ENV_NAME
+            Value: prod
       Source:
         BuildSpec: |
           version: 0.2
@@ -239,7 +239,7 @@ Resources:
                 - sceptre --var-file variables.yaml launch -y network
                 - sceptre --var-file variables.yaml launch -y common
                 - sceptre --var-file variables.yaml launch -y $ENV_NAME
-        Type: 'CODEPIPELINE'
+        Type: CODEPIPELINE
       TimeoutInMinutes: 10
       Tags:
         - Key: project-name
