@@ -130,7 +130,7 @@ Resources:
       Cluster: !Ref ECSClusterArn
       DesiredCount: !If [IsProd, 2, 1]
       LoadBalancers:
-        - TargetGroupArn: !Ref ALBTargetGroup
+        - TargetGroupArn: !Ref ALBTargetGroupArn
           ContainerName: !Sub ${ProjectName}-web-${Environment}
           ContainerPort: 80
       CapacityProviderStrategy:
