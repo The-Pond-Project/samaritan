@@ -13,6 +13,7 @@ parameters:
   EC2CapacityProviderName: !stack_output prod/ecs.yaml::EC2CapacityProviderName
   ECRRepoUrl: !stack_output common/ecr.yaml::ECRRepoUrl
   SecretArn: !stack_output common/secret.yaml::SecretArn
+  DBHost: !stack_output prod/rds.yaml::RDSInstanceEndpoint
   ALBTargetGroupArn: !stack_output prod/alb.yaml::ALBTargetGroupArn
   ALBSecurityGroupId: !stack_output prod/alb.yaml::ALBSecurityGroupId
 #  CDNUri: !stack_output prod/cdn.yaml::CDNUri

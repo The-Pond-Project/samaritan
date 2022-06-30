@@ -24,6 +24,8 @@ Parameters:
     Type: String
   SecretArn:
     Type: String
+  DBHost:
+    Type: String
   ALBTargetGroupArn:
     Type: String
   ALBSecurityGroupId:

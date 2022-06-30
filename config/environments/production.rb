@@ -1,11 +1,12 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-    config.hosts << /.*elb\.amazonaws\.com/
-    config.hosts << 'thepondproject.org'
-    config.hosts << IPAddr.new("10.0.0.0/16")
 
   # Settings specified here will take precedence over those in config/application.rb.
+  config.hosts << /.*elb\.amazonaws\.com/
+  config.hosts << 'thepondproject.org'
+  config.hosts << IPAddr.new("10.0.0.0/16") #for health check
+  config.hosts << 'localhost'
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -29,8 +30,11 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
+  # Load SVG files on initialize
+  config.assets.precompile += %w( '.svg' )
+
   # Compress CSS using a preprocessor.
-  # config.assets.css_compressor = :sass
+  config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false

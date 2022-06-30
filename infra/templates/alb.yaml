@@ -51,7 +51,7 @@ Resources:
       Protocol: HTTP
       Port: 80
       VpcId: !Ref VpcId
-      HealthCheckPath: /health_check
+      HealthCheckPath: /api/_ping
       HealthCheckPort: 80
       HealthCheckIntervalSeconds: 60
       HealthCheckTimeoutSeconds: 10
