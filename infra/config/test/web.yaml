@@ -16,7 +16,7 @@ parameters:
   DBHost: !stack_output test/ecs.yaml::ECSInstancePrivateDnsName
   ALBTargetGroupArn: !stack_output test/alb.yaml::ALBTargetGroupArn
   ALBSecurityGroupId: !stack_output test/alb.yaml::ALBSecurityGroupId
-  CDNUri: !stack_output prod/cdn.yaml::CDNUri
+  CDNUri: !stack_output test/cdn.yaml::CDNUri
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'
