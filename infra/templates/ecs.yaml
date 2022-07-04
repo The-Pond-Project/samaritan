@@ -132,6 +132,7 @@ Resources:
             userPass=$(aws secretsmanager get-secret-value --region ${AWS::Region} --secret-id ${ProjectName}-secret --query SecretString --output text | jq -r .defaultEC2Password)          
             useradd samaritan
             echo "samaritan:$userPass" | chpasswd
+            usermod -aG wheel samaritan
 
             echo "ECS_CLUSTER=${ProjectName}-${Environment}" >> /etc/ecs/ecs.config
 
