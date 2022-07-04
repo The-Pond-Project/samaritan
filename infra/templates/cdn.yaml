@@ -24,20 +24,12 @@ Resources:
               HTTPSPort: '443'
               OriginProtocolPolicy: http-only
         DefaultRootObject: index.html
-#        Logging:
-#          IncludeCookies: true
-#          Bucket: mylogs.s3.amazonaws.com
-#          Prefix: myprefix
-#        Aliases:
-#          - Ref ProjectDNSName
         DefaultCacheBehavior:
           TargetOriginId: ALBOrigin
           ForwardedValues:
             QueryString: false
             Cookies:
               Forward: all
-#          TrustedSigners:
-#            - 1234567890EX
           ViewerProtocolPolicy: allow-all
           MinTTL: 100
           SmoothStreaming: true

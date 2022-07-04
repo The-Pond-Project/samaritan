@@ -199,7 +199,7 @@ Resources:
     Condition: IsNotProd
     Properties:
       ImageId: !Ref LatestAmiId
-      InstanceType: t3.small
+      InstanceType: t3.medium
       PropagateTagsToVolumeOnCreation: true
       IamInstanceProfile: !Ref EC2InstanceProfile
       SecurityGroupIds:
