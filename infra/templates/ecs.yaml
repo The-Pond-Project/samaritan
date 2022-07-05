@@ -100,7 +100,7 @@ Resources:
       AutoScalingGroupName: !Sub sg-${ProjectName}-${Environment}
       LaunchConfigurationName: !Ref EC2LaunchConfiguration
       MinSize: 0
-      MaxSize: 3
+      MaxSize: 4
       VPCZoneIdentifier: !Split [ ',', !Ref PrivateSubnets ]
       NewInstancesProtectedFromScaleIn: true
       Tags:
