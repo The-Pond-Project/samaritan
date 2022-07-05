@@ -76,6 +76,12 @@ Resources:
         - Key: environment
           Value: !Ref Environment
 
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/rds/instance/${ProjectName}-${Environment}/postgresql
+      RetentionInDays: 30
+
 Outputs:
   RDSInstanceEndpoint:
     Value: !GetAtt RDSInstance.Endpoint.Address

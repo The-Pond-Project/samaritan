@@ -136,6 +136,16 @@ Resources:
 
             echo "ECS_CLUSTER=${ProjectName}-${Environment}" >> /etc/ecs/ecs.config
 
+            cat << EOF > /etc/yum.repos.d/samaritan-repo.repo
+            [samaritan-repo]
+            name=samaritan-repo
+            baseurl=https://${BucketName}.s3.${AWS::Region}.amazonaws.com/samaritan-repo/
+            gpgcheck=0
+            enabled=1
+            EOF
+    
+            yum update -y && yum install -y postgresql14
+
   ECSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -147,6 +157,10 @@ Resources:
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80
+        - CidrIp: !Ref VpcCidr
+          IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
         - !If
           - IsNotProd
           - CidrIp: !Ref PrivateSubnetsCidr

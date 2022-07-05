@@ -136,7 +136,6 @@ Resources:
         - Key: project-name
           Value: !Ref ProjectName
 
-
   CodeBuild:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -166,6 +165,12 @@ Resources:
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
+
+  BuildLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/codebuild/${ProjectName}-build
+      RetentionInDays: 30
 
   TestDeploy:
     Type: AWS::CodeBuild::Project
@@ -206,6 +211,12 @@ Resources:
         - Key: project-name
           Value: !Ref ProjectName
 
+  TestDeployLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/codebuild/${ProjectName}-test-deploy
+      RetentionInDays: 30
+
   ProdDeploy:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -244,3 +255,9 @@ Resources:
       Tags:
         - Key: project-name
           Value: !Ref ProjectName
+
+  ProdDeployLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/codebuild/${ProjectName}-prod-deploy
+      RetentionInDays: 30
