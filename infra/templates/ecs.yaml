@@ -234,7 +234,7 @@ Resources:
           echo "ECS_CLUSTER=${ProjectName}-${Environment}" >> /etc/ecs/ecs.config
 
           mkdir -p /var/lib/pgsql/14/data
-          echo "UUID=14de1dc7-5149-47ae-be5b-5402ba7d1d1e  /var/lib/pgsql/14/data  xfs  defaults,nofail  0  2" >> /etc/fstab
+          echo "UUID=ee5294d4-90dc-4060-8773-c22875fe9d1c  /var/lib/pgsql/14/data  xfs  defaults,nofail  0  2" >> /etc/fstab
           mount -a
           
           cat << EOF > /etc/yum.repos.d/samaritan-repo.repo
