@@ -57,8 +57,6 @@ Resources:
             - Protocol: tcp
               ContainerPort: 80
           Environment:
-            - Name: ENVIRONMENT
-              Value: !Ref Environment
             - Name: RAILS_ENV
               Value: !Ref EnvironmentFullName
             - Name: RACK_ENV
@@ -165,6 +163,10 @@ Resources:
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80
+        - SourceSecurityGroupId: !Ref ALBSecurityGroupId
+          IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
         - !If
           - IsNotProd
           - CidrIp: !Ref PrivateSubnetsCidr
