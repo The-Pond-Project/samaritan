@@ -58,7 +58,7 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuild
               RunOrder: 2
-        - Name: TestDeploy
+        - Name: StagingDeploy
           Actions:
             - Name: Build
               InputArtifacts:
@@ -69,9 +69,9 @@ Resources:
                 Provider: CodeBuild
                 Version: 1
               OutputArtifacts:
-                - Name: testdeploy
+                - Name: stagingdeploy
               Configuration:
-                ProjectName: !Ref TestDeploy
+                ProjectName: !Ref StagingDeploy
               RunOrder: 3
         - Name: ProdDeployApproval
           Actions:
@@ -172,10 +172,10 @@ Resources:
       LogGroupName: !Sub /aws/codebuild/${ProjectName}-build
       RetentionInDays: 30
 
-  TestDeploy:
+  StagingDeploy:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: !Sub ${ProjectName}-test-deploy
+      Name: !Sub ${ProjectName}-staging-deploy
       ServiceRole: !Ref CodePipelineRole
       Artifacts:
         Name: appbuild
@@ -191,7 +191,7 @@ Resources:
           - Name: PROJECT_NAME
             Value: !Ref ProjectName
           - Name: ENV_NAME
-            Value: test
+            Value: staging
       Source:
         BuildSpec: |
           version: 0.2
@@ -211,10 +211,10 @@ Resources:
         - Key: project-name
           Value: !Ref ProjectName
 
-  TestDeployLogGroup:
+  StagingDeployLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /aws/codebuild/${ProjectName}-test-deploy
+      LogGroupName: !Sub /aws/codebuild/${ProjectName}-staging-deploy
       RetentionInDays: 30
 
   ProdDeploy:

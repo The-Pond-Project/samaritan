@@ -2,8 +2,8 @@ template_path: ebs.yaml
 
 parameters:
   ProjectName: '{{ var.ProjectName }}'
-  Environment: '{{ var.TestEnvName }}'
+  Environment: '{{ var.StagingEnvName }}'
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'
-  environment: '{{ var.TestEnvName }}'
+  environment: '{{ var.StagingEnvName }}'

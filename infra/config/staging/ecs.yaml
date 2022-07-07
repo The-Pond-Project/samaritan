@@ -2,7 +2,7 @@ template_path: ecs.yaml
 
 parameters:
   ProjectName: '{{ var.ProjectName }}'
-  Environment: '{{ var.TestEnvName }}'
+  Environment: '{{ var.StagingEnvName }}'
 
   VpcId: !stack_output network/vpc.yaml::VpcId
   VpcCidr:  '{{ var.VpcCidr }}'
@@ -11,8 +11,8 @@ parameters:
   SecretArn: !stack_output common/secret.yaml::SecretArn
   BucketArn: !stack_output common/s3.yaml::BucketArn
   BucketName: !stack_output common/s3.yaml::BucketName
-  DBVolume: !stack_output test/ebs.yaml::DBVolume
+  DBVolume: !stack_output staging/ebs.yaml::DBVolume
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'
-  environment: '{{ var.TestEnvName }}'
+  environment: '{{ var.StagingEnvName }}'

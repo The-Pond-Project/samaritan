@@ -2,13 +2,13 @@ template_path: alb.yaml
 
 parameters:
   ProjectName: '{{ var.ProjectName }}'
-  Environment: '{{ var.TestEnvName }}'
+  Environment: '{{ var.StagingEnvName }}'
 
   VpcId: !stack_output network/vpc.yaml::VpcId
   PublicSubnets: !stack_output network/vpc.yaml::PublicSubnets
   DNSHostedZoneId: !stack_output network/dns.yaml::DNSHostedZoneId
   PublicCertificateArn: !stack_output network/acm.yaml::PublicCertificateArn
-  ProjectDNSName: '{{ var.TestProjectDNSName }}'
+  ProjectDNSName: '{{ var.StagingProjectDNSName }}'
 stack_tags:
   project-name: '{{ var.ProjectName }}'
-  environment: '{{ var.TestEnvName }}'
+  environment: '{{ var.StagingEnvName }}'

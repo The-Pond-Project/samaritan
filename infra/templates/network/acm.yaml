@@ -13,6 +13,8 @@ Resources:
     Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName: !Sub '*.${ProjectDNSName}'
+      SubjectAlternativeNames:
+        - !Ref ProjectDNSName
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName: !Sub '*.${ProjectDNSName}'

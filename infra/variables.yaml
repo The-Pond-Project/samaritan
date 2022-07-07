@@ -2,15 +2,15 @@ ProjectName: "samaritan"
 RegionFullName: "us-east-2"
 RegionShortName: "use2"
 
-TestProjectDNSName: "test.thepondproject.org"
+StagingProjectDNSName: "staging.thepondproject.org"
 ProdProjectDNSName: "thepondproject.org"
 
 GitHubOwner: "The-Pond-Project"
 GitHubRepo: "samaritan"
 GitHubBranch: "aws-deploy"
 
-TestEnvName: "test"
-TestEnvFullName: "test"
+StagingEnvName: "staging"
+StagingEnvFullName: "staging"
 
 ProdEnvName: "prod"
 ProdEnvFullName: "production"
