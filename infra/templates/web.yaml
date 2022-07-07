@@ -20,6 +20,7 @@ Parameters:
     Type: String
   EC2CapacityProviderName:
     Type: String
+    Default: ''
   ECRRepoUrl:
     Type: String
   SecretArn:
@@ -32,6 +33,7 @@ Parameters:
     Type: String
   CDNUri:
     Type: String
+    Default: ''
 
 Conditions:
   IsProd: !Equals [!Ref Environment, 'prod']

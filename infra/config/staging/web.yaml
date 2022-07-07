@@ -10,13 +10,11 @@ parameters:
   PrivateSubnetsCidr: '{{ var.PrivateSubnetsCidr }}'
   ECSClusterArn: !stack_output staging/ecs.yaml::ECSClusterArn
   ECSExecutionRoleArn: !stack_output staging/ecs.yaml::ECSExecutionRoleArn
-  EC2CapacityProviderName: ''
   ECRRepoUrl: !stack_output common/ecr.yaml::ECRRepoUrl
   SecretArn: !stack_output common/secret.yaml::SecretArn
   DBHost: !stack_output staging/ecs.yaml::ECSInstancePrivateDnsName
   ALBTargetGroupArn: !stack_output staging/alb.yaml::ALBTargetGroupArn
   ALBSecurityGroupId: !stack_output staging/alb.yaml::ALBSecurityGroupId
-  CDNUri: !stack_output staging/cdn.yaml::CDNUri
 
 stack_tags:
   project-name: '{{ var.ProjectName }}'
