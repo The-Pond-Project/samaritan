@@ -14,7 +14,7 @@ Rails.application.configure do
 
   # Settings specified here will take precedence over those in config/application.rb.
   config.hosts << /.*elb\.amazonaws\.com/
-  config.hosts << 'thepondproject.org'
+  config.hosts << /.*thepondproject\.org/
   config.hosts << IPAddr.new("10.0.0.0/16")
 
   config.cache_classes = true

@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  DNSHostedZoneId:
+    Type: String
+  ProjectDNSName:
+    Type: String
+
+Resources:
+  PublicCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub '*.${ProjectDNSName}'
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Sub '*.${ProjectDNSName}'
+          HostedZoneId: !Ref DNSHostedZoneId
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+Outputs:
+  PublicCertificateArn:
+    Value: !Ref PublicCertificate

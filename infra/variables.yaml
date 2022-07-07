@@ -2,7 +2,6 @@ ProjectName: "samaritan"
 RegionFullName: "us-east-2"
 RegionShortName: "use2"
 
-DNSHostedZoneId: "Z031479023L109RQ0VX1W"
 TestProjectDNSName: "test.thepondproject.org"
 ProdProjectDNSName: "thepondproject.org"
 
