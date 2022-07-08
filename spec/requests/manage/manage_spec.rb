@@ -23,7 +23,7 @@ RSpec.describe 'Manages', type: :request do
     end
   end
 
-  cGET /tags' do
+  describe 'GET /tags' do
     it 'returns http success' do
       get '/manage/tags'
       expect(response).to have_http_status(:success)
