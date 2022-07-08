@@ -54,3 +54,4 @@ coverage/
 
 .idea
 *.iml
+/config/credentials/staging.key
