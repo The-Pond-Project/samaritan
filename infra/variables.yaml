@@ -10,7 +10,7 @@ GitHubRepo: "samaritan"
 GitHubBranch: "aws-deploy"
 
 StagingEnvName: "staging"
-StagingEnvFullName: "test"
+StagingEnvFullName: "staging"
 
 ProdEnvName: "prod"
 ProdEnvFullName: "production"
