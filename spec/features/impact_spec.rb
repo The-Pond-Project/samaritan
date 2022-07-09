@@ -21,7 +21,7 @@ RSpec.describe 'Impact features' do
   describe 'header' do
     it 'displays content' do
       expect(page).to have_content('Impact Stats')
-      expect(page).to have_content('These are the stats since the first release of KindCards in March 2022.')
+      expect(page).to have_content('These are the stats since the first release of KindCards in July 2022.')
       expect(page).to have_content('Active Ponds')
       expect(page).to have_content('Total Ponds')
       expect(page).to have_content('Ripples')

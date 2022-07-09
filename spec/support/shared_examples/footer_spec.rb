@@ -17,11 +17,10 @@ RSpec.shared_examples 'footer' do
       expect(page).to have_content('Get Involved')
       expect(page).to have_link('Donate', href: '/donate')
       expect(page).to have_link('Contribute', href: 'https://github.com/The-Pond-Project/samaritan')
-      expect(page).to have_link('Partner', href: '#')
+      expect(page).to have_link('Gracehaven', href: 'https://www.gracehaven.me/')
       expect(page).to have_content('Connect')
       expect(page).to have_link('Story of Kindness', href: '/stories/new')
       expect(page).to have_link('Email', href: 'mailto:kindnesspassedon@gmail.com')
-      expect(page).to have_link('Report a bug', href: '#')
       expect(page).to have_link('Privacy Policy', href: '/privacy')
       expect(page).to have_link('Terms of Use', href: '/terms')
     end
