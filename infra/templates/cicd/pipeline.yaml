@@ -204,7 +204,7 @@ Resources:
                 - cd ./infra
                 - sceptre --var-file variables.yaml launch -y network
                 - sceptre --var-file variables.yaml launch -y common
-                - sceptre --var-file variables.yaml launch -y $ENV_NAME
+                - sceptre --var-file variables.yaml launch -y staging
         Type: CODEPIPELINE
       TimeoutInMinutes: 10
       Tags:
