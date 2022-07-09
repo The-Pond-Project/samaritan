@@ -4,7 +4,7 @@
       .row.custom-section.d-flex.align-items-start
         .col-12.col-lg-10
           %h1.fw-bol.tron-text{ 'data-aos': 'fade-in', style: 'font-weight: bold; font-size: 65px'} Donate. Participate through giving
-          = link_to 'Donate to MissionForKindness', '#donate', class:'btn btn-primary'
+          = link_to 'Donate to ThePondProject', '#donate', class:'btn btn-primary'
 
   .m-3.p-4.d-flex.flex-sm-row.flex-column.align-items-center
     .svg-container.h-50
@@ -48,9 +48,11 @@
     .mx-3
       .col
         .container.p-5
-          %p.m-2{ style: 'font-size: 21px; line-height: 1.5em; color: grey;'} We are transparent about <strong>all</strong> donations and the use of those donations. All money given using this page will go to MissionForKindness and the costs of running/maintaing the platform. These funds will not go to any of our partnered charities, to find out more on how to give to a partnedred charity go here. 
+          %p.m-2{ style: 'font-size: 21px; line-height: 1.5em; color: grey;'} 
+            We are transparent about <strong>all</strong> donations and the use of those donations. All money given using this page will go to ThePondProject and the costs of running/maintaing the platform. These funds will not go to any of our partnered non-profits, to find out more on how to give to a non-profit charity go 
+            = link_to 'here.', partner_path
           %br
-          %p.m-2{ style: 'font-size: 21px; line-height: 1.5em; color: #1484ac'}Below you will find a list of all of our costs and reciepts. This is our transparent and collaborative way to show what exactly your donation does to help our mission.
+          %p.m-2{ style: 'font-size: 21px; line-height: 1.5em; color: #1484ac'}Below you will find a list of all of our costs and receipts. This is our transparent and collaborative way to show what exactly your donation does to help our mission.
           %hr
           .row
             .col-12.m-3

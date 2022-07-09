@@ -1,13 +1,16 @@
-.partner-jumbotron
+.gracehaven-jumbotron
   .container
     .row.custom-section.d-flex.align-items-start
       .col-12.col-lg-10
         %h1.fw-bol.tron-text{ 'data-aos': 'fade-right', style: 'font-weight: bold; font-size: 65px'} Join the fight to end child sex trafficking.
-        %p.fw-light.tron-text{ 'data-aos': 'fade-in', style: 'font-weight: 300; width: 50%; font-size: 16px;'}  Gracehaven was founded to care for survivors, and to help prevent others from ever falling victim to sex trafficking.
-        = link_to 'Visit Gracehaven', 'https://www.gracehaven.me/', { 'data-aos': 'fade-in', class:'btn btn-primary'}
+        = link_to 'Visit Gracehaven', 'https://www.gracehaven.me/', { 'data-aos': 'fade-in', class:'btn', style: 'background-color: rgb(7,118,112); color: white;'}
 
-.container.pt-4
-  .h3.strong.lh-lg
+.container.pt-4.text-center
+  .container.w-100
+    = image_tag 'gracehaven_logo.jpg', class: 'w-100'
+  %h5{style: 'line-height: 1.5em;'}
+    Gracehaven was founded to care for survivors, and to help prevent others from ever falling victim to sex trafficking. The organization is CARF accredited, Qualified Residential Treatment Program (QRTP) certified, a verified member of the National Trafficking Sheltered Alliance, and has earned the Certificate of Completion for My Life, My Choice Advanced Residential Institute.
+  %h5.text-muted{style: 'line-height: 1.5em;'}
     Gracehaven's programs are carefully designed to most effectively meet the needs of everyone impacted by human trafficking -- from high school students learning about it, to first responders  and professionals who must interact with those who may be affected, to victims who've experienced it firsthand.
   .contact.m-2
     %p.fs-4
@@ -17,5 +20,5 @@
       %b Email:
       info@gracehaven.me
 
-  %button.btn.button-primary.my-4
-    = link_to 'Donate to Gracehaven', 'https://www.gracehaven.me/get_involved/'
+  %button.btn.button-primary.my-4{style: 'background-color: rgb(7,118,112); color: white;'}
+    = link_to 'Donate to Gracehaven', 'https://www.gracehaven.me/get_involved/', style: 'color: white;'
