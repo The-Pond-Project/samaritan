@@ -23,6 +23,7 @@ class RipplesController < ApplicationController
     @ripple.user = current_user
 
     if @ripple.save
+      create_message_subscription unless message_subscription_params.blank?
       redirect_to pond_ripple_url(@ripple.pond_key, @ripple.uuid),
                   notice: 'Ripple was successfully recorded.'
     else
@@ -70,8 +71,17 @@ class RipplesController < ApplicationController
                   :pond_id)
   end
 
+  def message_subscription_params
+    params.permit(:phone_number)
+  end
+
   def tags_hash
     tags = params[:ripple][:tags]
     @tags_hash = tags.present? ? { tags: Tag.find(tags) } : { tags: [] }
+  end
+
+  def create_message_subscription
+    phone_number = message_subscription_params[:phone_number]
+    MessageSubscription.create(phone_number: phone_number, ripple_uuid: @ripple.uuid)
   end
 end
