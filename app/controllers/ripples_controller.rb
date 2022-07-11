@@ -17,6 +17,7 @@ class RipplesController < ApplicationController
     @ripple = Ripple.new
   end
 
+  # rubocop:disbable Metrics/AbcSize
   def create
     create_hash = [*@location_hash, *tags_hash].compact.to_h
     @ripple = Ripple.new(ripple_params.merge(create_hash))
