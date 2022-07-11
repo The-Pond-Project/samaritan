@@ -24,8 +24,10 @@ class MessageSubscription < ApplicationRecord
   end
 
   def sanitize_phone_number
-    clean_phone_number = phone_number.remove('-', '.', '(',')',' ')
+    return true if phone_number.blank?
+
+    clean_phone_number = phone_number&.remove('-', '.', '(', ')', ' ')
     # adding country code we are assuming most cases will be the united states for now
-    self.phone_number = '+1' + clean_phone_number
+    self.phone_number =  "+1#{clean_phone_number}"
   end
 end

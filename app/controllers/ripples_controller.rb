@@ -23,7 +23,7 @@ class RipplesController < ApplicationController
     @ripple.user = current_user
 
     if @ripple.save
-      create_message_subscription unless message_subscription_params.blank?
+      create_message_subscription if message_subscription_params.present?
       redirect_to pond_ripple_url(@ripple.pond_key, @ripple.uuid),
                   notice: 'Ripple was successfully recorded.'
     else
