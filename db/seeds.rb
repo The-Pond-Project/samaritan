@@ -30,7 +30,7 @@ if Rails.env.development?
   Tag.create(name: '#rippleitout', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
   Tag.create(name: '#justbecause', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
   Tag.create(name: '#growthepond', description:'An official tag from The Pond Project team', approved: true, organization: kpo )
-  Tag.create(name: '#ohio', description:'OH! IO! A tag to represent Ohio', approved: true)
+  Tag.create(name: '#ohio', description:'OH! IO! A tag to represent Ohio', approved: true, organization: kpo)
 
   # Message Subscriptions
   MessageSubscription.create(ripple_uuid: Ripple.first.uuid, phone_number: '+16148097539')

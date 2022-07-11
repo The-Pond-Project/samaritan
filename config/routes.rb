@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   get '/terms', to: 'pages#terms'
   get '/thank-you', to: 'pages#thank_you'
   get '/explained', to: 'pages#explained'
+  get '/gracehaven', to: 'pages#partner', as: 'partner'
 
   # Orders
   resources :orders, param: :uuid, only: %i[show new create]

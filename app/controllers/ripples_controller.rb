@@ -17,12 +17,14 @@ class RipplesController < ApplicationController
     @ripple = Ripple.new
   end
 
+  # rubocop:disbable Metrics/AbcSize
   def create
     create_hash = [*@location_hash, *tags_hash].compact.to_h
     @ripple = Ripple.new(ripple_params.merge(create_hash))
     @ripple.user = current_user
 
     if @ripple.save
+      create_message_subscription if message_subscription_params.present?
       redirect_to pond_ripple_url(@ripple.pond_key, @ripple.uuid),
                   notice: 'Ripple was successfully recorded.'
     else
@@ -70,8 +72,17 @@ class RipplesController < ApplicationController
                   :pond_id)
   end
 
+  def message_subscription_params
+    params.permit(:phone_number)
+  end
+
   def tags_hash
     tags = params[:ripple][:tags]
     @tags_hash = tags.present? ? { tags: Tag.find(tags) } : { tags: [] }
+  end
+
+  def create_message_subscription
+    phone_number = message_subscription_params[:phone_number]
+    MessageSubscription.create(phone_number: phone_number, ripple_uuid: @ripple.uuid)
   end
 end

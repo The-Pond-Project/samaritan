@@ -19,7 +19,7 @@ RSpec.describe 'Donate features' do
   describe 'welcometron' do
     it 'displays content' do
       expect(page).to have_content('Donate. Participate through giving')
-      expect(page).to have_link('Donate to MissionForKindness', href: '#donate')
+      expect(page).to have_link('Donate to ThePondProject', href: '#donate')
     end
   end
 
@@ -31,8 +31,8 @@ RSpec.describe 'Donate features' do
 
   describe 'about donations' do
     it 'displays content' do
-      expect(page).to have_content('We are transparent about all donations and the use of those donations. All money given using this page will go to MissionForKindness and the costs of running/maintaing the platform. These funds will not go to any of our partnered charities, to find out more on how to give to a partnedred charity go here.')
-      expect(page).to have_content('Below you will find a list of all of our costs and reciepts. This is our transparent and collaborative way to show what exactly your donation does to help our mission.')
+      expect(page).to have_content('We are transparent about all donations and the use of those donations. All money given using this page will go to ThePondProject and the costs of running/maintaing the platform. These funds will not go to any of our partnered non-profits, to find out more on how to give to a non-profit charity go')
+      expect(page).to have_content('Below you will find a list of all of our costs and receipts. This is our transparent and collaborative way to show what exactly your donation does to help our mission.')
     end
   end
 

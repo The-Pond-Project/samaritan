@@ -15,9 +15,17 @@
     tags to record with your act of kindness. 
   %p.text-muted.p-0
     The current time will be reccorded as when then the act took place and the current city you are in will be recorded as the location. 
-    %strong Disable your VPN if one is enabled for accurate recording.
+    %strong Temporarily disable your VPN if one is enabled for accurate recording.
 
   %hr
+
+  .container.bg-light.p-3
+    %h5 
+      %em{ style: 'color: #1484ac'}Get a text alerts 
+      everytime your KindCard is passed on
+    %input{type: "text_field", name: 'phone_number', class: 'form-control', placeholder: '6149901234'}
+    %hp.text-muted *we will only text you about the activity of your KindCard. We will NEVER share your information, ask you to buy or donate anything via text.
+
   .mt-5.tags-form
     %ul.tags.mt-4
       - @tags.each do |tag| 
@@ -27,10 +35,13 @@
             %span.tag_style
               =tag.name
               %span.blue-span
+
     .row.m-3 
       .actions  
         = f.submit 'Record', class: 'btn btn-outline-primary p-1'
 
+
+  %hr
 
   %h5.pt-5 
     We want to hear your
