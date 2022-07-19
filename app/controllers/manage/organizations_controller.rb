@@ -6,7 +6,7 @@ module Manage
     before_action :set_organization, only: %i[show edit update destroy]
 
     def index
-      @organizations = Organization.all.joins(:image_attachment)
+      @organizations = Organization.all.includes(:image_attachment)
     end
 
     def show; end

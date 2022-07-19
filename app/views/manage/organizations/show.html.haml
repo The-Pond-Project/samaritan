@@ -20,7 +20,7 @@
     - if @organization.image.attached?
       = image_tag @organization.image
     - else
-      = image_tag asset_path('logo_default.svg')
+      = image_tag('logo_default.svg')
 
   = link_to 'Edit', edit_manage_organization_path(@organization.name)
   \|
