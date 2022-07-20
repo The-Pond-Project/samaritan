@@ -7,7 +7,7 @@ ProdProjectDNSName: "thepondproject.org"
 
 GitHubOwner: "The-Pond-Project"
 GitHubRepo: "samaritan"
-GitHubBranch: "aws-deploy"
+GitHubBranch: "master"
 
 StagingEnvName: "staging"
 StagingEnvFullName: "staging"
