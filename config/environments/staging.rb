@@ -4,8 +4,9 @@ Rails.application.configure do
 
   # Settings specified here will take precedence over those in config/application.rb.
   config.hosts << /.*elb\.amazonaws\.com/
+  config.hosts << 'staging.thepondproject.org'
   config.hosts << /.*thepondproject\.org/
-  config.hosts << IPAddr.new("10.0.0.0/16") #for health check
+  config.hosts << IPAddr.new("10.0.0.0/16")
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -128,6 +129,4 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
-
-  Rails.application.routes.default_url_options[:protocol] = 'https'
 end

@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  VpcId:
+    Type: String
+  ProjectDNSName:
+    Type: String
+
+Resources:
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Ref ProjectDNSName
+      HostedZoneTags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+Outputs:
+  DNSHostedZoneId:
+    Value: !Ref HostedZone

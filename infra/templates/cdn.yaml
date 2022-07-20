@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  Environment:
+    Type: String
+  ALBUri:
+    Type: String
+  ProjectDNSName:
+    Type: String
+
+Resources:
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Origins:
+          - Id: ALBOrigin
+            DomainName: !Ref ALBUri
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          TargetOriginId: ALBOrigin
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: all
+          ViewerProtocolPolicy: allow-all
+          MinTTL: 100
+          SmoothStreaming: true
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponsePagePath: /public/404.html
+            ResponseCode: 200
+            ErrorCachingMinTTL: 30
+        PriceClass: PriceClass_All
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+Outputs:
+  CDNUri:
+    Value: !GetAtt Distribution.DomainName

@@ -1,0 +1,183 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  Environment:
+    Type: String
+  EnvironmentFullName:
+    Type: String
+
+  VpcId:
+    Type: String
+  PrivateSubnets:
+    Type: String
+  PrivateSubnetsCidr:
+    Type: String
+  ECSClusterArn:
+    Type: String
+  ECSExecutionRoleArn:
+    Type: String
+  EC2CapacityProviderName:
+    Type: String
+    Default: ''
+  ECRRepoUrl:
+    Type: String
+  SecretArn:
+    Type: String
+  DBHost:
+    Type: String
+  ALBTargetGroupArn:
+    Type: String
+  ALBSecurityGroupId:
+    Type: String
+  CDNUri:
+    Type: String
+    Default: ''
+
+Conditions:
+  IsProd: !Equals [!Ref Environment, 'prod']
+  IsNotProd: !Not [Condition: IsProd]
+
+Resources:
+  WebTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${ProjectName}-web-${Environment}
+      ExecutionRoleArn: !Ref ECSExecutionRoleArn
+      TaskRoleArn: !Ref WebServiceRole
+      RequiresCompatibilities:
+        - EC2
+      NetworkMode: awsvpc
+      Memory: !If [IsProd, 1536, 1024]
+      Cpu: !If [IsProd, 2048, 1024]
+      ContainerDefinitions:
+        - Name: !Sub ${ProjectName}-web-${Environment}
+          Image: !Sub '${ECRRepoUrl}:samaritan-latest'
+          Essential: true
+          PortMappings:
+            - Protocol: tcp
+              ContainerPort: 80
+          Environment:
+            - Name: RAILS_ENV
+              Value: !Ref EnvironmentFullName
+            - Name: RACK_ENV
+              Value: !Ref EnvironmentFullName
+            - Name: NODE_ENV
+              Value: !Ref EnvironmentFullName
+            - Name: PORT
+              Value: 80
+            - Name: DB_HOST
+              Value: !Ref DBHost
+            - Name: CDN_HOST
+              Value: !Ref CDNUri
+            - Name: RAILS_SERVE_STATIC_FILES
+              Value: true
+          Secrets:
+            - Name: SECRET_KEY_BASE
+              ValueFrom: !Sub '${SecretArn}:secretKey::'
+            - Name: DB_USERNAME
+              ValueFrom: !Sub '${SecretArn}:dbUsername::'
+            - Name: DB_PASSWORD
+              ValueFrom: !Sub '${SecretArn}:dbPassword::'
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Sub /ecs/${ProjectName}-web-${Environment}
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: ecs
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  WebLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${ProjectName}-web-${Environment}
+      RetentionInDays: 30
+
+  WebServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${ProjectName}-web-${Environment}
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: WebServiceRolePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: '*'
+                Action:
+                  - rds:*
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  WebService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSClusterArn
+      DesiredCount: !If [IsProd, 2, 1]
+      LoadBalancers:
+        - TargetGroupArn: !Ref ALBTargetGroupArn
+          ContainerName: !Sub ${ProjectName}-web-${Environment}
+          ContainerPort: 80
+      CapacityProviderStrategy:
+        - !If
+          - IsProd
+          - CapacityProvider: !Ref EC2CapacityProviderName
+            Weight: 1
+          - !Ref AWS::NoValue
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          SecurityGroups:
+            - !GetAtt WebSecurityGroup.GroupId
+          Subnets: !Split [ ',', !Ref PrivateSubnets ]
+      TaskDefinition: !Ref WebTaskDefinition
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  WebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-web-${Environment}
+      GroupDescription: Security group for web app
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - SourceSecurityGroupId: !Ref ALBSecurityGroupId
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+        - SourceSecurityGroupId: !Ref ALBSecurityGroupId
+          IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+        - !If
+          - IsNotProd
+          - CidrIp: !Ref PrivateSubnetsCidr
+            IpProtocol: tcp
+            FromPort: 5432
+            ToPort: 5432
+          - !Ref AWS::NoValue
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment

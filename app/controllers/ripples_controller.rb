@@ -21,7 +21,6 @@ class RipplesController < ApplicationController
   def create
     create_hash = [*@location_hash, *tags_hash].compact.to_h
     @ripple = Ripple.new(ripple_params.merge(create_hash))
-    @ripple.user = current_user
 
     if @ripple.save
       create_message_subscription if message_subscription_params.present?

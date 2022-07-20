@@ -1,0 +1,12 @@
+template_path: cicd/pipeline.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  RegionShortName: '{{ var.RegionShortName }}'
+  GitHubOwner: '{{ var.GitHubOwner }}'
+  GitHubRepo: '{{ var.GitHubRepo }}'
+  GitHubBranch: '{{ var.GitHubBranch }}'
+  BucketName: !stack_output common/s3.yaml::BucketName
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

@@ -1,0 +1,18 @@
+template_path: ecs.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  Environment: '{{ var.StagingEnvName }}'
+
+  VpcId: !stack_output network/vpc.yaml::VpcId
+  VpcCidr:  '{{ var.VpcCidr }}'
+  PrivateSubnets: !stack_output network/vpc.yaml::PrivateSubnets
+  PrivateSubnetsCidr: '{{ var.PrivateSubnetsCidr }}'
+  SecretArn: !stack_output common/secret.yaml::SecretArn
+  BucketArn: !stack_output common/s3.yaml::BucketArn
+  BucketName: !stack_output common/s3.yaml::BucketName
+  DBVolume: !stack_output staging/ebs.yaml::DBVolume
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'
+  environment: '{{ var.StagingEnvName }}'

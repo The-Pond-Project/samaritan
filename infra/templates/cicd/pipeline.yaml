@@ -1,0 +1,263 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  RegionShortName:
+    Type: String
+  GitHubOwner:
+    Type: String
+  GitHubRepo:
+    Type: String
+  GitHubBranch:
+    Type: String
+  BucketName:
+    Type: String
+
+Resources:
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: !Sub ${ProjectName}-cicd
+      ArtifactStore:
+        Type: S3
+        Location: !Ref BucketName
+      RestartExecutionOnUpdate: true
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: Source
+              InputArtifacts: [ ]
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: sourcecode
+              Configuration:
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                PollForSourceChanges: false
+                Owner: !Ref GitHubOwner
+                OAuthToken: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-secret', ':SecretString:githubToken}}'] ]
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: Build
+              InputArtifacts:
+                - Name: sourcecode
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              OutputArtifacts:
+                - Name: appbuild
+              Configuration:
+                ProjectName: !Ref CodeBuild
+              RunOrder: 2
+        - Name: StagingDeploy
+          Actions:
+            - Name: Build
+              InputArtifacts:
+                - Name: appbuild
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              OutputArtifacts:
+                - Name: stagingdeploy
+              Configuration:
+                ProjectName: !Ref StagingDeploy
+              RunOrder: 3
+        - Name: ProdDeployApproval
+          Actions:
+            - Name: ProdApproval
+              InputArtifacts: []
+              ActionTypeId:
+                Category: Approval
+                Owner: AWS
+                Provider: Manual
+                Version: 1
+              OutputArtifacts: []
+              RunOrder: 4
+        - Name: ProdDeploy
+          Actions:
+            - Name: Build
+              InputArtifacts:
+                - Name: appbuild
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              OutputArtifacts:
+                - Name: prodsdeploy
+              Configuration:
+                ProjectName: !Ref ProdDeploy
+              RunOrder: 5
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  GithubWebhook:
+    Type: AWS::CodePipeline::Webhook
+    Properties:
+      Authentication: GITHUB_HMAC
+      AuthenticationConfiguration:
+        SecretToken: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-secret', ':SecretString:githubToken}}'] ]
+      RegisterWithThirdParty: 'true'
+      Filters:
+        - JsonPath: '$.ref'
+          MatchEquals: refs/heads/{Branch}
+      TargetPipeline: !Ref CodePipeline
+      TargetAction: Source
+      TargetPipelineVersion: !GetAtt CodePipeline.Version
+
+  CodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${ProjectName}-cicd
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Principal:
+            Service:
+              - codepipeline.amazonaws.com
+              - codebuild.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  CodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${ProjectName}-build
+      ServiceRole: !Ref CodePipelineRole
+      Artifacts:
+        ArtifactIdentifier: !Sub '${ProjectName}-aws-resources'
+        Type: CODEPIPELINE
+        OverrideArtifactName: true
+      Cache:
+        Type: S3
+        Location: !Sub '${BucketName}/dependencies/cache'
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: AWS_ACCOUNT_ID
+            Value: !Ref AWS::AccountId
+          - Name: PROJECT_NAME
+            Value: !Ref ProjectName
+      Source:
+        BuildSpec: './infra/specs/buildspec.yml'
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 10
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  BuildLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/codebuild/${ProjectName}-build
+      RetentionInDays: 30
+
+  StagingDeploy:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${ProjectName}-staging-deploy
+      ServiceRole: !Ref CodePipelineRole
+      Artifacts:
+        Name: appbuild
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: AWS_ACCOUNT_ID
+            Value: !Ref AWS::AccountId
+          - Name: PROJECT_NAME
+            Value: !Ref ProjectName
+          - Name: ENV_NAME
+            Value: staging
+      Source:
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - pip install sceptre
+            build:
+              commands:
+                - cd ./infra
+                - sceptre --var-file variables.yaml launch -y network
+                - sceptre --var-file variables.yaml launch -y common
+                - sceptre --var-file variables.yaml launch -y staging
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 10
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  StagingDeployLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/codebuild/${ProjectName}-staging-deploy
+      RetentionInDays: 30
+
+  ProdDeploy:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${ProjectName}-prod-deploy
+      ServiceRole: !Ref CodePipelineRole
+      Artifacts:
+        Name: appbuild
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: AWS_ACCOUNT_ID
+            Value: !Ref AWS::AccountId
+          - Name: PROJECT_NAME
+            Value: !Ref ProjectName
+          - Name: ENV_NAME
+            Value: prod
+      Source:
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - pip install sceptre
+            build:
+              commands:
+                - cd ./infra
+                - sceptre --var-file variables.yaml launch -y network
+                - sceptre --var-file variables.yaml launch -y common
+                - sceptre --var-file variables.yaml launch -y $ENV_NAME
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 10
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  ProdDeployLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/codebuild/${ProjectName}-prod-deploy
+      RetentionInDays: 30

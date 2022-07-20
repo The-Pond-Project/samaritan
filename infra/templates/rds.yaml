@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  Environment:
+    Type: String
+
+  VpcId:
+    Type: String
+  PrivateSubnets:
+    Type: String
+  PrivateSubnetsCidr:
+    Type: String
+
+Resources:
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: !Sub ${ProjectName}-${Environment}
+      DBName: !Sub 'the_pond_project_${Environment}'
+      DBInstanceClass: db.t3.small
+      AllocatedStorage: 30
+      MaxAllocatedStorage: 500
+      BackupRetentionPeriod: 3
+      DeleteAutomatedBackups: false
+      DeletionProtection: true
+      EnableCloudwatchLogsExports:
+        - postgresql
+      Engine: postgres
+      EngineVersion: '14.2'
+      MasterUsername: postgres
+      MasterUserPassword: !Join [ '', [ '{{resolve:secretsmanager:', !Sub '${ProjectName}-secret', ':SecretString:dbMasterPassword}}'] ]
+      MultiAZ: true
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      Port: 5432
+      PreferredBackupWindow: 06:00-07:00
+      PreferredMaintenanceWindow: Sun:07:00-Sun:08:00
+      PubliclyAccessible: false
+      StorageType: gp2
+      VPCSecurityGroups:
+        - !Ref DBSecurityGroup
+      CopyTagsToSnapshot: true
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-rds-${Environment}
+      GroupDescription: Security group for rds
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: !Sub ${ProjectName}-rds-${Environment}
+      DBSubnetGroupDescription: 'Subnets group for RDS instances'
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/rds/instance/${ProjectName}-${Environment}/postgresql
+      RetentionInDays: 30
+
+Outputs:
+  RDSInstanceEndpoint:
+    Value: !GetAtt RDSInstance.Endpoint.Address

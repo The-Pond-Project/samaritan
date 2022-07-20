@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  Environment:
+    Type: String
+
+Conditions:
+  IsProd: !Equals [!Ref Environment, 'prod']
+  IsNotProd: !Not [Condition: IsProd]
+
+Resources:
+  DBVolume:
+    Type: AWS::EC2::Volume
+    Condition: IsNotProd
+    DeletionPolicy: Retain
+    Properties:
+      VolumeType: gp2
+      Size: 30
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      Tags:
+        - Key: Name
+          Value: !Sub '${ProjectName}-db-${Environment}'
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+Outputs:
+  DBVolume:
+    Value: !Ref DBVolume

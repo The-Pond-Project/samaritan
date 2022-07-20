@@ -1,0 +1,130 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+
+  VpcId:
+    Type: String
+  PrivateSubnetsCidr:
+    Type: String
+  PrivateSubnets:
+    Type: String
+  PrivateRouteTable:
+    Type: String
+  PublicSubnets:
+    Type: String
+
+Resources:
+  ECRDkrVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ecr.dkr'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  ECRApiVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ecr.api'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  ECSAgentVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ecs-agent'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  ECSTelemetryVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ecs-telemetry'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  ECSVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ecs'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  S3VPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.s3'
+      VpcEndpointType: Gateway
+      RouteTableIds:
+        - !Ref PrivateRouteTable
+      VpcId: !Ref VpcId
+
+  CloudWatchVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.logs'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  SecretManagerVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.secretsmanager'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  RDSVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.rds'
+      VpcEndpointType: Interface
+      SecurityGroupIds:
+        - !GetAtt VPCEndpointSecurityGroup.GroupId
+      PrivateDnsEnabled: true
+      VpcId: !Ref VpcId
+      SubnetIds: !Split [ ',', !Ref PrivateSubnets ]
+
+  VPCEndpointSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-vpc-endpoints
+      GroupDescription: Security group for vpc endpoints
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+
+Outputs:
+  S3VPCEndpoint:
+    Value: !Ref S3VPCEndpoint

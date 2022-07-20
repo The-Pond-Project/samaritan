@@ -1,0 +1,9 @@
+template_path: network/dns.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  VpcId: !stack_output network/vpc.yaml::VpcId
+  ProjectDNSName: '{{ var.ProdProjectDNSName }}'
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

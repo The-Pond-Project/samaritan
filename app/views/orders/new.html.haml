@@ -1,7 +1,7 @@
 - if Flipper.enabled?(:kindcard_orderable)
   .container.pt-5
     .w-25.mx-auto
-      = image_tag asset_path('logo alternate square'), class: 'w-100', alt: 'The Pond Project logo'
+      = image_tag 'logo alternate square.png', class: 'w-100', alt: 'The Pond Project logo'
     %h2.text-center{ style: 'color: #1484ac'} Order KindCards
     %p.text-muted.text-center
       Place an order to receive your KindCards for the current release
@@ -10,7 +10,7 @@
 - else
   .container.pt-5
     .w-25.mx-auto
-      = image_tag asset_path('logo alternate square'), class: 'w-100'
+      = image_tag 'logo alternate square.png', class: 'w-100'
     %h2.text-center{ style: 'color: #1484ac'} Orders are currently disabled
     %p.text-muted.text-center
       You can not place orders for KindCards. Visit this page during the next pre-release period.

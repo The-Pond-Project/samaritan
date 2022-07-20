@@ -1,0 +1,7 @@
+template_path: common/ecr.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

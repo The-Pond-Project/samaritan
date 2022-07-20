@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - REPO_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$PROJECT_NAME
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=samaritan-${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building samaritan docker image...
+      - docker build -t $REPO_URI:$IMAGE_TAG .
+      - docker push $REPO_URI:$IMAGE_TAG
+      - docker tag $REPO_URI:$IMAGE_TAG $REPO_URI:samaritan-latest
+      - docker push $REPO_URI:samaritan-latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - sed -i "s/:samaritan-latest/:$IMAGE_TAG/" ./infra/templates/web.yaml
+
+artifacts:
+  files:
+    - infra/**/*

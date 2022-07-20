@@ -1,0 +1,9 @@
+template_path: network/acm.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+  ProjectDNSName: '{{ var.ProdProjectDNSName }}'
+  DNSHostedZoneId: !stack_output network/dns.yaml::DNSHostedZoneId
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'
