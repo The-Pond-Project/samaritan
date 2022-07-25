@@ -94,7 +94,7 @@ Resources:
               ValueFrom: !Sub '${SecretArn}:stripeSigningSecret::'
             - Name: GOOGLE_MAPS_API_KEY
               ValueFrom: !Sub '${SecretArn}:googleMapsApiKey::'
-            - Name: SUDO_PASSOWRD
+            - Name: SUDO_PASSWORD
               ValueFrom: !Sub '${SecretArn}:sudoPassword::'
             - Name: INTERNAL_API_KEY
               ValueFrom: !Sub '${SecretArn}:internalApiKey::'
