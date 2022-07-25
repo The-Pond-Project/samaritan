@@ -73,6 +73,26 @@ Resources:
               Value: !Ref CDNUri
             - Name: RAILS_SERVE_STATIC_FILES
               Value: true
+            - Name: TWILIO_ACCOUNT_SID
+              ValueFrom: !Sub '${SecretArn}:twilioAccountSID::'
+            - Name: TWILIO_AUTH_TOKEN
+              ValueFrom: !Sub '${SecretArn}:twilioAuthToken::'
+            - Name: TWILIO_PHONE_NUMBER
+              ValueFrom: !Sub '${SecretArn}:twilioPhoneNumber::'
+            - Name: STRIPE_PUBLISHABLE_KEY
+              ValueFrom: !Sub '${SecretArn}:stripePublishableKey::'
+            - Name: STRIPE_SECRET_KEY
+              ValueFrom: !Sub '${SecretArn}:stripeSecretKey::'
+            - Name: STRIPE_SIGNING_SECRET
+              ValueFrom: !Sub '${SecretArn}:stripeSigningSecret::'
+            - Name: GOOGLE_MAPS_API_KEY
+              ValueFrom: !Sub '${SecretArn}:googleMapsApiKey::'
+            - Name: SUDO_PASSOWRD
+              ValueFrom: !Sub '${SecretArn}:sudoPassword::'
+            - Name: INTERNAL_API_KEY
+              ValueFrom: !Sub '${SecretArn}:internalApiKey::'
+            - Name: SAMARITAN_CLIENT_TOKEN
+              ValueFrom: !Sub '${SecretArn}:samaritanClientToken::'
           Secrets:
             - Name: SECRET_KEY_BASE
               ValueFrom: !Sub '${SecretArn}:secretKey::'
