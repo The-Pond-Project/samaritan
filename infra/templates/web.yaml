@@ -73,6 +73,13 @@ Resources:
               Value: !Ref CDNUri
             - Name: RAILS_SERVE_STATIC_FILES
               Value: true
+          Secrets:
+            - Name: SECRET_KEY_BASE
+              ValueFrom: !Sub '${SecretArn}:secretKey::'
+            - Name: DB_USERNAME
+              ValueFrom: !Sub '${SecretArn}:dbUsername::'
+            - Name: DB_PASSWORD
+              ValueFrom: !Sub '${SecretArn}:dbPassword::'
             - Name: TWILIO_ACCOUNT_SID
               ValueFrom: !Sub '${SecretArn}:twilioAccountSID::'
             - Name: TWILIO_AUTH_TOKEN
@@ -93,13 +100,6 @@ Resources:
               ValueFrom: !Sub '${SecretArn}:internalApiKey::'
             - Name: SAMARITAN_CLIENT_TOKEN
               ValueFrom: !Sub '${SecretArn}:samaritanClientToken::'
-          Secrets:
-            - Name: SECRET_KEY_BASE
-              ValueFrom: !Sub '${SecretArn}:secretKey::'
-            - Name: DB_USERNAME
-              ValueFrom: !Sub '${SecretArn}:dbUsername::'
-            - Name: DB_PASSWORD
-              ValueFrom: !Sub '${SecretArn}:dbPassword::'
           LogConfiguration:
             LogDriver: awslogs
             Options:
