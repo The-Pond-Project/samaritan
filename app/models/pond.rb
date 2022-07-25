@@ -50,6 +50,37 @@ class Pond < ApplicationRecord
   #
   # Public Instance Method
   #
+  # Returns a url for it self
+  def url
+    ::Routes.pond_url(self)
+  end
+
+
+  #
+  # Public Instance Method
+  #
+  # Returns if a ripple is active or not
+  def qr_code
+    qrcode = RQRCode::QRCode.new(url)
+
+    png = qrcode.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: "black",
+      file: nil,
+      fill: "white",
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 120
+    )
+  end
+
+
+  #
+  # Public Instance Method
+  #
   # Returns if a ripple is active or not
   def active?
     updated_at < Time.current - 45.days
