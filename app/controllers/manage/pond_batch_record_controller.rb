@@ -11,6 +11,7 @@ module Manage
     def create
       creator.create_ponds
       if creator.success?
+        creator.create_qr_codes!
         success_msg = "#{creator.amount} pond(s) were sucessfully created"
         redirect_to manage_organization_release_path(@organization, @release), notice: success_msg
       else
