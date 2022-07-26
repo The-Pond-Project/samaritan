@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 ruby '2.7.2'
 
 gem 'active_model_serializers'
+gem 'archive-zip',                    '~> 0.12.0'
 gem 'bcrypt',                         '~> 3.1.7'
 gem 'bootsnap',                       '>= 1.4.4', require: false
 gem 'bootstrap'

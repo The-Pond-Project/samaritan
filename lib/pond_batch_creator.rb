@@ -2,6 +2,7 @@
 
 require 'csv'
 require 'zip'
+require 'archive/zip'
 
 class PondBatchCreator
   # rubocop:disable Metrics/AbcSize
@@ -83,28 +84,30 @@ class PondBatchCreator
 
   def create_qr_codes!
     dir = Dir.mktmpdir('qr_codes')
-    temp_file = Tempfile.new("/tmp/#{filename}.zip", [tmpdir = dir])
-    byebug
+    # temp_file = Tempfile.new("/tmp/#{filename}.zip", [tmpdir = dir])
+    # byebug
 
-    begin
-      Zip::OutputStream.open(temp_file) { |zos| }
+    # begin
+    #   Zip::OutputStream.open(temp_file) { |zos| }
 
-      Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
+      # Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
         ponds.each do |pond|
           pond_file_name = "#{pond.key}-#{pond.created_at.strftime('%m%d%Y')}.png"
-          qr_code = Tempfile.new(pond_file_name)
+          qr_code = Tempfile.new(pond_file_name, [tmpdir = dir])
           qr_code_image = File.open(qr_code.path, 'wb')
           # qr_code.write(pond.qr_code.to_string)
-          zip.add(pond_file_name, qr_code_image.path)
+          # zip.add(pond_file_name, qr_code_image.path)
         end
-      end
+      # end
 
-      zip_data = File.read(temp_file.path)
-      send_data(zip_data, type: 'application/zip', disposition: 'attachment', filename: filename)
-    ensure
-      temp_file.close
-      temp_file.unlink
-    end
+      Archive::Zip.archive('qr_zip.zip', dir)
+      byebug
+      # folder = File.read(dir)
+      send_data(Archive::Zip.archive('qr_zip.zip', dir), type: 'application/zip', disposition: 'attachment', filename: filename)
+    # ensure
+      dir.close
+      dir.unlink
+    # end
   end
 
   private
