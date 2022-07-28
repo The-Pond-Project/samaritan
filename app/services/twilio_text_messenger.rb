@@ -23,11 +23,11 @@ class TwilioTextMessenger
   private
 
   def account_sid
-    Credentials.dig(:twilio, :twilio_account_sid)
+    EnvSecret.get('TWILIO_ACCOUNT_SID')
   end
 
   def auth_token
-    Credentials.dig(:twilio, :twilio_auth_token)
+    EnvSecret.get('TWILIO_AUTH_TOKEN')
   end
 
   def client
@@ -35,6 +35,6 @@ class TwilioTextMessenger
   end
 
   def from
-    "+#{Credentials.dig(:twilio, :twilio_phone_number)}"
+    "+#{EnvSecret.get('TWILIO_PHONE_NUMBER')}"
   end
 end

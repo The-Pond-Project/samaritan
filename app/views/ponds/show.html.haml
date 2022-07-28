@@ -4,7 +4,7 @@
     %hr/
     .row
       .col-sm-8
-        %iframe{:allowfullscreen => "", :frameborder => "0", :height => "540", :src => "https://www.google.com/maps/embed/v1/place?key=AIzaSyDEMPDQ69GUVjnzltgCfBN1jNMhomU90pc&q=#{@pond.full_location}", :style => "border:0", :width => "100%"}
+        %iframe{:allowfullscreen => "", :frameborder => "0", :height => "540", :src => "https://www.google.com/maps/embed/v1/place?key=#{EnvSecret.get('GOOGLE_MAPS_API_KEY')}&q=#{@pond.full_location}", :style => "border:0", :width => "100%"}
       #contact2.col-sm-4
         %h3 About This Pond
         %hr{:align => "left", :width => "50%"}/
