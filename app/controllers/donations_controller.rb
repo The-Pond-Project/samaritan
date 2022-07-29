@@ -35,7 +35,7 @@ class DonationsController < ApplicationController
         name: 'Charitable Donation',
         amount: (amount * 100).to_i,
         currency: 'USD',
-        description: 'Donation to MissionForKindness. Thank you for your generosity!',
+        description: 'Donation to ThePondProject. Thank you for your generosity!',
       },
     ]
   end
