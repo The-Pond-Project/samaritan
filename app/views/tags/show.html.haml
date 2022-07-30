@@ -41,7 +41,8 @@
                         .card
                           = image_tag('default_map.png', class: 'img-fluid', alt: 'map' )
                           .card-body
-                            %h4.card-title= "#{ripple.city}, #{ripple.region}"
+                            = link_to pond_ripple_path(ripple.pond, ripple.uuid) do
+                              %h4.card-title= "#{ripple.city}, #{ripple.region}"
                             %p.card-text
                               %b Created:
                               = local_time_ago(ripple.created_at)
