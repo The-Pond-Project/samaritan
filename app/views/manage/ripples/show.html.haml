@@ -8,7 +8,7 @@
     - @ripple.tags&.each do |tag|
       = tag.name
 
-%image{src: "https://maps.googleapis.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@ripple.latitude}%2C#{@ripple.longitude}&key=#{EnvSecret.get('GOOGLE_MAPS_API_KEY')}", onerror: "this.onerror=null;this.src=#{asset_path('default_map.png')};"}
+%image{src: "https://maps.googleapis.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@ripple.latitude}%2C#{@ripple.longitude}&key=#{EnvSecret.get('GOOGLE_MAPS_API_KEY')}", onerror: "this.onerror=null;this.src=#{image_path('default_map.png')};"}
 
 %p{ style: 'color: grey'}="#{@ripple.address}"
 %p{ style: 'color: grey'}=local_time_ago(@ripple.created_at)
