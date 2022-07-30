@@ -15,7 +15,7 @@
             - if @organization.image.attached?
               = image_tag(@organization.image, alt: "#{@organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
             - else
-              = image_tag('logo_default', size: '350x250', alt: "#{@organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
+              = image_tag('logo_default.png', size: '350x250', alt: "#{@organization.name} logo", class: 'media-object img-rounded img-responsive w-100')
         .col-md-8.py-2.px-1
           %p.list-group-item-text= @organization.description
     -# Stats

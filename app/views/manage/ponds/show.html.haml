@@ -1,37 +1,37 @@
-%p#notice= notice
-%h2
-  = @pond.key
+.container.p-5.m-3
+  %h2
+    = @pond.key
 
-- if @pond.postal_code
-  %p
-    %b Postal code:
-    = @pond.postal_code
-- if @pond.city
-  %p
-    %b City:
-    = @pond.city
-- if @pond.region
-  %p
-  - if @pond.domestic?
-    %b State:
-    = @pond.region
-  - else
-    %b Region:
-    = @pond.region
-  
-- if @pond.country
-  %p
-    %b Country:
-    = @pond.country
-  %p
-    %b Created: 
-    = local_time_ago(@pond.created_at)
+  - if @pond.postal_code
+    %p
+      %b Postal code:
+      = @pond.postal_code
+  - if @pond.city
+    %p
+      %b City:
+      = @pond.city
+  - if @pond.region
+    %p
+    - if @pond.domestic?
+      %b State:
+      = @pond.region
+    - else
+      %b Region:
+      = @pond.region
+    
+  - if @pond.country
+    %p
+      %b Country:
+      = @pond.country
+    %p
+      %b Created: 
+      = local_time_ago(@pond.created_at)
 
-%h4 Ripples
+  %h4 Ripples
 
-%ul
-- @ripples.each do |ripple|
-  %li= ripple.uuid
-  
-\|
-= link_to 'Back', manage_ponds_path
+  %ul
+  - @ripples.each do |ripple|
+    %li= ripple.uuid
+    
+  \|
+  = link_to 'Back', manage_ponds_path

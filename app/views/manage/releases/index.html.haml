@@ -1,25 +1,26 @@
-%h1 Listing releases
+.container.p-5.m-3
+  %h1 Listing releases
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th
-      %th
-      %th
-      %th
-
-  %tbody
-    - @releases.each do |release|
+  %table
+    %thead
       %tr
-        %td= release.name
-        %td= release.description
-        %td= link_to 'Show', manage_organization_release_path(@organization, release)
-        %td= link_to 'Edit', edit_manage_organization_release_path(@organization, release)
-        %td= link_to 'Create Ponds', new_manage_organization_release_pond_batch_record_path(@organization, release)
-        %td= link_to 'Destroy',  manage_organization_release_path(@organization, release), method: :delete, data: { confirm: 'Are you sure?' }
+        %th Name
+        %th Description
+        %th
+        %th
+        %th
+        %th
 
-%br
+    %tbody
+      - @releases.each do |release|
+        %tr
+          %td= release.name
+          %td= release.description
+          %td= link_to 'Show', manage_organization_release_path(@organization, release)
+          %td= link_to 'Edit', edit_manage_organization_release_path(@organization, release)
+          %td= link_to 'Create Ponds', new_manage_organization_release_pond_batch_record_path(@organization, release)
+          %td= link_to 'Destroy',  manage_organization_release_path(@organization, release), method: :delete, data: { confirm: 'Are you sure?' }
 
-= link_to 'New Release', new_manage_organization_release_path(@organization)
+  %br
+
+  = link_to 'New Release', new_manage_organization_release_path(@organization)
