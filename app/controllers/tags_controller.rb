@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
-  MISSION_FOR_KINDNESS = 'Mission For Kindness'
+  THE_POND_PROJECT = 'ThePondProject'
 
   before_action :set_tag, only: %i[show]
 
@@ -17,13 +17,13 @@ class TagsController < ApplicationController
 
   def create
     @tag = Tag.new(tag_params)
-    # Tags default to Mission For Kindness
-    @tag.organization = Organization.find_by(name: MISSION_FOR_KINDNESS)
+    # Tags default to ThePondProject
+    @tag.organization = Organization.find_by(name: THE_POND_PROJECT)
 
     if @tag.save
       msg = 'Tag was successfully submitted. Your tag will be reviewed and approved within 2 days.'
-      redirect_to tags_url, notice: msg
 
+      redirect_to tags_url, notice: msg
     else
       render :new, status: :unprocessable_entity
     end
