@@ -1,16 +1,17 @@
-%p
-  %b Pond:
-  = link_to @ripple.pond_key, manage_pond_path(@ripple.pond_key)
+.container.p-5.m-3
+  %p
+    %b Pond:
+    = link_to @ripple.pond_key, manage_pond_path(@ripple.pond_key)
 
-- unless @ripple.tags.blank?
-  %p 
-    %b Tags: 
-    - @ripple.tags&.each do |tag|
-      = tag.name
+  - unless @ripple.tags.blank?
+    %p 
+      %b Tags: 
+      - @ripple.tags&.each do |tag|
+        = tag.name
 
-%image{src: "https://maps.googleapis.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@ripple.latitude}%2C#{@ripple.longitude}&key=#{EnvSecret.get('GOOGLE_MAPS_API_KEY')}", onerror: "this.onerror=null;this.src=#{image_path('default_map.png')};"}
+  %image{src: "https://maps.googleapis.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@ripple.latitude}%2C#{@ripple.longitude}&key=#{EnvSecret.get('GOOGLE_MAPS_API_KEY')}", onerror: "this.onerror=null;this.src=#{image_path('default_map.png')};"}
 
-%p{ style: 'color: grey'}="#{@ripple.address}"
-%p{ style: 'color: grey'}=local_time_ago(@ripple.created_at)
-\|
-= link_to 'Back', manage_pond_ripples_path
+  %p{ style: 'color: grey'}="#{@ripple.address}"
+  %p{ style: 'color: grey'}=local_time_ago(@ripple.created_at)
+  \|
+  = link_to 'Back', manage_pond_ripples_path
