@@ -9,6 +9,7 @@ RSpec.describe 'Donate features' do
   end
 
   before do
+    Flipper.enable(:pond_project_donations)
     bill
     visit('/donate')
   end

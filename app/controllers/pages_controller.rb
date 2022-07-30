@@ -18,6 +18,8 @@ class PagesController < ApplicationController
   def partner; end
 
   def donate
+    redirect_to root_path unless Flipper.enabled?(:pond_project_donations)
+
     @bills = Bill.this_year
   end
 

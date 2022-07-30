@@ -11,6 +11,7 @@ RSpec.describe 'Home features' do
   let(:ripples) { create_list(:ripple, 5, pond: ponds.first, tags: tags) }
 
   before do
+    Flipper.enable(:pond_project_donations)
     ripples
     visit('/')
   end
