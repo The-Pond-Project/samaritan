@@ -10,12 +10,14 @@
         %th
         %th
         %th
+        %th
       %tbody
         - @releases.each do |release|
           %tr
             %td= release.name
             %td= release.description
             %td= link_to release.organization.name, manage_organization_path(release.organization)
+            %td= link_to 'Create Ponds', new_manage_organization_release_pond_batch_record_path(release.organization, release)
             %td= link_to 'Show', manage_organization_release_path(release.organization, release)
             %td= link_to 'Edit', edit_manage_organization_release_path(release.organization, release)
             %td= link_to 'Destroy',  manage_organization_release_path(release.organization, release), method: :delete, data: { confirm: 'Are you sure?' }
