@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Pond features' do
+  # rubocop:disable Layout/LineLength
   let(:organization) { create(:organization) }
   let(:release) { create(:release, organization: organization) }
   let(:tags) { create_list(:tag, 3, organization: organization) }
@@ -10,12 +11,13 @@ RSpec.describe 'Pond features' do
   let(:ripples) { create_list(:ripple, 5, pond: ponds.first, tags: tags) }
 
   before { visit('/ponds') }
-  
+
   include_examples 'navbar'
   include_examples 'footer'
 
   context 'when there are no ponds' do
     before { visit('/ponds') }
+
     describe 'view' do
       it 'displays content' do
         expect(page).to have_content('noting to see here....')
@@ -37,4 +39,5 @@ RSpec.describe 'Pond features' do
       end
     end
   end
+  # rubocop:enable Layout/LineLength
 end
