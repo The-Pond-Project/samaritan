@@ -15,13 +15,18 @@
       .row.col-md-6.col-md-offset-2.custyle
       %table.table.table-striped.custab
         %tr
-          %th File
+          %th CSV
+          %th QR Codes
           %th Created
         %tbody
           -  @release.pond_batch_records.reverse.each do |batch_record|
             - if batch_record.csv_file.attached?
               %tr
                 %td= link_to batch_record.csv_file.filename, url_for(batch_record.csv_file)
+                - if batch_record&.zip_file&.attached?
+                  %td= link_to batch_record.zip_file.filename, url_for(batch_record.zip_file)
+                - else
+                  %td No zip file available
                 %td= batch_record.created_at.to_date
 
   - if @release.ponds.present?

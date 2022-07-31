@@ -55,28 +55,26 @@ class Pond < ApplicationRecord
     ::Routes.pond_url(self)
   end
 
-
   #
   # Public Instance Method
   #
   # Returns if a ripple is active or not
-  def qr_code
+  def create_qr_code
     qrcode = RQRCode::QRCode.new(url)
 
-    png = qrcode.as_png(
+    qrcode.as_png(
       bit_depth: 1,
       border_modules: 4,
       color_mode: ChunkyPNG::COLOR_GRAYSCALE,
-      color: "black",
+      color: '#1484ac',
       file: nil,
-      fill: "white",
+      fill: 'white',
       module_px_size: 6,
       resize_exactly_to: false,
       resize_gte_to: false,
-      size: 120
+      size: 300
     )
   end
-
 
   #
   # Public Instance Method
