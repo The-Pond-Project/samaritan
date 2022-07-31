@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 require 'csv'
+require 'zip'
+require 'archive/zip'
 
+# rubocop:disable Metrics/ClassLength
 class PondBatchCreator
   # rubocop:disable Metrics/AbcSize
   attr_reader :amount, :release_id, :unique_code, :ponds
@@ -19,7 +22,9 @@ class PondBatchCreator
     )
   end
 
-  def create_ponds
+  def create_ponds!
+    return [] unless amount >= 1
+
     ActiveRecord::Base.transaction do
       amount.times do
         pond = Pond.create(
@@ -32,9 +37,10 @@ class PondBatchCreator
         )
         ponds << pond if pond.persisted?
       end
+
+      errors << 'Pond creation error' if ponds.count != amount
+      attach_files if success?
     end
-    errors << 'Pond creation error' if ponds.count != amount
-    create_csv_file! && create_batch_record! if success?
     ponds
   end
 
@@ -55,26 +61,63 @@ class PondBatchCreator
     @errors ||= []
   end
 
+  def attach_files
+    create_batch_record!
+    create_csv_file!
+    attach_csv_file
+    create_zip_file!
+    attach_zip_file
+  end
+
   def create_batch_record!
     @batch_record ||= PondBatchRecord.create!(
       release_id: release_id,
       amount: amount
     )
+  end
+
+  def attach_csv_file
     @batch_record.csv_file.attach(
-      io: File.open(@tempfile.path),
-      filename: csv_file_name,
+      io: File.open(@csv_tempfile.path),
+      filename: "#{filename}.csv",
       content_type: 'text/csv'
     )
   end
 
   def create_csv_file!
-    @tempfile ||= Tempfile.new(csv_file_name)
-    attributes = %w[Organization Key UUID Location Created]
-    @csv_file ||= CSV.open(@tempfile, 'w') do |csv|
+    @csv_tempfile ||= Tempfile.new("#{filename}.csv")
+    attributes = %w[Organization Key UUID URL Location Created]
+    @csv_file ||= CSV.open(@csv_tempfile, 'w') do |csv|
       csv << attributes
       ponds.each do |pond|
-        csv << [pond.organization.name, pond.key, pond.uuid, pond.full_location,
+        csv << [pond.organization.name, pond.key, pond.uuid, pond.url, pond.full_location,
                 pond.created_at]
+      end
+    end
+  end
+
+  def attach_zip_file
+    @batch_record.zip_file.attach(
+      io: File.open(@zip_tempfile),
+      filename: "#{filename}.zip",
+      content_type: 'application/zip'
+    )
+  end
+
+  def create_zip_file!
+    @zip_tempfile = "tmp/#{filename}.zip"
+    Zip::OutputStream.open(@zip_tempfile) { |zos| }
+
+    Zip::File.open(@zip_tempfile, Zip::File::CREATE) do |zip|
+      ponds.each do |pond|
+        filename = pond.key.to_s
+        image_file = Tempfile.new("tmp/#{filename}.png")
+
+        File.open(image_file, 'wb', encoding: 'ASCII-8BIT') do |file|
+          file.write(pond.create_qr_code)
+        end
+
+        zip.add("#{filename}.png", image_file.path)
       end
     end
   end
@@ -85,11 +128,11 @@ class PondBatchCreator
     unique_code.present? ? custom_hex_key(unique_code) : standard_hex_key
   end
 
-  def csv_file_name
+  def filename
     org_name = Release.find(release_id).organization.name.downcase.chomp.gsub(' ', '_')
     date = Time.zone.now.strftime('%m%d%Y')
     time = Time.zone.now.strftime('%H%M')
-    "#{org_name}_pond_creation_#{date}_#{time}.csv"
+    "#{org_name}_pond_creation_#{date}_#{time}"
   end
 
   # standard pond key hex
@@ -118,3 +161,4 @@ class PondBatchCreator
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/AbcSize
 end
+# rubocop:enable Metrics/ClassLength

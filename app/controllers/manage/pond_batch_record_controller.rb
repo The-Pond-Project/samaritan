@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'csv'
+require 'base64'
 
 module Manage
   class PondBatchRecordController < ApplicationController
@@ -9,7 +10,7 @@ module Manage
     def new; end
 
     def create
-      creator.create_ponds
+      creator.create_ponds!
       if creator.success?
         success_msg = "#{creator.amount} pond(s) were sucessfully created"
         redirect_to manage_organization_release_path(@organization, @release), notice: success_msg
