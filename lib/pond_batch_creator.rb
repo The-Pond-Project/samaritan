@@ -111,7 +111,7 @@ class PondBatchCreator
     Zip::File.open(@zip_tempfile, Zip::File::CREATE) do |zip|
       ponds.each do |pond|
         filename = pond.key.to_s
-        image_file = Tempfile.new("tmp/#{filename}.png")
+        image_file = Tempfile.new("#{filename}.png")
 
         File.open(image_file, 'wb', encoding: 'ASCII-8BIT') do |file|
           file.write(pond.create_qr_code)
