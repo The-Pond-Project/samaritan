@@ -12,6 +12,8 @@
     .container
       %h4.mb-1
         Batch Records
+        = link_to new_manage_organization_release_pond_batch_record_path(@organization, @release) do
+          %i.bi.bi-pencil-square
       .row.col-md-6.col-md-offset-2.custyle
       %table.table.table-striped.custab
         %tr
