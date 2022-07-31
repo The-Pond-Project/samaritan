@@ -17,12 +17,13 @@
     .row
       .col-lg-4.justify-content-center
         .my-4
-          .row.px-3
-            %h3{ style: 'color: #edc06d'} Some Stats
+          .row.px-3{ style: 'color: #edc06d'}
+            %span.material-symbols-outlined.material-icons.pt-3{ style: 'font-size: 2em'} data_usage
+            %h3.m-2 Quick Stats
           %hr 
           .row.px-3
             %p
-              %strong Ponds:
+              %strong Total Ponds:
               = Pond.count
           .row.px-3
             %p
