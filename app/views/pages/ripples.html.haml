@@ -1,25 +1,61 @@
-%h1 Listing ripples
+.ripples-bg-color
+- if @ripples.count.zero?
+  .container.w-50.mt-5.py-5
+    .container.text-center
+      %h1{ style: 'color: #78b14f'} noting to see here....
+      %em.text-muted No ripples have been recorded yet but, when they are they will show up here.
+    %div{:style => "width:100%;height:0;padding-bottom:75%;position:relative;"}
+      %iframe.giphy-embed{:allowfullscreen => "", :frameborder => "0", :height => "100%", :src => "https://giphy.com/embed/a93jwI0wkWTQs", :style => "position:absolute", :width => "100%"}
+      %p
+        %a{:href => "https://giphy.com/gifs/dl-a93jwI0wkWTQs"} via GIPHY
+- else
+  .contianer.mt-5.text-center
+    %h1{ style: 'color: #1484ac'}Ripples
+    %em.text-muted A ripple represents a single act of kindness. Each time a KindCard is passed on it is record here as a ripple.
 
-%table
-  %thead
-    %tr
-      %th Uuid
-      %th Postal code
-      %th City
-      %th Country
-      %th Region
-      %th Pond
-      %th
-      %th
-      %th
-
-  %tbody
-    - @ripples.each do |ripple|
-      %tr
-        %td= ripple.uuid
-        %td= ripple.postal_code
-        %td= ripple.city
-        %td= ripple.country
-        %td= ripple.region
-        %td= link_to ripple.pond_key, pond_path(ripple.pond_key)
-        %td= link_to 'Show', pond_ripple_path(ripple.pond_key, ripple.uuid)
+  .container.my-5
+    .row
+      .col-lg-4.justify-content-center
+        .my-4
+          .row.px-3
+            %h3{ style: 'color: #edc06d'} Some Stats
+          %hr 
+          .row.px-3
+            %p
+              %strong Ripples in the last 30 days:
+              = Ripple.last_thirty_days.count
+          .row.px-3
+            %p
+              %strong The last Ripple of Kindness was:
+              = Ripple.ripple_since
+          .row.px-3
+            %p
+              %strong The last Ripple Location:
+              = Ripple.last.full_location
+            -# Stat.recently_active_ponds(3)
+      .col-lg-8.justify-content-center
+        .flex
+        - @ripples.each do |ripple|
+          = link_to pond_ripple_path(ripple.pond, ripple) do
+            .card.my-4{style: 'width: 100%;'}
+              %iframe.card-img-top{allowfullscreen: '', frameborder: '0', height: '540', src: "https://www.google.com/maps/embed/v1/place?key=#{EnvSecret.get('GOOGLE_MAPS_API_KEY')}&q=#{ripple.latitude}, #{ripple.longitude}", style: 'border:0', width: '100%', loading: 'lazy'}
+              .card-body
+                %p.my-4.pb-1.text-muted.card-text.text-center
+                  = ripple.address
+                .row{ style: 'color: #1484ac'}
+                  .col.text-center
+                    %i.bi.bi-calendar3{ style: 'font-size: 2em'}
+                    %p Recorded
+                    %p= ripple.created_at.strftime('%B %d, %Y')
+                  .col.text-center
+                    %i.bi.bi-droplet-fill{ style: 'font-size: 2em'}
+                    %p Ripples
+                    %p= ripple.impact
+                  .col.text-center
+                    %i.bi.bi-flag-fill{ style: 'font-size: 2em'}
+                    %p Domestic Ripples
+                    %p= ripple.domestic_impact
+                  .col.text-center
+                    %span.material-symbols-outlined.material-icons{ style: 'font-size: 2em'} public
+                    %p International Ripples
+                    %p= ripple.international_impact
