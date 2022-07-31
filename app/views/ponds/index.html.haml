@@ -1,60 +1,51 @@
--# .pond-jumbotron
--#   .container
--#     .row.custom-section.d-flex.align-items-start
--#       .col-12.col-lg-10
--#         -# %h1.fw-bol.tron-text{ style: 'font-weight: bold; font-size: 65px'} Donate. Participate through giving
--#         -# = link_to 'Give to ThePondProject', root_path, class:'btn btn-primary'
+.ripples-bg-color
+.contianer.mt-5.text-center
+  %h1{ style: 'color: #1484ac'}Ponds
+  %em.text-muted A Pond represents a single act of KindCard. Each time a KindCard is created a new Pond is recorded.
 
--# .ponds 
--#   .container#grid
--#     - @ponds.each do |pond|
--#       = link_to pond_path(pond.key) do
--#         .col-sm-4.profile
--#           .border-background
--#             .card{ style: 'border: 2px solid #E7F2F6;' } 
--#               .card__top
--#                 %span= pond.key
--#                 %span Key
--#               .card__bottom
--#                 %div
--#                   %div Impact 
--#                   %div= pond.impact
--#                 %div
--#                   %div International
--#                   %div= pond.international_impact
--#                 %div
--#                   %div Domestic
--#                   %div= pond.domestic_impact
-
-.ponds.pt-5
-  .container
-    .jumbotron
-      %h1{ style: 'color: #1484ac'}= "#{Pond.count} Ponds"
-      %h5= "#{Ripple.count} Ripples of Kindness and counting!"
-      %p{ style: 'color: #7f8285'} Each Pond represents a single KindCard. The ripples represent every act of kindness that was done as that KindCard is being passed around. Click on a Pond to get stats and history about it and its ripples.
-
-.container
+.container.my-5
   .row
-    .col-lg-12
-      .main-box.clearfix
-        .table-responsive
-          %table.table.pond-list
-            %thead
-              %tr
-                %th
-                  %span Pond Key
-                %th.text-center
-                  %span Created
-                %th.text-center
-                  %span Ripples
-                %th
-                  %span Last active 
-            %tbody
-              - @ponds.each do |pond|
-                %tr
-                  %td
-                    %p.user-link= link_to pond.key, pond_path(pond.key)
-                  %td.text-center
-                    = local_time_ago(pond.created_at)
-                  %td.text-center= pond.ripples.count 
-                  %td=pond.ripple_since
+    .col-lg-4.justify-content-center
+      .my-4
+        .row.px-3
+          %h3{ style: 'color: #edc06d'} Some Stats
+        %hr 
+        .row.px-3
+          %p
+            %strong Ponds:
+            = Pond.count
+        .row.px-3
+          %p
+            %strong The last Ripple of Kindness was:
+            = Ripple.ripple_since
+        .row.px-3
+          %p
+            %strong The last KindCard Release was:
+            = Release.last.created_at.strftime('%B %d, %Y')
+          -# Stat.recently_active_ponds(3)
+    .col-lg-8.justify-content-center
+      .flex
+      - @ponds.each do |pond|
+        = link_to pond_path(pond) do
+          .card.my-4{style: 'width: 100%;'}
+            %iframe.card-img-top{allowfullscreen: '', frameborder: '0', height: '540', src: "https://www.google.com/maps/embed/v1/place?key=#{EnvSecret.get('GOOGLE_MAPS_API_KEY')}&q=#{pond.full_location}", style: 'border:0', width: '100%', loading: 'lazy'}
+            .card-body
+              %p.my-4.pb-1.text-muted.card-text.text-center
+                = pond.full_location
+              .row{ style: 'color: #1484ac'}
+                .col.text-center
+                  %i.bi.bi-calendar3{ style: 'font-size: 2em'}
+                  %p Created
+                  %p= pond.created_at.strftime('%B %d, %Y')
+                .col.text-center
+                  %i.bi.bi-droplet-fill{ style: 'font-size: 2em'}
+                  %p Impact
+                  %p= pond.impact
+                .col.text-center
+                  %i.bi.bi-flag-fill{ style: 'font-size: 2em'}
+                  %p Domestic Impact
+                  %p= pond.domestic_impact
+                .col.text-center
+                  %span.material-symbols-outlined.material-icons{ style: 'font-size: 2em'} public
+                  %p International Impact
+                  %p= pond.international_impact
