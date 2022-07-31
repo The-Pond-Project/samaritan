@@ -2,7 +2,7 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title The page you were looking for doesn't exist (404)
+    %title Page Not Found
     %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
     :css
       .rails-default-error-page {
@@ -24,7 +24,7 @@
         border-right-color: #999;
         border-left-color: #999;
         border-bottom-color: #BBB;
-        border-top: #B00100 solid 4px;
+        border-top: #1484ac solid 4px;
         border-top-left-radius: 9px;
         border-top-right-radius: 9px;
         background-color: white;
@@ -34,7 +34,7 @@
 
       .rails-default-error-page h1 {
         font-size: 100%;
-        color: #730E15;
+        color: #1484ac;
         line-height: 1.5em;
       }
 
@@ -52,10 +52,11 @@
         color: #666;
         box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
       }
+
   %body.rails-default-error-page
     / This file lives in public/404.html
     .dialog
       %div
         %h1 The page you were looking for doesn't exist.
         %p You may have mistyped the address or the page may have moved.
-      %p If you are the application owner check the logs for more information.
+        =image_tag('404_generated.jpg', class: 'w-100')
