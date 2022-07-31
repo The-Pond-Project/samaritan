@@ -49,12 +49,12 @@ class RipplesController < ApplicationController
     ip = request.remote_ip
     result = Geocoder.search(ip).first
     @location_hash = {
-      country: result.country,
-      region: result.region,
-      city: result.city,
-      postal_code: result.postal_code,
-      longitude: result.longitude,
-      latitude: result.latitude,
+      country: result.try(:country),
+      region: result.try(:region),
+      city: result.try(:city),
+      postal_code: result.try(:postal_code),
+      longitude: result.try(:longitude),
+      latitude: result.try(:latitude),
     }
   end
 
