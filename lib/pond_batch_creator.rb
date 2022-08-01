@@ -106,18 +106,18 @@ class PondBatchCreator
 
   def create_zip_file!
     @zip_tempfile = "tmp/#{filename}.zip"
-    Zip::OutputStream.open(@zip_tempfile) { |zos| }
 
-    Zip::File.open(@zip_tempfile, Zip::File::CREATE) do |zip|
-      ponds.each do |pond|
-        filename = pond.key.to_s
-        image_file = Tempfile.new("#{filename}.png")
+    Zip::OutputStream.open(@zip_tempfile) { |zos| }
+    ponds.each do |pond|
+      Zip::File.open(@zip_tempfile, Zip::File::CREATE) do |zip|
+        pond_filename = pond.key.to_s
+        image_file = Tempfile.new("#{pond_filename}.png")
 
         File.open(image_file, 'wb', encoding: 'ASCII-8BIT') do |file|
           file.write(pond.create_qr_code)
         end
 
-        zip.add("#{filename}.png", image_file.path)
+        zip.add("#{pond_filename}.png", image_file.path)
       end
     end
   end
@@ -132,7 +132,7 @@ class PondBatchCreator
     org_name = Release.find(release_id).organization.name.downcase.chomp.gsub(' ', '_')
     date = Time.zone.now.strftime('%m%d%Y')
     time = Time.zone.now.strftime('%H%M')
-    "#{org_name}_pond_creation_#{date}_#{time}"
+    @filename ||= "#{org_name}_pond_creation_#{date}_#{time}"
   end
 
   # standard pond key hex
