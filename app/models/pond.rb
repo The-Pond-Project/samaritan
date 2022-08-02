@@ -58,9 +58,17 @@ class Pond < ApplicationRecord
   #
   # Public Instance Method
   #
+  # Returns a new ripple url for it self
+  def new_ripple_url
+    ::Routes.new_pond_ripple_url(self)
+  end
+
+  #
+  # Public Instance Method
+  #
   # Returns if a ripple is active or not
   def create_qr_code
-    qrcode = RQRCode::QRCode.new(url)
+    qrcode = RQRCode::QRCode.new(new_ripple_url)
 
     qrcode.as_png(
       bit_depth: 1,
