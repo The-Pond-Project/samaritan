@@ -153,6 +153,10 @@ Resources:
       GroupDescription: Security group for ec2 instances in ecs cluster
       VpcId: !Ref VpcId
       SecurityGroupIngress:
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
         - CidrIp: !Ref VpcCidr
           IpProtocol: tcp
           FromPort: 80

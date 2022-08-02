@@ -1,0 +1,155 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+  Environment:
+    Type: String
+  EnvironmentFullName:
+    Type: String
+
+  VpcId:
+    Type: String
+  PrivateSubnets:
+    Type: String
+  PrivateSubnetsCidr:
+    Type: String
+  ECSClusterArn:
+    Type: String
+  ECSExecutionRoleArn:
+    Type: String
+  EC2CapacityProviderName:
+    Type: String
+    Default: ''
+  ALBTargetGroupArn:
+    Type: String
+  ALBSecurityGroupId:
+    Type: String
+  PrivateDnsNamespace:
+    Type: String
+
+Conditions:
+  IsProd: !Equals [!Ref Environment, 'prod']
+  IsNotProd: !Not [Condition: IsProd]
+
+Resources:
+  RedisTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${ProjectName}-redis-${Environment}
+      ExecutionRoleArn: !Ref ECSExecutionRoleArn
+      TaskRoleArn: !Ref RedisServiceRole
+      RequiresCompatibilities:
+        - EC2
+      NetworkMode: awsvpc
+      Memory: 512
+      Cpu: 512
+      ContainerDefinitions:
+        - Name: !Sub ${ProjectName}-redis-${Environment}
+          Image: redis:latest
+          Essential: true
+          PortMappings:
+            - Protocol: tcp
+              ContainerPort: 6379
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Sub /ecs/${ProjectName}-redis-${Environment}
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: ecs
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  RedisLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${ProjectName}-redis-${Environment}
+      RetentionInDays: 30
+
+  RedisServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${ProjectName}-redis-${Environment}
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  RedisService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSClusterArn
+      DesiredCount: 1
+#      LoadBalancers:
+#        - TargetGroupArn: !Ref ALBTargetGroupArn
+#          ContainerName: !Sub ${ProjectName}-redis-${Environment}
+#          ContainerPort: 6379
+      CapacityProviderStrategy:
+        - !If
+          - IsProd
+          - CapacityProvider: !Ref EC2CapacityProviderName
+            Weight: 1
+          - !Ref AWS::NoValue
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          SecurityGroups:
+            - !GetAtt RedisSecurityGroup.GroupId
+          Subnets: !Split [ ',', !Ref PrivateSubnets ]
+      TaskDefinition: !Ref RedisTaskDefinition
+      ServiceRegistries:
+        - RegistryArn: !GetAtt RedisServiceDiscovery.Arn
+          Port: 6379
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment
+
+  RedisServiceDiscovery:
+    Type: AWS::ServiceDiscovery::Service
+    Properties:
+      NamespaceId: !Ref PrivateDnsNamespace
+      Name: !Sub redis-${Environment}
+      DnsConfig:
+        DnsRecords:
+          - Type: A
+            TTL: 60
+          - Type: SRV
+            TTL: 60
+      HealthCheckCustomConfig:
+        FailureThreshold: 1
+
+  RedisSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-redis-${Environment}
+      GroupDescription: Security group for redis
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: tcp
+          FromPort: 6379
+          ToPort: 6379
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: !Ref Environment

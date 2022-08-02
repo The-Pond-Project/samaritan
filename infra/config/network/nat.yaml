@@ -1,0 +1,13 @@
+template_path: network/nat.yaml
+
+parameters:
+  ProjectName: '{{ var.ProjectName }}'
+
+  VpcId: !stack_output network/vpc.yaml::VpcId
+  PrivateSubnetsCidr: '{{ var.PrivateSubnetsCidr }}'
+  PrivateRouteTable: !stack_output network/vpc.yaml::PrivateRouteTable
+  PublicSubnets: !stack_output network/vpc.yaml::PublicSubnets
+  SecretArn: !stack_output common/secret.yaml::SecretArn
+
+stack_tags:
+  project-name: '{{ var.ProjectName }}'

@@ -17,6 +17,17 @@ Resources:
         - Key: project-name
           Value: !Ref ProjectName
 
+  PrivateDnsNamespace:
+    Type: AWS::ServiceDiscovery::PrivateDnsNamespace
+    Properties:
+      Name: !Sub ${ProjectName}.local
+      Vpc: !Ref VpcId
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
 Outputs:
   DNSHostedZoneId:
     Value: !Ref HostedZone
+  PrivateDnsNamespace:
+    Value: !Ref PrivateDnsNamespace

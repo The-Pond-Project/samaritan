@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ProjectName:
+    Type: String
+
+  VpcId:
+    Type: String
+  PrivateSubnetsCidr:
+    Type: String
+  PrivateRouteTable:
+    Type: String
+  PublicSubnets:
+    Type: String
+  SecretArn:
+    Type: String
+
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  NATInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t3.micro
+      IamInstanceProfile: !Ref NatInstanceProfile
+      SecurityGroupIds:
+        - !GetAtt NATSecurityGroup.GroupId
+      SourceDestCheck: false
+      SubnetId: !Select [ 0, !Split [ ',', !Ref PublicSubnets ] ]
+      UserData:
+        Fn::Base64:
+          !Sub |
+          #!/bin/bash
+          sysctl -w net.ipv4.ip_forward=1
+          iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+      Tags:
+        - Key: Name
+          Value: !Sub ${ProjectName}-nat
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  NATSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-nat
+      GroupDescription: Security group for nat ec2 instance
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref PrivateSubnetsCidr
+          IpProtocol: -1
+      Tags:
+        - Key: project-name
+          Value: !Ref ProjectName
+
+  NatInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref NatRole
+
+  NatRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+
+  InternetRouteForPrivateNetwork:
+    Type: AWS::EC2::Route
+    DependsOn: NATInstance
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      InstanceId: !Ref NATInstance

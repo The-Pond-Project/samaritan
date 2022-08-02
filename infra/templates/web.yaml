@@ -34,6 +34,8 @@ Parameters:
   CDNUri:
     Type: String
     Default: ''
+  PrivateDnsNamespace:
+    Type: String
 
 Conditions:
   IsProd: !Equals [!Ref Environment, 'prod']
@@ -49,8 +51,8 @@ Resources:
       RequiresCompatibilities:
         - EC2
       NetworkMode: awsvpc
-      Memory: !If [IsProd, 1536, 1024]
-      Cpu: !If [IsProd, 2048, 1024]
+      Memory: 1024
+      Cpu: 1024
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}
           Image: !Sub '${ECRRepoUrl}:samaritan-latest'
@@ -73,6 +75,8 @@ Resources:
               Value: !Ref CDNUri
             - Name: RAILS_SERVE_STATIC_FILES
               Value: true
+            - Name: REDIS_URL
+              Value: !Sub 'http://redis-${Environment}.${PrivateDnsNamespace}'
           Secrets:
             - Name: SECRET_KEY_BASE
               ValueFrom: !Sub '${SecretArn}:secretKey::'
