@@ -51,8 +51,8 @@ Resources:
       RequiresCompatibilities:
         - EC2
       NetworkMode: awsvpc
-      Memory: 1024
-      Cpu: 1024
+      Memory: !If [IsProd, 1024, 512]
+      Cpu: !If [IsProd, 1024, 512]
       ContainerDefinitions:
         - Name: !Sub ${ProjectName}-web-${Environment}
           Image: !Sub '${ECRRepoUrl}:samaritan-latest'
