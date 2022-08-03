@@ -91,7 +91,7 @@ class PondBatchCreator
       csv << attributes
       ponds.each do |pond|
         csv << [pond.organization.name, pond.key, pond.uuid, pond.new_ripple_url,
-                  pond.full_location, pond.created_at]
+                pond.full_location, pond.created_at]
       end
     end
   end
