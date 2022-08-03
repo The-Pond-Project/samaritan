@@ -75,8 +75,8 @@ Resources:
               Value: !Ref CDNUri
             - Name: RAILS_SERVE_STATIC_FILES
               Value: true
-            - Name: REDIS_URL
-              Value: !Sub 'http://redis-${Environment}.${PrivateDnsNamespace}'
+            - Name: REDIS_HOST
+              Value: !Sub 'redis-${Environment}.${PrivateDnsNamespace}'
           Secrets:
             - Name: SECRET_KEY_BASE
               ValueFrom: !Sub '${SecretArn}:secretKey::'
