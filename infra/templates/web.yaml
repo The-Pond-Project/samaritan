@@ -156,10 +156,7 @@ Resources:
       Cluster: !Ref ECSClusterArn
       DesiredCount: !If [IsProd, 2, 1]
       DeploymentConfiguration:
-        - !If
-          - IsNotProd
-          - MinimumHealthyPercent: 0
-          - !Ref AWS::NoValue
+        MinimumHealthyPercent: !If [IsProd, 100, 0]
       LoadBalancers:
         - TargetGroupArn: !Ref ALBTargetGroupArn
           ContainerName: !Sub ${ProjectName}-web-${Environment}
