@@ -156,7 +156,7 @@ Resources:
       Cluster: !Ref ECSClusterArn
       DesiredCount: !If [IsProd, 2, 1]
       DeploymentConfiguration:
-        MinimumHealthyPercent: !If [IsProd, 100, 0]
+        MinimumHealthyPercent: !If [IsProd, 50, 0]
       LoadBalancers:
         - TargetGroupArn: !Ref ALBTargetGroupArn
           ContainerName: !Sub ${ProjectName}-web-${Environment}
