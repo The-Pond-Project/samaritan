@@ -90,8 +90,8 @@ class PondBatchCreator
     @csv_file ||= CSV.open(@csv_tempfile, 'w') do |csv|
       csv << attributes
       ponds.each do |pond|
-        csv << [pond.organization.name, pond.key, pond.uuid, pond.url, pond.full_location,
-                pond.created_at]
+        csv << [pond.organization.name, pond.key, pond.uuid, pond.new_ripple_url,
+                pond.full_location, pond.created_at]
       end
     end
   end

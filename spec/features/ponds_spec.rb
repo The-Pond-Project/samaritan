@@ -20,7 +20,7 @@ RSpec.describe 'Pond features' do
 
     describe 'view' do
       it 'displays content' do
-        expect(page).to have_content('noting to see here....')
+        expect(page).to have_content('nothing to see here....')
         expect(page).to have_content('No ponds have been created yet but, when they are they will show up here.')
       end
     end
