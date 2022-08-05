@@ -23,7 +23,9 @@ class RipplesController < ApplicationController
     @ripple = Ripple.new(ripple_params.merge(create_hash))
 
     if @ripple.save
-      create_message_subscription if message_subscription_params.present?
+      if message_subscription_params.present? && Flipper.enabled?(:text_subscriptions)
+        create_message_subscription
+      end
       redirect_to pond_ripple_url(@ripple.pond_key, @ripple.uuid),
                   notice: 'Ripple was successfully recorded.'
     else

@@ -9,7 +9,10 @@ RSpec.describe 'Text Subscription Integration Tests' do
 
   describe 'ripple text subscription' do
     context 'with valid data' do
-      before { subscription }
+      before do
+        subscription
+        Flipper.enable(:text_subscriptions)
+      end
 
       it 'calls publisher' do
         expect(Publishers::RippleCreated).to receive(:call).with(ripple)
