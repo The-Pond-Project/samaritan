@@ -22,6 +22,7 @@ class Pond < ApplicationRecord
   # Model Callbacks
   after_initialize :initialize_uuid, :initialize_key
   before_create :convert_country_code
+  before_save :uppercase_key
 
   # Validations
   validates :uuid, :key, presence: true, uniqueness: true
@@ -155,5 +156,9 @@ class Pond < ApplicationRecord
     errors.add(:key, 'must be a string') unless key.is_a?(String)
     errors.add(:key, 'must start with P-') unless key.first(2) == 'P-'
     errors.add(:key, 'must be 8 charcters long') unless key.size == 8
+  end
+
+  def uppercase_key
+    self.key = key.upcase
   end
 end
