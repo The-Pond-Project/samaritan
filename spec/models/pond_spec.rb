@@ -143,4 +143,14 @@ RSpec.describe Pond, type: :model do
       expect(pond.ripple_since).to eq '3 weeks ago'
     end
   end
+
+  describe '#uppercase_key' do
+    let(:pond) { build(:pond, key: 'P-abc123', country: 'US', release: release) }
+
+    it 'capatilizes key string' do
+      pond.save
+
+      expect(pond.key).to eq 'P-ABC123'
+    end
+  end
 end
