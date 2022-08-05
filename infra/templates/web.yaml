@@ -81,6 +81,8 @@ Resources:
               Value: 0
             - Name: REDIS_HOST
               Value: !Sub 'redis-${Environment}.${PrivateDnsNamespace}'
+            - Name: REDIS_URL
+              Value: !Sub 'redis://redis-${Environment}.${PrivateDnsNamespace}:6379/0'
           Secrets:
             - Name: SECRET_KEY_BASE
               ValueFrom: !Sub '${SecretArn}:secretKey::'
