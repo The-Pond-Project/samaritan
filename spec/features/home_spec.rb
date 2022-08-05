@@ -12,6 +12,7 @@ RSpec.describe 'Home features' do
 
   before do
     Flipper.enable(:pond_project_donations)
+    Flipper.enable(:accepting_partners)
     ripples
     visit('/')
   end

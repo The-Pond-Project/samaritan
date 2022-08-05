@@ -6,6 +6,7 @@ RSpec.describe 'Thank You9 features' do
   # rubocop:disable Layout/LineLength
 
   before do
+    Flipper.enable(:accepting_partners
     visit('/thank-you')
   end
 

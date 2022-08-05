@@ -10,8 +10,9 @@
         = link_to 'Ponds', ponds_path, class: 'nav-link'
       %li.nav-item.px-lg-2
         = link_to 'Ripples', ripples_path, class: 'nav-link'
-      %li.nav-item.px-lg-2
-        = link_to 'Partners', organizations_path, class: 'nav-link'
+      - if Flipper.enabled?(:accepting_partners)
+        %li.nav-item.px-lg-2
+          = link_to 'Partners', organizations_path, class: 'nav-link'
       %li.nav-item.px-lg-2
         = link_to 'Gracehaven', partner_path, class: 'nav-link'
       - if Flipper.enabled?(:pond_project_donations)
