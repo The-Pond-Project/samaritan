@@ -233,6 +233,8 @@ RSpec.describe Ripple, type: :model do
     let(:ripple) { build(:ripple, pond: pond) }
 
     it 'calls publisher' do
+      Flipper.enable(:text_subscriptions)
+
       expect(Publishers::RippleCreated).to receive(:call).with(ripple)
       ripple.save
     end

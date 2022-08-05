@@ -13,7 +13,9 @@ RSpec.describe Publishers::RippleCreated do
   describe '#call' do
     context 'when the ripple has ancestors' do
       it 'broadcast the alert_subscriber' do
+        Flipper.enable(:text_subscriptions)
         allow(MessageSubscription).to receive(:for) { [subscription] }
+
         expect { ripple }.to broadcast(:alert_subscriber, subscription)
       end
     end
