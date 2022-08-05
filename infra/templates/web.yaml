@@ -81,8 +81,6 @@ Resources:
               Value: 0
             - Name: REDIS_HOST
               Value: !Sub 'redis-${Environment}.${PrivateDnsNamespace}'
-            - Name: REDIS_URL
-              Value: !Sub 'redis://redis-${Environment}.${PrivateDnsNamespace}:6379/0'
           Secrets:
             - Name: SECRET_KEY_BASE
               ValueFrom: !Sub '${SecretArn}:secretKey::'
@@ -110,6 +108,8 @@ Resources:
               ValueFrom: !Sub '${SecretArn}:internalApiKey::'
             - Name: SAMARITAN_CLIENT_TOKEN
               ValueFrom: !Sub '${SecretArn}:samaritanClientToken::'
+            - Name: REDIS_URL
+              ValueFrom: !Sub '${SecretArn}:redisUrl::'
           LogConfiguration:
             LogDriver: awslogs
             Options:
