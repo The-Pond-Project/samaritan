@@ -2,9 +2,14 @@
 
 # The Pond Project
 
-  The Pond Project is simply kindness passed on. Samaritan is the name of the backend application that runs [thepondproject.org](https://thepondproject.org ).
-  Samaritan is maintained by Kindnesspassedon.
+  The Pond Project is simply kindness passed on. Samaritan is the name of the application that runs [thepondproject.org](https://thepondproject.org ).
   
+  The Pond Project is an open source project that is focused on making a difference in the community through selfless acts of kindness.
+
+  Our mission is to show the impact of "Kindness Passed On". The impact that an act of kindness can have on you (the giver), on the recipient, and the unfathomable effect it has on the world around us. The Pond Project is not a Non-Profit rather we partner with a Non-Profit every year; 100% of KindCard proceeds for that year go to the organization. So every time you pass on a kindcard you are not only impacting the recipient you are also blessing a non-profit and their mission.
+
+
+  Anyone and everyone can participate in this project. Businesses can partner with us by buying KindCards and distributing them to their employees, Non-profits can participate by coming alongside of us and promoting love in kindness in our communities, developers can participate by contributing their time and ideas to build the platform, individuals can participate by doing a selfless act and then passing on their KindCard. If you don't have a KindCard you can participate by practicing empathy, kindness, selfless, and generosity.
 
 ## How it works
 
@@ -28,9 +33,25 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## Outstanding Tasks
+
+If you are looking for a feature to add here are some ideas that could greatly help the application (if you have questions or want more details, please email kindnesspassedon@gmail.com):
+
+1. Add Hotwire and Stimulus JS
+2. Make the name of the current page reflect on the browser tab
+3. Create Stats class to house all of the logic for impact stats
+4. Make csv and zip creation a async background process
+5. add pagination to all index views 
+6. style manage views
+7. create dev environment in docker
+
+If you are looking for bug and tech debt (if you have questions or want more details, please email kindnesspassedon@gmail.com):
+
+1. Add spec coverage
+2. Add spec for features and views
+3. fix all n+1 queries (yess..sadly I think I left a couple in)
+4. make zip file automatically delete from local storage after saved in database
+
 ## Contact
 
   kindnesspassedon@gmail.com
-
-## License
-The Pond Project is available as open source software under the terms of the [MIT License](https://opensource.org/licenses/MIT).
