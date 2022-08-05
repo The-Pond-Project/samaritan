@@ -143,6 +143,7 @@ class Ripple < ApplicationRecord
 
   def notify_text_subscribers
     return if Rails.env.eql?('staging') && !Flipper.enabled?(:staging_text_subscriptions)
+    return unless Flipper.enabled?(:text_subscriptions)
 
     Publishers::RippleCreated.call(self)
   end
