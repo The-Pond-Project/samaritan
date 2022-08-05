@@ -6,6 +6,8 @@ module Manage
     before_action :set_organization, only: %i[show edit update destroy]
 
     def index
+      redirect_to root unless Flipper.enabled?(:accepting_partners)
+
       @organizations = Organization.all.includes(:image_attachment)
     end
 

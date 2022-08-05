@@ -10,7 +10,10 @@ RSpec.describe 'Pond features' do
   let(:ponds) { create_list(:pond, 5, release: release) }
   let(:ripples) { create_list(:ripple, 5, pond: ponds.first, tags: tags) }
 
-  before { visit('/ponds') }
+  before do
+    Flipper.enable(:accepting_partners)
+    visit('/ponds')
+  end
 
   include_examples 'navbar'
   include_examples 'footer'
