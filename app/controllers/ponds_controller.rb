@@ -14,6 +14,6 @@ class PondsController < ApplicationController
   private
 
   def set_pond
-    @pond = Pond.friendly.find_by!(key: params[:key])
+    @pond = Pond.friendly.find_by!(key: params[:key].upcase)
   end
 end
