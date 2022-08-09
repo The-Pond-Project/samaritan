@@ -6,8 +6,9 @@
         %ul.nav.flex-column
           %li.nav-item
             %span.footer-title Impact
-          %li.nav-item
-            = link_to 'Organizations', organizations_path, class: 'nav-link'
+          - if Flipper.enabled?(:accepting_partners)
+            %li.nav-item
+              = link_to 'Organizations', organizations_path, class: 'nav-link'
           %li.nav-item
             = link_to 'Tags', tags_path, class: 'nav-link'
           %li.nav-item
