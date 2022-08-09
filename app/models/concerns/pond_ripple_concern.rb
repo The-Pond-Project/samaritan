@@ -3,7 +3,7 @@
 module PondRippleConcern
   extend ActiveSupport::Concern
 
-  DOMESTIC = ['United States of America', 'US']
+  DOMESTIC = ['United States of America', 'US', 'United States']
 
   included do
     scope :domestic, -> { where({ country: DOMESTIC }) }
