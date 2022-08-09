@@ -28,7 +28,11 @@ module Manage
 
     def update
       if @order.update(order_params)
-        redirect_to manage_order_path(@order), notice: 'Order was successfully updated.'
+        if only_shipped_updated?
+          redirect_to manage_orders_path, notice: 'Order shipped status was successfully updated.'
+        else
+          redirect_to manage_order_path(@order), notice: 'Order was successfully updated.'
+        end
       else
         render :edit, status: :unprocessable_entity
       end
@@ -36,7 +40,7 @@ module Manage
 
     def destroy
       @order.destroy
-      redirect_to orders_url, notice: 'Order was successfully destroyed.'
+      redirect_to manage_orders_url, notice: 'Order was successfully destroyed.'
     end
 
     private
@@ -47,7 +51,12 @@ module Manage
 
     def order_params
       params.require(:order).permit(:amount, :email, :address1, :address2, :postal_code, :region,
-                                    :country, :phone, :uuid, :first_name, :city, :last_name)
+                                    :country, :phone, :uuid, :first_name, :city, :last_name,
+                                    :shipped)
+    end
+
+    def only_shipped_updated?
+      order_params.key?(:shipped) && order_params.keys.count == 1
     end
   end
 end
