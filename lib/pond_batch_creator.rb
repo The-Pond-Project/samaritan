@@ -84,17 +84,30 @@ class PondBatchCreator
     )
   end
 
-  def create_csv_file!
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def create_csv_file!(group: true)
     @csv_tempfile ||= Tempfile.new("#{filename}.csv")
     attributes = %w[Organization Key UUID URL Location Created]
     @csv_file ||= CSV.open(@csv_tempfile, 'w') do |csv|
       csv << attributes
-      ponds.each do |pond|
-        csv << [pond.organization.name, pond.key, pond.uuid, pond.new_ripple_url,
-                pond.full_location, pond.created_at]
+      case group
+      when true
+        ponds.each_slice(10) do |pond_group|
+          pond_group.each_with_index do |pond, index|
+            csv << [pond.organization.name, pond.key, pond.uuid, pond.new_ripple_url,
+                    pond.full_location, pond.created_at]
+            csv << ['', '', '', '', '', ''] if index.eql?(9)
+          end
+        end
+      when false
+        ponds.each do |pond|
+          csv << [pond.organization.name, pond.key, pond.uuid, pond.new_ripple_url,
+                  pond.full_location, pond.created_at]
+        end
       end
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def attach_zip_file
     @batch_record.zip_file.attach(
