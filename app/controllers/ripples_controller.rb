@@ -49,14 +49,15 @@ class RipplesController < ApplicationController
 
   def set_location
     ip = request.remote_ip
-    result = Geocoder.search(ip).first
+    response = Client::Geolocation.get_location(ip)
     @location_hash = {
-      country: result.try(:country),
-      region: result.try(:region),
-      city: result.try(:city),
-      postal_code: result.try(:postal_code),
-      longitude: result.try(:longitude),
-      latitude: result.try(:latitude),
+      country: response['country'],
+      region: response['region'],
+      city: response['city'],
+      postal_code: response['postal_code'],
+      longitude: response['longitude'],
+      latitude: response['latitude'],
+      vpn: response.dig('security', 'is_vpn'),
     }
   end
 
@@ -70,7 +71,8 @@ class RipplesController < ApplicationController
                   :latitude,
                   :longitude,
                   :user_id,
-                  :pond_id)
+                  :pond_id,
+                  :vpn)
   end
 
   def message_subscription_params

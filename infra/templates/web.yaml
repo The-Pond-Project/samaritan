@@ -110,6 +110,8 @@ Resources:
               ValueFrom: !Sub '${SecretArn}:samaritanClientToken::'
             - Name: REDIS_URL
               ValueFrom: !Sub '${SecretArn}:redisUrl::'
+            - Name: GEOLOCATION_API_KEY
+              ValueFrom: !Sub '${SecretArn}:geolocationApiKey::'
           LogConfiguration:
             LogDriver: awslogs
             Options:

@@ -11,7 +11,10 @@
         %h3 About This Ripple
         %hr{:align => "left", :width => "50%"}/
         - unless @ripple.city.blank? || @ripple.region.blank? || @ripple.country.blank? 
-          %h4.pt-2{ style: 'color: #1484ac' } Location
+          %h4.pt-2{ style: 'color: #1484ac' } 
+            Location
+          - if @ripple.vpn
+            %i.bi.bi-x-octagon{ style: 'color: red' } This Ripple was recorded with a VPN. The location may be inaccurate.
           %p= @ripple.full_location
         %br/
         %h4.pt-2{ style: 'color: #1484ac' } Impact
