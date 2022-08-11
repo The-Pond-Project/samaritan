@@ -79,10 +79,10 @@ Resources:
               Value: 6379
             - Name: REDIS_DB
               Value: 0
-            # - Name: REDIS_HOST
-            #   Value: !Sub 'redis-${Environment}.${PrivateDnsNamespace}'
+            - Name: REDIS_HOST
+              Value: !Sub 'redis-${Environment}.${PrivateDnsNamespace}'
             - Name: REDIS_URL
-              Value: !Sub 'redis://redis-${Environment}.${ProjectName}.internal:6379/0'
+              Value: !Sub 'redis://redis-${Environment}.${ProjectName}.local:6379/0'
           Secrets:
             - Name: SECRET_KEY_BASE
               ValueFrom: !Sub '${SecretArn}:secretKey::'
@@ -110,8 +110,6 @@ Resources:
               ValueFrom: !Sub '${SecretArn}:internalApiKey::'
             - Name: SAMARITAN_CLIENT_TOKEN
               ValueFrom: !Sub '${SecretArn}:samaritanClientToken::'
-            # - Name: REDIS_URL
-            #   ValueFrom: !Sub '${SecretArn}:redisUrl::'
             - Name: GEOLOCATION_API_KEY
               ValueFrom: !Sub '${SecretArn}:geolocationApiKey::'
           LogConfiguration:
