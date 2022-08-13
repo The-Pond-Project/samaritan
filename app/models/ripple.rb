@@ -23,7 +23,7 @@ class Ripple < ApplicationRecord
   after_initialize :initialize_uuid
   before_create :convert_country_code
   before_validation :set_location_unknown
-  after_validation :geocode
+  after_validation :geocode, unless: :precise_location
   after_create :notify_text_subscribers
 
   # Validations

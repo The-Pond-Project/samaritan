@@ -8,6 +8,8 @@
 
   .field
     = f.hidden_field :pond_id, value: @pond.id
+    = f.hidden_field :latitude, id: 'ripple_latitude', value: ''
+    = f.hidden_field :longitude, id: 'ripple_longitude', value: ''
 
   %h5.mb-1 
     Select up to
@@ -39,7 +41,7 @@
 
     .row.m-3 
       .actions  
-        = f.submit 'Record', class: 'btn btn-outline-primary p-1'
+        = f.submit 'Record Ripple', class: 'btn btn-outline-primary p-1', id: 'ripple-record-button'
 
 
   %hr

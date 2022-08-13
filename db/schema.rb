@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_09_063712) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_13_081125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -170,7 +170,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_09_063712) do
     t.float "latitude"
     t.float "longitude"
     t.string "slug"
-    t.boolean "vpn", default: false
+    t.boolean "vpn"
+    t.boolean "precise_location", default: false
+    t.string "county"
     t.index ["deleted_at"], name: "index_ripples_on_deleted_at"
     t.index ["pond_id"], name: "index_ripples_on_pond_id"
     t.index ["slug"], name: "index_ripples_on_slug", unique: true
