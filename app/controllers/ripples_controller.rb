@@ -48,7 +48,7 @@ class RipplesController < ApplicationController
   end
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable MMetrics/AbcSize
+  # rubocop:disable Metrics/AbcSize
   def set_location
     ip = request.remote_ip
     @location_response ||= Client::Geolocation.get_location_from_ip_address(ip)
