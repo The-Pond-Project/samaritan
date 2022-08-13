@@ -42,6 +42,7 @@ module PondRippleConcern
     self.country ||= 'Unknown'
     self.region ||= 'Unknown'
     self.city ||= 'Unknown'
+    self.postal_code ||= 'Unknown'
     self.county ||= 'Unknown'
   end
 
