@@ -2,9 +2,6 @@
 
 module Google
   class ReverseAddress
-    REVERSE_ADDRESS_BASE_URI = 'https://maps.googleapis.com/maps/api/geocode/json?'
-    include HTTParty
-
     attr_reader :latitude, :longitude, :response
 
     def initialize(latitude:, longitude:)
@@ -56,12 +53,8 @@ module Google
 
     private
 
-    # rubocop:disable Layout/LineLength
     def call
-      HTTParty.get(
-        "#{REVERSE_ADDRESS_BASE_URI}latlng=#{latitude}, #{longitude}&result_type=postal_code|country|administrative_area_level_1|administrative_area_level_2|sublocality&key=#{EnvSecret.get('GOOGLE_MAPS_SERVER_API_KEY')}", timeout: 15
-      )
+      Client::Google.reverse_address(latitude: latitude, longitude: longitude)
     end
-    # rubocop:enable Layout/LineLength
   end
 end
