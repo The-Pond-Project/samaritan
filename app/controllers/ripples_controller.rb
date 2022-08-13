@@ -47,18 +47,45 @@ class RipplesController < ApplicationController
     @pond = Pond.find_by!(key: params[:pond_key])
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable MMetrics/AbcSize
   def set_location
     ip = request.remote_ip
-    response = Client::Geolocation.get_location(ip)
-    @location_hash = {
-      country: response['country'],
-      region: response['region'],
-      city: response['city'],
-      postal_code: response['postal_code'],
-      longitude: response['longitude'],
-      latitude: response['latitude'],
-      vpn: response.dig('security', 'is_vpn'),
-    }
+    @location_response ||= Client::Geolocation.get_location_from_ip_address(ip)
+    if precise_location
+      latitude = params.dig('ripple', 'latitude')
+      longitude = params.dig('ripple', 'longitude')
+      address = Google::ReverseAddress.new(latitude: latitude, longitude: longitude)
+      @location_hash = {
+        country: address.try(:country),
+        region: address.try(:region),
+        city: address.try(:city),
+        postal_code: address.try(:postal_code),
+        longitude: address.try(:longitude),
+        latitude: address.try(:latitude),
+        vpn: @location_response.dig('security', 'is_vpn'),
+        county: address.try(:county),
+        precise_location: precise_location,
+      }
+    else
+      @location_hash = {
+        country: @location_response['country'],
+        region: @location_response['region'],
+        city: @location_response['city'],
+        postal_code: @location_response['postal_code'],
+        longitude: @location_response['longitude'],
+        latitude: @location_response['latitude'],
+        vpn: @location_response.dig('security', 'is_vpn'),
+        county: @location_response.try(:county),
+        precise_location: precise_location,
+      }
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable MMetrics/AbcSize
+
+  def precise_location
+    params.dig('ripple', 'latitude').present? && params.dig('ripple', 'longitude').present?
   end
 
   def ripple_params
