@@ -2,6 +2,7 @@
 
 module ApplicationHelper
   include LocalTimeHelper
+  include Pagy::Frontend
 
   # rubocop:disable Rails/OutputSafety
   def show_svg(path)

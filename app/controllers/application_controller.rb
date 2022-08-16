@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::Base
   class UnauthorizedUser < StandardError; end
+  include Pagy::Backend
+
   rescue_from UnauthorizedUser, with: :unauthorized_user
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 

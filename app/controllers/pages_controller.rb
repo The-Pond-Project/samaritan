@@ -24,6 +24,6 @@ class PagesController < ApplicationController
   end
 
   def ripples
-    @ripples = Ripple.all.order(created_at: :desc).includes([:pond])
+    @pagy, @ripples = pagy(Ripple.all.order(created_at: :desc).includes([:pond]))
   end
 end

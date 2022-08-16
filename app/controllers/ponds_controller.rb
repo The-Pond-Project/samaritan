@@ -4,7 +4,7 @@ class PondsController < ApplicationController
   before_action :set_pond, only: :show
 
   def index
-    @ponds = Pond.all
+    @pagy, @ponds = pagy(Pond.all.order(created_at: :desc))
   end
 
   def show

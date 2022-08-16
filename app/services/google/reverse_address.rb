@@ -4,13 +4,13 @@ module Google
   class ReverseAddress
     attr_reader :latitude, :longitude, :response
 
-    ADDRESS_ATTRIBURES = %w(
+    ADDRESS_ATTRIBURES = %w[
       locality
       country
       postal_code
       administrative_area_level_2
       administrative_area_level_1
-    )
+    ]
 
     def initialize(latitude:, longitude:)
       @latitude = latitude
@@ -19,7 +19,7 @@ module Google
     end
 
     ADDRESS_ATTRIBURES.each do |attr|
-      define_method(attr.to_sym) do 
+      define_method(attr.to_sym) do
         return nil unless response
 
         value = response['address_components'].select do |x|
@@ -29,9 +29,9 @@ module Google
       end
     end
 
-    alias_method :county, :administrative_area_level_2
-    alias_method :region, :administrative_area_level_1
-    alias_method :city, :locality
+    alias county administrative_area_level_2
+    alias region administrative_area_level_1
+    alias city locality
 
     private
 
