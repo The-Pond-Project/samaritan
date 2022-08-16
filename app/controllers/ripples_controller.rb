@@ -81,9 +81,9 @@ class RipplesController < ApplicationController
       }
     end
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable MMetrics/AbcSize
 
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
   def precise_location
     params.dig('ripple', 'latitude').present? && params.dig('ripple', 'longitude').present?
   end

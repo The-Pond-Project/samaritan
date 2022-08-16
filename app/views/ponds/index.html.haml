@@ -1,5 +1,5 @@
 .ripples-bg-color
-- if @ponds.count.zero?
+- if @ponds&.count&.zero?
   .container.w-50.mt-5.py-5
     .container.text-center
       %h1{ style: 'color: #78b14f'} nothing to see here....
@@ -60,3 +60,7 @@
                     %span.material-symbols-outlined.material-icons{ style: 'font-size: 2em'} public
                     %p International Impact
                     %p= pond.international_impact
+    .container
+      .row.justify-content-center
+        .col-sm-1.text-center
+          = raw pagy_bootstrap_nav(@pagy)
