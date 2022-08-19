@@ -7,6 +7,7 @@ Rails.application.configure do
   config.hosts << 'staging.thepondproject.org'
   config.hosts << /.*thepondproject\.org/
   config.hosts << IPAddr.new("10.0.0.0/16")
+  config.hosts << 'localhost'
 
   # Code is not reloaded between requests.
   config.cache_classes = true

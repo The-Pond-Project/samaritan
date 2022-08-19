@@ -93,10 +93,6 @@ Resources:
     Properties:
       Cluster: !Ref ECSClusterArn
       DesiredCount: 1
-#      LoadBalancers:
-#        - TargetGroupArn: !Ref ALBTargetGroupArn
-#          ContainerName: !Sub ${ProjectName}-redis-${Environment}
-#          ContainerPort: 6379
       CapacityProviderStrategy:
         - !If
           - IsProd

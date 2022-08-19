@@ -4,8 +4,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN apt-get update -qq && apt-get install -y postgresql-client nodejs yarn
-RUN apt-get install vim nano -y
+RUN apt-get update -qq && apt-get install -y postgresql-client nodejs yarn vim nano
 
 WORKDIR /app
 COPY Gemfile /app/Gemfile
@@ -26,8 +25,7 @@ RUN bundle exec rails assets:precompile
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 
-ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 80
 EXPOSE 443
 
-CMD ["rails", "server", "-b", "0.0.0.0"]
+ENTRYPOINT ["entrypoint.sh"]
