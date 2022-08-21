@@ -11,11 +11,11 @@ module Subscribers
         end
       end
 
+      # rubocop:disable Layout/LineLength
       def message(ripple)
-        "A ripple was added to the pond! The Ripple effect you started continues.
-        Checkout the impact of your ripple here: \n\n
-        #{Routes.pond_ripple_url(ripple.pond, ripple.uuid)}"
+        "A ripple was added to the pond! The Ripple effect you started continues. Checkout the impact of your ripple here: \n\n#{Routes.pond_ripple_url(ripple.pond, ripple.uuid)}"
       end
+      # rubocop:enable Layout/LineLength
     end
   end
 end
