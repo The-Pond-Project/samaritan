@@ -46,5 +46,8 @@ module ThePondProject
 
     # Sidekiq
     config.active_job.queue_adapter = :sidekiq
+
+    # Atttempt to fix Psych::DisallowedClass: Tried to load unspecified class:
+    config.active_record.use_yaml_unsafe_load = true
   end
 end
