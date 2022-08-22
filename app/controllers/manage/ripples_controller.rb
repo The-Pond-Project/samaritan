@@ -75,7 +75,7 @@ module Manage
                     :pond_id,
                     :vpn,
                     :precise_location,
-                    :county
+                    :county,
                     tags: [])
     end
 
