@@ -36,8 +36,8 @@ class Order < ApplicationRecord
 
   # Scopes
   scope :recent, -> { where(['created_at <= ?', Time.current - 7.days]) }
-  scope :needs_shipped, -> { where(['shipped < ?', false]) }
-  scope :shipped, -> { where(['shipped < ?', true]) }
+  scope :needs_shipped, -> { where(['shipped = ?', false]) }
+  scope :shipped, -> { where(['shipped = ?', true]) }
 
   # Gem Configurations
   has_paper_trail
