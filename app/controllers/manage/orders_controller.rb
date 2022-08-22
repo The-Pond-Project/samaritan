@@ -5,7 +5,8 @@ module Manage
     before_action :set_order, only: %i[show edit update destroy]
 
     def index
-      @orders = Order.all
+      @unshipped_orders = Order.needs_shipped
+      @shipped_orders = Order.shipped
     end
 
     def show; end
