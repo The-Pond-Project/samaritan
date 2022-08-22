@@ -29,9 +29,11 @@ module Google
       end
     end
 
+    # rubocop:disable Naming/VariableNumber
     alias county administrative_area_level_2
     alias region administrative_area_level_1
     alias city locality
+    # rubocop:enable Naming/VariableNumber
 
     private
 
