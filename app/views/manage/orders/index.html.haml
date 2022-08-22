@@ -5,6 +5,8 @@
       = link_to new_manage_order_path do
         %i.bi.bi-pencil-square
     .row.col-md-6.col-md-offset-2.custyle
+    -# Unshipped Orders
+    %h3.mb-1 Unshipped Orders
     %table.table.table-striped.custab
       %tr
         %th Name
@@ -13,13 +15,13 @@
         %th Amount
         %th Address
         %th Uuid
-        %th Shipped
+        %th Status
         %th Action
         %th
         %th
         %th
       %tbody
-        - @orders.each do |order|
+        - @unshipped_orders.each do |order|
           %tr
             %td= order.fullname
             %td= order.email
@@ -27,7 +29,36 @@
             %td= order.amount
             %td= order.full_address
             %td= order.uuid
-            %td= order.shipped
+            %td= order.shipped ? 'Shipped' : 'Not Shipped'
+            %td= link_to 'Shipped Status', manage_order_path(order, { order: order.attributes.slice(:shipped).merge('shipped'=> !order.shipped) }), method: :patch, data: { confirm: 'Are you sure you?' }
+            %td= link_to 'Show', manage_order_path(order)
+            %td= link_to 'Edit', edit_manage_order_path(order)
+            %td= link_to 'Destroy', manage_order_path(order), method: :delete, data: { confirm: 'Are you sure?' }
+    -# Shipped orders
+    %h3.mb-1 Shipped Orders
+    %table.table.table-striped.custab
+      %tr
+        %th Name
+        %th Email
+        %th Phone
+        %th Amount
+        %th Address
+        %th Uuid
+        %th Status
+        %th Action
+        %th
+        %th
+        %th
+      %tbody
+        - @shipped_orders.each do |order|
+          %tr
+            %td= order.fullname
+            %td= order.email
+            %td= order.phone
+            %td= order.amount
+            %td= order.full_address
+            %td= order.uuid
+            %td= order.shipped ? 'Shipped' : 'Not Shipped'
             %td= link_to 'Shipped Status', manage_order_path(order, { order: order.attributes.slice(:shipped).merge('shipped'=> !order.shipped) }), method: :patch, data: { confirm: 'Are you sure you?' }
             %td= link_to 'Show', manage_order_path(order)
             %td= link_to 'Edit', edit_manage_order_path(order)
