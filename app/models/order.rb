@@ -26,7 +26,7 @@ class Order < ApplicationRecord
   # Validations
   validates :amount, :address1, :postal_code, :region, :city, :country, presence: true
   validates :shipped, inclusion: { in: [true, false] }
-  validates :uuid, presence: true, uniqueness: true
+  validates :uuid, presence: true, uniqueness: true # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :uuid, length: { is: 36 }
   validate  :validate_uuid
 
