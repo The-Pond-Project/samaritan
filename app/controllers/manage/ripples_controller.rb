@@ -5,7 +5,6 @@ module Manage
     before_action :admin_logged_in?
     before_action :set_ripple, only: %i[show edit update destroy]
     before_action :set_pond
-    before_action :set_location, only: %i[create]
     before_action :set_tags, only: %i[create new edit]
 
     def index
@@ -23,9 +22,8 @@ module Manage
     end
 
     def create
-      create_hash = [*@location_hash, *tags_hash].compact.to_h
+      create_hash = tags_hash.compact.to_h
       @ripple = Ripple.new(ripple_params.merge(create_hash))
-      @ripple.user = current_user
 
       if @ripple.save
         redirect_to manage_ripple_url(@ripple.pond_key, @ripple),
@@ -64,19 +62,6 @@ module Manage
       @pond = Pond.find_by!(key: params[:pond_key])
     end
 
-    def set_location
-      ip = request.remote_ip
-      result = Geocoder.search(ip).first
-      @location_hash = {
-        country: result.country,
-        region: result.region,
-        city: result.city,
-        postal_code: result.postal_code,
-        longitude: result.longitude,
-        latitude: result.latitude,
-      }
-    end
-
     def ripple_params
       params.require(:ripple) \
             .permit(:uuid,
@@ -88,6 +73,9 @@ module Manage
                     :longitude,
                     :user_id,
                     :pond_id,
+                    :vpn,
+                    :precise_location,
+                    :county,
                     tags: [])
     end
 
