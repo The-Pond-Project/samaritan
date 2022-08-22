@@ -16,6 +16,11 @@ class Ripple < ApplicationRecord
   # city                :string
   # region              :string
   # country             :string
+  # county              :string
+  # latitude            :string
+  # longitude           :string
+  # vpn                 :boolean
+  # precise_location    :boolean
   # created_at          :datetime     not null
   # updated_at          :datetime     not null
 
