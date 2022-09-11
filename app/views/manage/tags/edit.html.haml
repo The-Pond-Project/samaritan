@@ -1,7 +1,8 @@
-%h1 Editing tag
+.container.p-5.m-3
+  %h1 Editing tag
 
-= render 'form'
+  = render 'form'
 
-= link_to 'Show', manage_organization_tag_path(@tag.organization, @tag)
-\|
-= link_to 'Back', manage_tags_path
+  = link_to 'Show', manage_organization_tag_path(@tag.organization, @tag)
+  \|
+  = link_to 'Back', manage_tags_path

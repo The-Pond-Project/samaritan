@@ -5,7 +5,7 @@ module Manage
     before_action :admin_logged_in?
     before_action :set_tag, only: %i[show edit update destroy]
     before_action :set_organizations, only: %i[new edit create]
-    before_action :set_organization, only: %i[index show destroy]
+    before_action :set_organization, only: %i[index show]
 
     def tags
       @tags = Tag.all.includes([:organization])
@@ -36,8 +36,11 @@ module Manage
 
     def update
       if @tag.update(tag_params)
-        redirect_to manage_tag_path(@tag),
-                    notice: 'Tag was successfully updated.'
+        if only_approved_updated?
+          redirect_to manage_tags_path, notice: 'Tag approval status was successfully updated.'
+        else 
+          redirect_to manage_organization_tag_path(@tag.organization, @tag), notice: 'Tag was successfully updated.'
+        end 
       else
         render :edit, status: :unprocessable_entity
       end
@@ -46,7 +49,7 @@ module Manage
     def destroy
       @tag.destroy
 
-      redirect_to manage_orgnaization_tags_url(@organization),
+      redirect_to manage_tags_path,
                   notice: 'Tag was successfully destroyed.'
     end
 
@@ -66,6 +69,10 @@ module Manage
 
     def tag_params
       params.require(:tag).permit(:name, :description, :organization_id, :approved)
+    end
+
+    def only_approved_updated?
+      tag_params.key?(:approved) && tag_params.keys.count == 1
     end
   end
 end
