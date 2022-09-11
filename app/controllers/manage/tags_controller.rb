@@ -38,9 +38,10 @@ module Manage
       if @tag.update(tag_params)
         if only_approved_updated?
           redirect_to manage_tags_path, notice: 'Tag approval status was successfully updated.'
-        else 
-          redirect_to manage_organization_tag_path(@tag.organization, @tag), notice: 'Tag was successfully updated.'
-        end 
+        else
+          redirect_to manage_organization_tag_path(@tag.organization, @tag),
+                      notice: 'Tag was successfully updated.'
+        end
       else
         render :edit, status: :unprocessable_entity
       end
