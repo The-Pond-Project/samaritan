@@ -7,7 +7,7 @@
       %th Description
       %th Organization
       %th Approved
-      %th
+      %th Action
       %th
       %th
 
@@ -21,6 +21,10 @@
           %td= tag.approved
         - else
           %td pending
+        - if tag.approved
+          %td= link_to 'Disapprove', manage_tag_path(tag, { tag: tag.attributes.slice(:approved).merge('approved'=> false) }), method: :patch, data: { confirm: 'Are you sure you?' }
+        - else
+          %td= link_to 'Approve',  manage_tag_path(tag, { tag: tag.attributes.slice(:approved).merge('approved'=> true) }), method: :patch, data: { confirm: 'Are you sure you?' }
         %td= link_to 'Show', manage_organization_tag_path(tag.organization, tag)
         %td= link_to 'Destroy', manage_organization_tag_path(tag.organization, tag), method: :delete, data: { confirm: 'Are you sure?' }
 
