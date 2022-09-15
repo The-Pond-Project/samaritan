@@ -15,6 +15,7 @@ RUN gem update --system
 RUN gem install bundler
 RUN bundle install
 RUN bundle exec rails webpacker:install
+RUN bundle exec rails generate react:install
 RUN yarn install
 
 COPY . ./
