@@ -55,9 +55,11 @@ module Manage
 
     private
 
+    # rubocop:disable Layout/LineLength
     def order_sent_message
       "Your order of KindCards was shipped! Delivery can take between 1-5 days. If it has been longer than 5 days, please reply back ORDER NOT RECEIVED. Thank you for your order and your commitment to kindness.\n\n -ThePondProject"
     end
+    # rubocop:enable Layout/LineLength
 
     def set_order
       @order = Order.find_by!(uuid: params[:uuid])
