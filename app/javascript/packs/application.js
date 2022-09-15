@@ -13,13 +13,7 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-if (navigator.serviceWorker) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/service-worker.js', { scope: './' } )
-      .then(registered => console.log(''))
-  })
-}// Support component names relative to this directory:
+// Support component names relative to this directory:
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);

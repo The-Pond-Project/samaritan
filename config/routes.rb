@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   end 
 
   # Service Workers
-  get '/service-worker.js', to: 'service_workers/workers#index'
   get '/manifest.json', to: 'service_workers/manifests#index'
 
   # Users
