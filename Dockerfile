@@ -22,6 +22,7 @@ COPY . ./
 
 RUN bundle package
 RUN bundle exec rails assets:precompile
+RUN bundle exec rails generate react:install
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
