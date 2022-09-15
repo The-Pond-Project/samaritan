@@ -10,10 +10,12 @@ class ApplicationController < ActionController::Base
   private
 
   def record_not_found
+    Honeybadger.notify(exception)
     render 'layouts/record_not_found'
   end
 
   def unauthorized_user
+    Honeybadger.notify(exception)
     render 'layouts/unauthorized_user'
   end
 
