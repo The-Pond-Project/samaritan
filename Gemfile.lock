@@ -176,6 +176,7 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
+    honeybadger (4.12.2)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -495,6 +496,7 @@ DEPENDENCIES
   friendly_id (~> 5.4.0)
   geocoder (~> 1.7)
   haml-rails
+  honeybadger (~> 4.0)
   html2haml (~> 2.2)
   httparty (~> 0.20.0)
   image_processing (~> 1.2)

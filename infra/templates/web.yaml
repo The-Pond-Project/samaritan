@@ -108,6 +108,8 @@ Resources:
               ValueFrom: !Sub '${SecretArn}:samaritanClientToken::'
             - Name: GEOLOCATION_API_KEY
               ValueFrom: !Sub '${SecretArn}:geolocationApiKey::'
+            - Name: HONEYBADGER_API_KEY
+              ValueFrom: !Sub '${SecretArn}:honeyBadgerApiKey::'
           LogConfiguration:
             LogDriver: awslogs
             Options:
