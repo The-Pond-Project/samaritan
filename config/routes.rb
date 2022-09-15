@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       resources :tags, param: :name
       resources :stories, param: :uuid
       resources :orders, param: :uuid
+      post '/orders/:uuid/send_message', to: 'orders#send_message', as: 'order_send_message'
       resources :bills
       resources :organizations, param: :name do 
         resources :releases do 

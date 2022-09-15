@@ -45,7 +45,8 @@
         %th Address
         %th Uuid
         %th Status
-        %th Action
+        %th Update Status
+        %th Send Order Message
         %th
         %th
         %th
@@ -60,6 +61,7 @@
             %td= order.uuid
             %td= order.shipped ? 'Shipped' : 'Not Shipped'
             %td= link_to 'Shipped Status', manage_order_path(order, { order: order.attributes.slice(:shipped).merge('shipped'=> !order.shipped) }), method: :patch, data: { confirm: 'Are you sure you?' }
+            %td= link_to 'Send Message', manage_order_send_message_path(order), method: :post
             %td= link_to 'Show', manage_order_path(order)
             %td= link_to 'Edit', edit_manage_order_path(order)
             %td= link_to 'Destroy', manage_order_path(order), method: :delete, data: { confirm: 'Are you sure?' }

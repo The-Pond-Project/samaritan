@@ -1,0 +1,8 @@
+production:
+  :concurrency: 10
+
+:queues:
+  - ['high', 8]
+  - ['default', 6]
+  - ['text_messages', 4]
+  - ['low', 2]
