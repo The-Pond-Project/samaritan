@@ -1,6 +1,9 @@
 .manage-table.pt-5
   .container
-    %h1.mb-1 Tags
+    %h1.mb-1
+      Tags |
+      = link_to new_manage_tag_path do
+        %i.bi.bi-pencil-square
     .row.col-md-6.col-md-offset-2.custyle
     %table.table.table-striped.custab
       %tr
