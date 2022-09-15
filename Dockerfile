@@ -17,12 +17,13 @@ RUN bundle install
 RUN bundle exec rails webpacker:install
 RUN bundle exec rails generate react:install
 RUN yarn install
+RUN yarn add react_ujs
 
 COPY . ./
 
 RUN bundle package
-RUN bundle exec rails assets:precompile
 RUN bundle exec rails generate react:install
+RUN bundle exec rails assets:precompile
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
