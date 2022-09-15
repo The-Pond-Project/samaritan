@@ -2,7 +2,7 @@
 
 module Manage
   class OrdersController < ApplicationController
-    before_action :set_order, only: %i[show edit update destroy]
+    before_action :set_order, only: %i[show edit update destroy send_message]
 
     def index
       @unshipped_orders = Order.needs_shipped
@@ -44,7 +44,22 @@ module Manage
       redirect_to manage_orders_url, notice: 'Order was successfully destroyed.'
     end
 
+    def send_message
+      if @order.phone.present?
+        SendTextMessageJob.new.perform(message: order_sent_message, to: @order.phone)
+        redirect_to manage_orders_path, notice: 'Message was sent.'
+      else
+        redirect_to manage_orders_path, notice: 'Message cannot be sent.'
+      end
+    end
+
     private
+
+    # rubocop:disable Layout/LineLength
+    def order_sent_message
+      "Your order of KindCards was shipped! Delivery can take between 1-5 days. If it has been longer than 5 days, please reply back ORDER NOT RECEIVED. Thank you for your order and your commitment to kindness.\n\n -ThePondProject"
+    end
+    # rubocop:enable Layout/LineLength
 
     def set_order
       @order = Order.find_by!(uuid: params[:uuid])
