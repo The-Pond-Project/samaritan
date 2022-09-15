@@ -15,6 +15,7 @@ RUN gem update --system
 RUN gem install bundler
 RUN bundle install
 RUN bundle exec rails webpacker:install
+run bundle exec rails webpacker:install:react 
 RUN bundle exec rails generate react:install
 RUN yarn install
 RUN yarn add react_ujs
