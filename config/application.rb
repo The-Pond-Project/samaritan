@@ -46,5 +46,8 @@ module ThePondProject
 
     # Sidekiq
     config.active_job.queue_adapter = :sidekiq
+
+    # react
+    config.react.server_renderer_extensions = ["jsx", "js", "tsx", "ts"]
   end
 end
