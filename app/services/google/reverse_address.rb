@@ -22,10 +22,10 @@ module Google
       define_method(attr.to_sym) do
         return nil unless response
 
-        value = response['address_components'].select do |x|
-          x['types'].include?(attr)
+        value = response&.dig('address_components').select do |x|
+          x&.dig('types').include?(attr)
         end.first
-        value['long_name']
+        value&.dig'long_name')
       end
     end
 
