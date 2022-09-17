@@ -15,7 +15,7 @@ module Google
     def initialize(latitude:, longitude:)
       @latitude = latitude
       @longitude = longitude
-      @response = call.parsed_response['results'].try(:first)
+      @response = call.parsed_response&.dig('results').try(:first)
     end
 
     ADDRESS_ATTRIBURES.each do |attr|
@@ -25,7 +25,7 @@ module Google
         value = response&.dig('address_components').select do |x|
           x&.dig('types').include?(attr)
         end.first
-        value&.dig'long_name')
+        value&.dig('long_name')
       end
     end
 
