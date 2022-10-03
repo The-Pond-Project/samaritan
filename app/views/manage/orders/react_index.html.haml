@@ -1,0 +1,7 @@
+
+.container.mt-5
+  %h1 Manage Order
+  %hr
+
+  -# = react_component('orders/index', shipped_orders: @shipped_orders, unshipped_orders: @unshipped_orders)
+  = react_component('orders/index', { shipped_orders: @shipped_orders, unshipped_orders: @unshipped_orders })
