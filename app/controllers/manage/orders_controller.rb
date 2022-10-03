@@ -7,6 +7,7 @@ module Manage
     def index
       @unshipped_orders = Order.needs_shipped
       @shipped_orders = Order.shipped
+      render 'react_index'
     end
 
     def show; end
